@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  --color-daystar-blue: #00aeee;
+  --color-daystar-dark: #1e293b;
+}
+
+@layer base {
+  body {
+    @apply text-daystar-dark bg-slate-50;
+  }
+}

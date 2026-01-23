@@ -1,0 +1,48 @@
+import React, { useState, useEffect } from 'react';
+
+const Hero = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
+  const slides = [
+    // "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=1200", // University setting
+    "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80&w=1200", // Innovation/Tech
+    "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=1200"  // Collaboration
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 8000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <section className="relative h-[500 md:h-[600px] flex items-center justify-center overflow-hidden text-white">
+      
+      {slides.map((img, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
+        >
+          <div className="absolute inset-0 bg-black/50 z-10" /> {/* Dark overlay for text readability */}
+          <img src={img} alt="Daystar Campus" className="w-full h-full object-cover" />
+        </div>
+      ))}
+
+ 
+      <div className="relative z-20 text-center px-6 max-w-4xl animate-in fade-in zoom-in duration-700">
+        <span className="bg-daystar-blue text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest">
+          DRICE Innovation Hub
+        </span>
+        <h2 className="text-4xl md:text-6xl font-extrabold mt-6 mb-4">
+          Empowering the Next Generation of <span className="text-daystar-blue">African Creators</span>
+        </h2>
+        <p className="text-lg md:text-xl text-gray-200">
+          From research papers to market-ready startups—we bridge the gap between academia and industry.
+        </p>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;
