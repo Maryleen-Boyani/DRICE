@@ -5,10 +5,10 @@ import {degrees, easeIn, easeOut, motion, useInView} from "framer-motion";
 
 const Leadership = () => {
   const leaders = [
-    { name: "Dr. Caro Ayuya", title: "DRICE Director", img:"/dr.ayuya.jpg"},
-    { name: "Dr. Japheth Mursi", title: "DRICE Assistant Director", img:"/dr.mursi.jpg"},
+    { name: "Dr. Caro Ayuya", title: "DRICE Director", img:"./dr.ayuya.jpg"},
+    { name: "Dr. Japheth Mursi", title: "DRICE Assistant Director", img:"./dr.mursi.jpg"},
     { name: "Philipe Tinega", title: "DRICE Administrator" },
-    { name: "John Nderitu", title: "DRICE Innovation Officer", img:"/john.jpg"},
+    { name: "John Nderitu", title: "DRICE Innovation Officer", img:"./john.jpg"},
     { name: "Vivian Angula", title: "DRICE Research Assistant" }
   ];
   const ref=useRef(null);

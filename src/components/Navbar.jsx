@@ -19,7 +19,7 @@ const Navbar = ({ currentPage, onNavClick }) => {
         <div className="flex justify-between h-20 items-center">
           
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => setCurrentPage('home')}>        
-              <img src="/du.png" alt="Loading..." width={140} height={140} />
+              <img src="./du.png" alt="Loading..." width={140} height={140} />
             
             <div>
               <span className="text-xl font-bold text-daystar-blue tracking-tight uppercase">DRICE</span>
