@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import {degrees, easeIn, easeOut, motion, useInView} from "framer-motion";
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  
+  const ref=useRef(null);
+  const isInView= useInView(ref,{ once: false, margin:"-100px"});
   const slides = [
     // "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=1200", // University setting
     "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80&w=1200", // Innovation/Tech
@@ -17,10 +19,11 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative h-[500 md:h-[600px] flex items-center justify-center overflow-hidden text-white">
+    <section ref={ref} className="relative h-[500 md:h-[600px] flex items-center justify-center overflow-hidden text-white">
       
       {slides.map((img, index) => (
         <div
+          
           key={index}
           className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
         >
@@ -30,7 +33,7 @@ const Hero = () => {
       ))}
 
  
-      <div className="relative z-20 text-center px-6 max-w-4xl animate-in fade-in zoom-in duration-700">
+      <motion.div initial={{opacity:0, y:30}} animate={isInView ? {opacity:1, y:0}:{}} transition={{duration:2 , ease:"easeOut"}} className="relative z-20 text-center px-6 max-w-4xl animate-in fade-in zoom-in duration-700">
         <span className="bg-daystar-blue text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest">
           DRICE Innovation Hub
         </span>
@@ -40,7 +43,7 @@ const Hero = () => {
         <p className="text-lg md:text-xl text-gray-200">
           From research papers to market-ready startups—we bridge the gap between academia and industry.
         </p>
-      </div>
+      </motion.div>
     </section>
   );
 };
