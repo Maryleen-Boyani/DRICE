@@ -5,12 +5,12 @@ const Navbar = ({ currentPage, onNavClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLinks = [
-    { label: 'Home', target: 'home', type:'scroll'},
-    { label: 'About', target: 'about', type:'scroll' },
+    { label: 'Research Pipeline', target: 'researchpipeline', type:'scroll'},
+    { label: 'Research Week', target: 'researchweek', type:'scroll' },
     { label: 'Projects', target: 'projects', type:'scroll' },
-    { label: 'Leadership', target: 'leadership', type:'page'},
-    { label: 'Kibera Sanitation', target: 'leadership' },
-    { label: 'SDG Dashboard', isExternal: true, href: 'https://sdg.daystar.ac.ke' },
+    { label: 'Leadership', target: 'leadership' },
+    { label: 'Innovation', isExternal: true, href:'https://drice-start-ups.web.app/' },
+    { label: 'SDG Dashboard', isExternal: true, href: 'https://daystar-sdg-dashboard.vercel.app/' },
   ];
 
   return (
@@ -41,7 +41,7 @@ const Navbar = ({ currentPage, onNavClick }) => {
               )
             ))}
             <button onClick={()=>onNavClick('contact')} className="bg-daystar-blue text-white px-5 py-2 rounded-full font-semibold hover:bg-opacity-90 transition shadow-md">
-              Contact Us
+              Engage
             </button>
           </div>
 

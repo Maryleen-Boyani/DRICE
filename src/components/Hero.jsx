@@ -34,14 +34,16 @@ const Hero = () => {
 
  
       <motion.div initial={{opacity:0, y:30}} animate={isInView ? {opacity:1, y:0}:{}} transition={{duration:2 , ease:"easeOut"}} className="relative z-20 text-center px-6 max-w-4xl animate-in fade-in zoom-in duration-700">
-        <span className="bg-daystar-blue text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest">
-          DRICE Innovation Hub
+        <span className="bg-daystar-dark text-white px-4 py-2 rounded-full text-sm font-bold uppercase tracking-widest">
+          DIRECTORATE OF RESEARCH & INNOVATION
         </span>
         <h2 className="text-4xl md:text-6xl font-extrabold mt-6 mb-4">
           Empowering the Next Generation of <span className="text-daystar-blue">African Creators</span>
         </h2>
         <p className="text-lg md:text-xl text-gray-200">
-          From research papers to market-ready startups—we bridge the gap between academia and industry.
+          Research <span className='text-daystar-blue font-bold'>→</span> Innovation <span className='text-daystar-blue'>→</span> Commercialisation <span className='text-daystar-blue'>→</span> Impact
+          <br /><br />
+          A structured pipeline producing publications, datasets, grants, and startups.
         </p>
       </motion.div>
     </section>

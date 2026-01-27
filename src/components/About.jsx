@@ -7,7 +7,7 @@ const About = () => {
    
   return (
     
-    <motion.section ref={ref} className="py-20 px-20 bg-white">
+    <motion.section ref={ref} className="py-20 px-10 bg-white">
       <motion.div initial={{opacity:0, y:30}} animate={isInView ? {opacity:1, y:0}:{}} transition={{duration:2 , ease:"easeOut"}} className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
        
         <motion.div initial={{opacity:0, y:30}} animate={isInView ? {opacity:1, y:0}:{}} transition={{duration:2 , ease:"easeOut"}} className="w-full md:w-1/2">

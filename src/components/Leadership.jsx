@@ -5,11 +5,11 @@ import {degrees, easeIn, easeOut, motion, useInView} from "framer-motion";
 
 const Leadership = () => {
   const leaders = [
-    { name: "Dr. Caro Ayuya", title: "DRICE Director", img:"./dr.ayuya.jpg"},
-    { name: "Dr. Japheth Mursi", title: "DRICE Assistant Director", img:"./dr.mursi.jpg"},
-    { name: "Philipe Tinega", title: "DRICE Administrator" },
-    { name: "John Nderitu", title: "DRICE Innovation Officer", img:"./john.jpg"},
-    { name: "Vivian Angula", title: "DRICE Research Assistant" }
+    { name: "Dr. Caro Ayuya", title: "Director - DRICE", img:"./dr.ayuya.jpg"},
+    { name: "Dr. Japheth Mursi", title: "Deputy Director - DRICE", img:"./dr.mursi.jpg"},
+    { name: "Philipe Tinega", title: "Administrator - DRICE" },
+    { name: "John Nderitu", title: "Innovation Officer - DRICE", img:"./john.jpg"},
+    { name: "Vivian Angula", title: "Research Assistant - DRICE" }
   ];
   const ref=useRef(null);
   const isInView= useInView(ref,{ once: false, margin:"-100px"});
@@ -28,7 +28,8 @@ const Leadership = () => {
             </div>
             <h4 className="text-xl font-bold">{leader.name}</h4>
             <p className="text-daystar-blue font-semibold">{leader.role}</p>
-            <p className="text-gray-500 text-sm">{leader.title}</p>
+            <br />
+            <p className="text-daystar-blue font-bold text-sm">{leader.title}</p>
           </div>
         ))}
       </motion.div>
