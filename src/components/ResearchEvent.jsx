@@ -1,6 +1,7 @@
 import { section } from "framer-motion/client";
 
 const ResearchEvent=() =>{
+  
     return(
         <section className="min-h-[500px] bg-gradient-to-br from-[#0f172a] via-[#111827] to-[#000000] text-white py-20 px-6 md:px-12 flex items-center">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -17,11 +18,11 @@ const ResearchEvent=() =>{
                 Our institutional engine for research production — featuring poster 
                 defenses, research clinics, grant workshops, and industry pilots.
               </p>
-              <div className="mt-6 ml-6">
-                <button className="bg-daystar-blue py-4 px-4 rounded-xl mr-3">
+              <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <button className="bg-daystar-blue py-4 hover:cursor-pointer px-4 rounded-xl">
                   Submit Your Poster
                 </button>
-                <button className="border-2 border-gray-500 hover:border-white py-4 px-4 rounded-xl ml-3">
+                <button className="border-2 border-gray-500 hover:border-white py-4 px-4 rounded-xl">
                   View Past Proceedings
                 </button>
               </div>

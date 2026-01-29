@@ -10,7 +10,7 @@ const Navbar = ({ currentPage, onNavClick }) => {
     { label: 'Projects', target: 'projects', type:'scroll' },
     { label: 'Leadership', target: 'leadership' },
     { label: 'Innovation', isExternal: true, href:'https://drice-start-ups.web.app/' },
-    { label: 'SDG Dashboard', isExternal: true, href: 'https://daystar-sdg-dashboard.vercel.app/' },
+    { label: 'SDG Dashboard', isExternal: true, href: 'https://daystar-sdg-impact-and-evidence-gen.vercel.app/' },
   ];
 
   return (
@@ -19,7 +19,8 @@ const Navbar = ({ currentPage, onNavClick }) => {
         <div className="flex justify-between h-20 items-center">
           
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => setCurrentPage('home')}>        
-              <img src="./du.png" alt="Loading..." width={140} height={140} />
+              
+              <img src="./du.png" alt="Logo" className="w-24 md:w-[140px] h-auto" />
             
             <div>
               <span className="text-xl font-bold text-daystar-blue tracking-tight uppercase">DRICE</span>

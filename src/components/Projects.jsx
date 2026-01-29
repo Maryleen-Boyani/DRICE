@@ -1,66 +1,3 @@
-// import React, { useRef } from 'react';
-// import { Lightbulb, ChevronRight } from 'lucide-react';
-// import {degrees, easeIn, easeOut, motion, useInView} from "framer-motion";
-
-// const Projects = () => {
-//   const ref=useRef(null);
-//   const isInView= useInView(ref,{ once: false, margin:"-100px"});
-  
-//   const projects = [
-//     { status:"PUBLISHED", title: "Institutional Knowledge AI", category: "Innovation", output1:"Paper", output2:"Dataset", output3:"Prototype", desc: "An intelligent knowledge management system designed as the single source of truth for Daystar University. It uses LLMs and custom-indexed policy repositories to provide staff and students with instant, verified responses to institutional queries." },
-//     { status:"SUBMITTED", title: "Kibera Sanitation Mapping", category: "Research", output1:"Paper", output2:"Mobile App", output3:"Dataset", desc: "A geospatial mapping project identifying infrastructure gaps in Kibera to drive data-driven public health interventions. It leverages community-led surveying to help NGOs and local government optimize sanitation service delivery." },
-//     { status:"IN PROGRESS", title: "Daystar Research Collaboration Graph & Intelligence Hub", category: "Education", output1:"Working Paper", output2:"Policy Brief", output3:"", desc: "Improving digital resource access for remote students." },
-    
-//   ];
-
-//   return (
-//     <motion.section ref={ref} className="max-w-7xl mx-auto py-16 px-20">
-//       <motion.h3 initial={{opacity:0, y:30}} animate={isInView ? {opacity:1, y:0}:{}} transition={{duration:2 , ease:"easeOut"}} className="text-3xl font-bold mb-10">Featured Projects</motion.h3>
-//       <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-//         {projects.map((proj, idx) => (
-//           <motion.div initial={{rotate: 0, opacity:0, y:40}} animate={isInView ? {opacity:1, y:0}: {}} whileHover={{scale:1.1}} transition={{duration:1, ease:easeOut}} key={idx} className="rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all group">
-//             <div className='p-6 pb-2'>
-//               <div className="w-12 h-12 pl-10 rounded-lg flex items-center justify-center mb-6 transition-colors">
-              
-//               <div className='bg-[#eefcf4] text-[#059669] text-[10px] md:text-xs font-medium tracking-wider px-2.5 py-1 md:px-3 md:py-1.5 rounded-md inline-flex items-center justify-center shadow-sm '>
-//                 {proj.status}
-//               </div>
-//               </div>
-//               <span className="text-xs font-bold text-daystar-blue uppercase tracking-widest">{proj.category}</span>
-//               <h4 className="text-xl font-bold mt-2 mb-3">{proj.title}</h4>
-//               <p className="text-gray-500 text-sm leading-relaxed mb-6">{proj.desc}</p>
-//               <div className="w-full h-0.4 bg-gray-200 rounded-full " />
-//             </div>
-//             <div className="w-full h-0.5 bg-gray-200 rounded-full" />
-//             <div className='p-6 pt-2 text-gray-500 text-sm mb-0'>
-//               <h5 className='font-medium'>OUTPUTS</h5>
-//               <div className=' flex flex-row gap-4 mt-2 mb-2'>
-//                 <div className='bg-[#f8fafc]/500'>
-//                   {proj.output1}
-//                 </div>
-//                 <div className='bg-[#f8fafc]/500'>
-//                   {proj.output2}
-//                 </div>
-//                 <div className='bg-[#f8fafc]/500'>
-//                   {proj.output3}
-//                 </div>
-//               </div>
-              
-//               <button className="flex-end items-center gap-2 text-daystar-blue font-bold text-sm">
-//                 Visit Site <ChevronRight size={16} />
-//               </button>
-//             </div>
-            
-
-            
-//           </motion.div>
-//         ))}
-//       </motion.div>
-//     </motion.section>
-//   );
-// };
-
-// export default Projects;
 import React, { useRef } from 'react';
 import { ChevronRight, FileText, Database, Code, Activity, Download } from 'lucide-react';
 import { motion, useInView } from "framer-motion";
@@ -81,7 +18,9 @@ const Projects = () => {
       category: "Innovation", 
       problem: "Fragmented institutional data access for staff and students.",
       outputs: ["Paper", "Dataset", "Prototype"], 
-      desc: "LLM-driven system providing verified responses from indexed university policy repositories." 
+      desc: "LLM-driven system providing verified responses from indexed university policy repositories." ,
+      href:"https://dikai.staka.cc/",
+      isExternal: true      
     },
     { 
       status: "PILOTED", 
@@ -89,7 +28,9 @@ const Projects = () => {
       category: "Research", 
       problem: "Lack of geospatial data for sanitation infrastructure in informal settlements.",
       outputs: ["Dataset", "Policy Brief", "Interactive Map"], 
-      desc: "Community-led surveying to optimize NGO and government sanitation service delivery." 
+      desc: "Community-led surveying to optimize NGO and government sanitation service delivery.",
+      href:"https://kibera-sp-zeta.vercel.app/",
+      isExternal: true
     },
     { 
       status: "DRAFT", 
@@ -97,7 +38,9 @@ const Projects = () => {
       category: "Intelligence", 
       problem: "Silod research efforts across departments.",
       outputs: ["Working Paper", "Network Map"], 
-      desc: "Visualizing faculty research synergies to drive cross-disciplinary grant applications." 
+      desc: "Visualizing faculty research synergies to drive cross-disciplinary grant applications.",
+      href:"https://daystar.nexoracreatives.co.ke",
+      isExternal: true
     },
   ];
 
@@ -126,16 +69,16 @@ const Projects = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ">
           {projects.map((proj, idx) => (
             <motion.div 
               key={idx}
               initial={{ opacity: 1, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: idx * 0.1 }}
-              className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all group flex flex-col"
+              className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-lg transition-all hover:-translate-2 group flex flex-col"
             >
-              <div className='p-8 flex-grow'>
+              <div className='p-8 grow'>
                 <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${getStatusColor(proj.status)} mb-4`}>
                   {proj.status}
                 </div>
@@ -159,26 +102,31 @@ const Projects = () => {
                   </div>
                 </div>
               </div>
-              
-              <button className="w-full py-4 bg-slate-50 border-t border-slate-100 text-daystar-blue font-bold text-xs flex items-center justify-center gap-2 group-hover:text-white group-hover:bg-daystar-blue transition-all">
-                View Artefact <ChevronRight size={14} />
-              </button>
+              <a href={proj.href} target='_blank'>
+                <button className="w-full py-4 bg-slate-50 border-t hover:cursor-pointer border-slate-100 text-daystar-blue font-bold text-xs flex items-center justify-center gap-2 group-hover:text-white group-hover:bg-daystar-blue transition-all">
+                  View Site<ChevronRight size={14} />
+                </button>                      
+              </a>
+             
             </motion.div>
           ))}
         </div>
 
         {/* SECTION: DATASETS & PUBLICATIONS GALLERY */}
         <h3 className="text-4xl font-bold text-daystar-dark uppercase tracking-widest text-center mt-20">Research Outputs</h3>
-        <div className="mt-10 grid grid-cols-1 lg:grid-cols-4 gap-12">
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-12">
           
           <div className="lg:col-span-1">
             <h3 className="text-2xl font-bold text-slate-900 mb-4">Datasets & Publications</h3>
             <p className="text-sm text-slate-500 leading-relaxed mb-6">
               Our open-access repository for institutional memory and research validation.
             </p>
-            <button className="flex items-center gap-2 text-sm font-bold text-daystar-blue hover:underline">
-              Access Full Repository <Download size={16} />
-            </button>
+            <a href="https://repository.daystar.ac.ke/home">
+              <button className="flex items-center gap-2 text-sm font-bold text-daystar-blue hover:underline">
+                Access Full Repository
+              </button>
+            </a>
+            
           </div>
           
           <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-4">

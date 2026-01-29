@@ -76,13 +76,13 @@ const App = () => {
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="bg-white/10 p-3 rounded-full"><MapPin className="text-daystar-blue"/></div>
-                  <div><p className="text-sm text-gray-400">Visit us at</p><p className="font-bold">Athi River Campus</p></div>
+                  <div><p className="text-sm text-gray-400">Visit us at</p><p className="font-bold">Athi River Campus, Machakos County</p></div>
                 </div>
               </div>
             </div>
 
-            <form className="bg-white p-10 rounded-3xl shadow-2xl space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+            <form className="bg-white md:p-10 rounded-3xl shadow-2xl space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <input type="text" placeholder="First Name" className="p-3 bg-gray-50 border rounded-xl text-black outline-none focus:ring-2 focus:ring-daystar-blue" />
                 <input type="text" placeholder="Last Name" className="p-3 bg-gray-50 border rounded-xl text-black outline-none focus:ring-2 focus:ring-daystar-blue" />
               </div>
@@ -98,7 +98,7 @@ const App = () => {
     )}
 </main>
       <Footer/>
-      <footer className="bg-white border-t py-6 text-center text-gray-500">
+      <footer className="bg-white border-t py-4 text-center text-gray-500">
         <p>© {new Date().getFullYear()} Daystar University DRICE</p>
       </footer>
     </div>

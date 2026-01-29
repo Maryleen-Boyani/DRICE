@@ -19,7 +19,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section ref={ref} className="relative h-[500 md:h-[600px] flex items-center justify-center overflow-hidden text-white">
+    <section ref={ref} className="relative h-[500px] mx-auto md:h-[600px] flex items-center justify-center overflow-hidden text-white">
       
       {slides.map((img, index) => (
         <div
