@@ -166,28 +166,56 @@ const Projects = () => {
           
         </div>
 
-        {/* SECTION: TARGETED CTAS */}
-        <div className="mt-32 text-center">
-          <h3 className="text-sm font-bold text-daystar-blue uppercase tracking-widest mb-4">Get Involved</h3>
-          <h2 className="text-4xl font-bold text-slate-900 mb-12">Ready to Enter the Pipeline?</h2>
-          <div className="flex flex-wrap justify-center gap-4">
-            <div className='px-6 py-3 border-2 border-slate-200 text-slate-700 font-bold rounded-full hover:border-daystar-blue hover:text-daystar-blue transition-all text-sm'>
-              <input type="file"className='hidden' ref={fileInputRef} />
-              <button onClick={handleButtonClick}>Submit a Poster</button>
-            </div>
-            {[
-              
-              "Adopt an Innovation",
-              "Propose a Problem",
-              "Partner with DRICE",
-              "Apply to Clinics"
-            ].map((cta, i) => (
-              <button 
-                key={i} 
-                className="px-6 py-3 border-2 border-slate-200 text-slate-700 font-bold rounded-full hover:border-daystar-blue hover:text-daystar-blue transition-all text-sm"
-              >
-                {cta}
-              </button>
+   {/* SECTION: TARGETED CTAS */}
+<div className="mt-32 text-center">
+  <h3 className="text-sm font-bold text-daystar-blue uppercase tracking-widest mb-4">Get Involved</h3>
+  <h2 className="text-4xl font-bold text-slate-900 mb-12">Ready to Enter the Pipeline?</h2>
+  
+  <div className="flex flex-wrap justify-center gap-4">
+    {[
+      {
+        label: "Submit a Poster",
+        formType: "poster",
+        url: import.meta.env.VITE_POSTER_FORM_URL
+      },
+      {
+        label: "Adopt an Innovation",
+        formType: "innovation",
+        url: import.meta.env.VITE_INNOVATION_FORM_URL
+      },
+      {
+        label: "Propose a Problem",
+        formType: "problem",
+        url: import.meta.env.VITE_PROBLEM_FORM_URL
+      },
+      {
+        label: "Partner with DRICE",
+        formType: "partner",
+        url: import.meta.env.VITE_PARTNER_FORM_URL
+      },
+      {
+        label: "Apply to Clinics",
+        formType: "clinic",
+        url: import.meta.env.VITE_CLINIC_FORM_URL
+      }
+    ].map((cta, i) => (
+      <button 
+        key={i} 
+        onClick={() => {
+          // Optional: Add tracking
+          console.log(`CTA clicked: ${cta.formType}`);
+          
+          if (cta.url && cta.url.startsWith('http')) {
+            window.open(cta.url, '_blank', 'noopener,noreferrer');
+          } else {
+            console.error(`Invalid URL for ${cta.formType}: ${cta.url}`);
+            alert('Form link not configured. Please contact DRICE team.');
+          }
+        }}
+        className="px-6 py-3 border-2 border-slate-200 text-slate-700 font-bold rounded-full hover:border-daystar-blue hover:text-daystar-blue transition-all text-sm"
+      >
+        {cta.label}
+      </button>
             ))}
           </div>
         </div>

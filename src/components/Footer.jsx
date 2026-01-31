@@ -2,23 +2,78 @@ import React from 'react';
 
 const Footer = () => {
   const footerSections = [
-    // {
-    //   title: "RESEARCH",
-    //   links: ["Research Pipeline", "Research Clinics", "Ethics & Compliance", "Research Week"]
-    // },
-    // {
-    //   title: "OUTPUTS",
-    //   links: ["Published Papers", "Working Papers", "Open Datasets", "Poster Proceedings"]
-    // },
     {
       title: "ENGAGE",
-      links: ["Submit Poster", "Propose Problem", "Partner with Us", "Contact"]
+      links: [
+        { 
+          name: "Submit Poster", 
+          href: import.meta.env.VITE_POSTER_FORM_URL || "#",
+          type: "form"
+        },
+        { 
+          name: "Propose Problem", 
+          href: import.meta.env.VITE_PROBLEM_FORM_URL || "#",
+          type: "form"
+        },
+        { 
+          name: "Partner with Us", 
+          href: import.meta.env.VITE_PARTNER_FORM_URL || "#",
+          type: "form"
+        },
+        { 
+          name: "Contact", 
+          href: "#contact",
+          type: "anchor"
+        }
+      ]
     },
     {
       title: "INSTITUTION",
-      links: ["Daystar University", "Leadership", "SDG Dashboard", "News & Events"]
+      links: [
+        { 
+          name: "Daystar University", 
+          href: "https://www.daystar.ac.ke",
+          type: "external"
+        },
+        { 
+          name: "Leadership", 
+          href: "/leadership",
+          type: "internal"
+        },
+        { 
+          name: "SDG Dashboard", 
+          href: "https://daystar-sdg-impact-and-evidence-gen.vercel.app/login",
+          type: "anchor"
+        },
+        { 
+          name: "News & Events", 
+          href: "#news-events",
+          type: "anchor"
+        }
+      ]
     }
   ];
+
+  const handleLinkClick = (link) => {
+    if (link.type === "form" || link.type === "external") {
+      // Open external links in new tab
+      window.open(link.href, '_blank', 'noopener,noreferrer');
+    } else if (link.type === "anchor") {
+      // Scroll to section
+      if (link.href === "#contact") {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+          contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else if (link.href === "#sdg-dashboard" || link.href === "#news-events") {
+        // Show placeholder alert for now
+        alert(`${link.name} - Coming Soon!`);
+      }
+    } else if (link.type === "internal" && link.href === "/leadership") {
+      // Navigate to leadership page
+      window.location.href = "/leadership";
+    }
+  };
 
   return (
     <footer className="bg-[#0f172a] text-white py-16 px-2 md:px-10 border-t border-slate-800">
@@ -46,9 +101,12 @@ const Footer = () => {
             <ul className="space-y-4">
               {section.links.map((link, i) => (
                 <li key={i}>
-                  <a href="#" className="text-slate-400 hover:text-cyan-400 transition-colors text-sm">
-                    {link}
-                  </a>
+                  <button
+                    onClick={() => handleLinkClick(link)}
+                    className="text-slate-400 hover:text-cyan-400 transition-colors text-sm cursor-pointer hover:underline"
+                  >
+                    {link.name}
+                  </button>
                 </li>
               ))}
             </ul>
@@ -57,7 +115,15 @@ const Footer = () => {
         
       </div>
 
-      
+      {/* Copyright Section */}
+      <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-slate-800 text-center">
+        <p className="text-slate-400 text-sm">
+          © {new Date().getFullYear()} Daystar University DRICE. All rights reserved.
+        </p>
+        <p className="text-slate-500 text-xs mt-2">
+          Athi River Campus, Machakos County | Email: drice@daystar.ac.ke
+        </p>
+      </div>
     </footer>
   );
 };

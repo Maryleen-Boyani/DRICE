@@ -22,9 +22,15 @@ const ResearchEvent=() =>{
                 <button className="bg-daystar-blue py-4 hover:cursor-pointer px-4 rounded-xl">
                   Submit Your Poster
                 </button>
-                <button className="border-2 border-gray-500 hover:border-white py-4 px-4 rounded-xl">
-                  View Past Proceedings
-                </button>
+              <a 
+                    href="https://repository.daystar.ac.ke/handle/123456789/2863"
+                    target="_blank"
+                    rel="noopener noreferrer"
+>
+                  <button className="border-2 border-gray-500 hover:border-white py-4 px-4 rounded-xl">
+                      View Past Proceedings
+                    </button>
+                  </a>
               </div>
           
           </div>
