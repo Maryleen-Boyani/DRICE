@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Footer = () => {
+const Footer = ({onNavClick}) => {
   const footerSections = [
     {
       title: "ENGAGE",
@@ -20,11 +20,7 @@ const Footer = () => {
           href: import.meta.env.VITE_PARTNER_FORM_URL || "#",
           type: "form"
         },
-        { 
-          name: "Contact", 
-          href: "#contact",
-          type: "anchor"
-        }
+
       ]
     },
     {
@@ -37,18 +33,18 @@ const Footer = () => {
         },
         { 
           name: "Leadership", 
-          href: "/leadership",
+          href: "leadership",
           type: "internal"
         },
+        // { 
+        //   name: "SDG Dashboard", 
+        //   href: "https://daystar-sdg-impact-and-evidence-gen.vercel.app/login",
+        //   type: "anchor"
+        // },
         { 
-          name: "SDG Dashboard", 
-          href: "https://daystar-sdg-impact-and-evidence-gen.vercel.app/login",
-          type: "anchor"
-        },
-        { 
-          name: "News & Events", 
-          href: "#news-events",
-          type: "anchor"
+          name: "Blogs", 
+          href: "blogs",
+          type: "internal"
         }
       ]
     }
@@ -69,14 +65,14 @@ const Footer = () => {
         // Show placeholder alert for now
         alert(`${link.name} - Coming Soon!`);
       }
-    } else if (link.type === "internal" && link.href === "/leadership") {
+    } else if (link.type === "internal") {
       // Navigate to leadership page
-      window.location.href = "/leadership";
+      onNavClick(link.href);
     }
   };
 
   return (
-    <footer className="bg-[#0f172a] text-white py-16 px-2 md:px-10 border-t border-slate-800">
+    <footer className="bg-[#0f172a] text-white py-10 px-2 md:px-10 border-t border-slate-800">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 ">
         
         {/* Brand Column */}
@@ -116,7 +112,7 @@ const Footer = () => {
       </div>
 
       {/* Copyright Section */}
-      <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-slate-800 text-center">
+      <div className="max-w-7xl mx-auto mt-4 pt-8 border-t border-slate-800 text-center">
         <p className="text-slate-400 text-sm">
           © {new Date().getFullYear()} Daystar University DRICE. All rights reserved.
         </p>

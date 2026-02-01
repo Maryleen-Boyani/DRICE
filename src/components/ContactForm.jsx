@@ -132,7 +132,7 @@ Submitted via DRICE Website Contact Form
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="bg-white md:p-10 rounded-3xl shadow-2xl space-y-4">
+          <form onSubmit={handleSubmit} className="bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-2xl space-y-5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <input 
                 type="text" 

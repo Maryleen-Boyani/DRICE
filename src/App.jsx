@@ -86,10 +86,8 @@ const App = () => {
           {renderContent()}
         </main>
         
-        <Footer />
-        <footer className="bg-white border-t py-4 text-center text-gray-500">
-          <p>© {new Date().getFullYear()} Daystar University DRICE</p>
-        </footer>
+        <Footer onNavClick={handleNavClick}/>
+        
       </div>
       
       <Routes>

@@ -31,7 +31,6 @@ const Blogs = () => {
 
   return (
     <div className="relative min-h-screen bg-gray-50 p-6 md:p-12">
-      {/* 1. Header Section */}
       <div className={`max-w-7xl mx-auto transition-all duration-300 ${selectedArticle ? 'blur-md brightness-75' : ''}`}>
         <div className="flex justify-between items-end mb-12">
           <div>
@@ -46,16 +45,22 @@ const Blogs = () => {
           </button>
         </div>
 
-        {/* 2. Articles Grid */}
-        <div className="grid md:grid-cols-3 gap-8">
+  
+        <div className="grid md:grid-cols-3 gap-8 items-stretch"> 
           {articles.map((article) => (
-            <div key={article.id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-gray-100 flex flex-col">
-              <img src={article.image} alt={article.title} className="h-48 w-full object-cover" />
-              <div className="p-6 flex-grow">
-                <h3 className="text-xl font-bold mb-2 text-daystar-dark leading-tight">{article.title}</h3>
-                <p className="text-gray-600 text-sm mb-4 line-clamp-3">{article.description}</p>
+            <div key={article.id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-gray-100 flex flex-col h-full"> {/* Add h-full */}
+              <img src={article.image} alt={article.title} className="h-48 w-full object-cover shrink-0" /> 
+              
+              <div className="p-6 flex flex-col flex-grow"> 
+                <h3 className="text-xl font-bold mb-2 text-daystar-dark leading-tight line-clamp-2 min-h-[3.5rem]"> 
+
+                  {article.title}
+                </h3>
+                <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
+                  {article.description}
+                </p>
                 
-                <div className="flex items-center gap-3 pt-4 border-t">
+                <div className="flex items-center gap-3 pt-4 border-t mt-auto"> 
                   <img src={article.authorImg} alt="" className="w-10 h-10 rounded-full border" />
                   <div>
                     <p className="text-sm font-bold text-daystar-dark">{article.author}</p>
@@ -63,10 +68,8 @@ const Blogs = () => {
                   </div>
                 </div>
               </div>
-              <button 
-                onClick={() => setSelectedArticle(article)}
-                className="w-full py-4 bg-gray-50 hover:bg-daystar-blue hover:text-white transition-colors font-bold text-daystar-blue"
-              >
+
+              <button className="w-full py-4 bg-gray-50 hover:bg-daystar-blue hover:text-white transition-colors font-bold text-daystar-blue shrink-0">
                 Read More
               </button>
             </div>
@@ -74,7 +77,6 @@ const Blogs = () => {
         </div>
       </div>
 
-      {/* 3. Modal Overlay (The "Read More" Popup) */}
       {selectedArticle && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 md:p-8">
           <div className="absolute inset-0 bg-black/40" onClick={() => setSelectedArticle(null)}></div>
@@ -103,7 +105,7 @@ const Blogs = () => {
         </div>
       )}
 
-      {/* 4. Write Form Modal */}
+
       {showWriteForm && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center bg-daystar-dark/90 backdrop-blur-sm p-4">
            <div className="bg-white w-full max-w-xl rounded-2xl p-8">
