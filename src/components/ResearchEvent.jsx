@@ -12,7 +12,7 @@ const ResearchEvent=() =>{
                 <span className="text-sm">ANNUAL EVENT</span>
               </div>
               <h2 className="text-xl md:text-6xl font-serif mb-6 leading-tight">
-                Research & Innovation <span className="text-daystar-blue italic">Week 2025</span>
+                Research & Innovation <span className="text-daystar-blue italic">Week 2026</span>
               </h2>
               <p className="text-gray-400 text-lg max-w-lg leading-relaxed">
                 Our institutional engine for research production — featuring poster 
