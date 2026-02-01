@@ -83,20 +83,7 @@ const App = () => {
         <Navbar onNavClick={handleNavClick} currentPage={currentPage} />
 
         <main className="flex-grow">
-          {currentPage === 'leadership' ? (
-            <Leadership />
-          ) : (
-            <>
-              <Hero />
-              <div ref={aboutRef}><About /></div>
-              <div ref={worksRef}><HowItWorks /></div>
-              <div ref={researchRef}><ResearchEvent /></div>
-              <div ref={projectsRef}><Projects /></div>
-              <div ref={contactRef}>
-                <ContactForm />
-              </div>
-            </>
-          )}
+          {renderContent()}
         </main>
         
         <Footer />
