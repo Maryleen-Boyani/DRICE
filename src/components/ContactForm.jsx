@@ -109,6 +109,7 @@ Submitted via DRICE Website Contact Form
               <div>
                 <p className="text-sm text-gray-400">Visit us at</p>
                 <p className="font-bold">Athi River Campus, Machakos County</p>
+                <p className="font-bold">Town Campus, Valley Road</p>
               </div>
             </div>
           </div>
