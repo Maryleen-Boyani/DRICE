@@ -8,7 +8,9 @@ const Hero = () => {
   const slides = [
     // "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=1200", // University setting
     "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80&w=1200", // Innovation/Tech
-    "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=1200"  // Collaboration
+    "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=1200",
+    "./hero2.jpg",  // Collaboration
+    "./hero1.jpg"
   ];
 
   useEffect(() => {

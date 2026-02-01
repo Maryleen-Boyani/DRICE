@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { ChevronRight, FileText, Database, Code, Activity, Download } from 'lucide-react';
 import { motion, useInView } from "framer-motion";
 
-const Projects = () => {
+const Project = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, margin: "-100px" });
   const fileInputRef=useRef(null);
@@ -11,7 +11,18 @@ const Projects = () => {
     fileInputRef.current.click();
   }
   
-  const projects = [
+  const project = [
+    {
+      status: "PUBLISHED", 
+      title: "SDG Impact Dashboard", 
+      category: "Impact", 
+      problem: "Difficulty in tracking and visualizing institutional contribution to Global Sustainable Development Goals.",
+      outputs: ["Live Dashboard", "Evidence Map", "SDG Report"], 
+      desc: "An interactive platform for evidence generation and tracking impact across the 17 UN Sustainable Development Goals.",
+      href: "https://daystar-sdg-impact-and-evidence-gen.vercel.app/",
+      isExternal: true      
+    },
+    
     { 
       status: "PUBLISHED", 
       title: "Institutional Knowledge AI", 
@@ -70,7 +81,7 @@ const Projects = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ">
-          {projects.map((proj, idx) => (
+          {project.map((proj, idx) => (
             <motion.div 
               key={idx}
               initial={{ opacity: 1, y: 20 }}
@@ -225,4 +236,4 @@ const Projects = () => {
   );
 };
 
-export default Projects;
+export default Project;

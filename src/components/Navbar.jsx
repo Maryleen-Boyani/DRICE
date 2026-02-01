@@ -5,12 +5,13 @@ const Navbar = ({ currentPage, onNavClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLinks = [
-    { label: 'Research Pipeline', target: 'researchpipeline', type:'scroll'},
+    // { label: 'Research Pipeline', target: 'researchpipeline', type:'scroll'},
+    { label: 'Home', target: 'home', type:'scroll' },
     { label: 'Research Week', target: 'researchweek', type:'scroll' },
-    { label: 'Projects', target: 'projects', type:'scroll' },
+    {label: 'Projects', target: 'project'},
+    {label: 'Blogs', target: 'blogs'},
     { label: 'Leadership', target: 'leadership' },
     { label: 'Innovation', isExternal: true, href:'https://drice-start-ups.web.app/' },
-    { label: 'SDG Dashboard', isExternal: true, href: 'https://daystar-sdg-impact-and-evidence-gen.vercel.app/' },
   ];
 
   return (
@@ -18,10 +19,10 @@ const Navbar = ({ currentPage, onNavClick }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => setCurrentPage('home')}>        
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => onNavClick('home')}>        
               
               <img src="./du.png" alt="Logo" className="w-24 md:w-[140px] h-auto" />
-            
+
             <div>
               <span className="text-xl font-bold text-daystar-blue tracking-tight uppercase">DRICE</span>
               <p className="text-[10px] text-gray-500 uppercase leading-none">Daystar University</p>
@@ -57,7 +58,7 @@ const Navbar = ({ currentPage, onNavClick }) => {
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t p-6 flex flex-col gap-6 shadow-xl">
           {navLinks.map((link) => (
-            <button key={link.label} onClick={() => { if(!link.isExternal) setCurrentPage(link.target); setIsMenuOpen(false); }} className="text-left font-medium">
+            <button key={link.label} onClick={() => { if(!link.isExternal) onNavClick(link.target); setIsMenuOpen(false); }} className="text-left font-medium">
               {link.label}
             </button>
           ))}

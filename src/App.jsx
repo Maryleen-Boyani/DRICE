@@ -2,11 +2,13 @@ import React, { useState, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import About from './components/About';
-import Projects from './components/Projects';
 import Leadership from './components/Leadership';
 import HowItWorks from './components/HowItWorks';
 import ContactForm from './components/ContactForm';
+import Project from './components/Project';
+import About from './components/About';
+import Blogs from './components/Blogs';
+import { Mail, Globe, MapPin } from 'lucide-react';
 import ResearchEvent from './components/ResearchEvent';
 import Footer from './components/Footer';
 
@@ -16,16 +18,23 @@ const App = () => {
   const aboutRef = useRef(null);
   const worksRef = useRef(null);
   const researchRef = useRef(null);
+  const ref=useRef(null);
+  const homeRef=useRef(null);
   const projectsRef = useRef(null);
 
   const handleNavClick = (target) => {
     setCurrentPage(target);
 
-    if (target !== 'leadership') {
-      setTimeout(() => {
+    const standalonePages=['leadership', 'project'];
+
+    if(standalonePages.includes(target)){
+      window.scrollTo({top:0, behavior:'instant'})
+    }
+      else{
+        setTimeout(() => {
         const refs = {
+          home:homeRef,
           about: aboutRef,
-          projects: projectsRef,
           contact: contactRef,
           researchweek: researchRef,
           researchpipeline: worksRef
@@ -39,6 +48,34 @@ const App = () => {
       }, 100);
     }
   };
+   const scrollToContact = () => {
+    contactRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // const mailtoLink=`mailto:drice@daystar.ac.ke?subject=Inquiry: DRICE Research Pipeline&body=${encodeURIComponent(userMessage)}`;
+  const renderContent= ()=>{
+    switch (currentPage){
+      case 'leadership':
+        return <Leadership/>;
+      case 'project':
+        return <Project/>;
+      case 'blogs':
+        return <Blogs/>
+      case 'home':
+        default :
+        return (
+          <>
+            <Hero />
+            <div ref={aboutRef}><About /></div>
+            <div ref={worksRef}><HowItWorks/></div>
+            <div ref={researchRef}><ResearchEvent/></div>
+            <div ref={contactRef}><ContactForm/></div>
+        
+        
+          </>
+        )
+    }
+  }
 
   return (
     <Router>
@@ -55,8 +92,6 @@ const App = () => {
               <div ref={worksRef}><HowItWorks /></div>
               <div ref={researchRef}><ResearchEvent /></div>
               <div ref={projectsRef}><Projects /></div>
-              
-              
               <div ref={contactRef}>
                 <ContactForm />
               </div>
