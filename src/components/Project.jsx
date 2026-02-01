@@ -187,27 +187,27 @@ const Project = () => {
       {
         label: "Submit a Poster",
         formType: "poster",
-        url: import.meta.env.VITE_POSTER_FORM_URL
+        url: "https://forms.office.com/r/uFGD2S1NPz"
       },
       {
         label: "Adopt an Innovation",
         formType: "innovation",
-        url: import.meta.env.VITE_INNOVATION_FORM_URL
+        url:"https://forms.office.com/r/7hMZzufsE0"
       },
       {
         label: "Propose a Problem",
         formType: "problem",
-        url: import.meta.env.VITE_PROBLEM_FORM_URL
+        url: "https://forms.office.com/r/JedQpzgpmf"
       },
       {
         label: "Partner with DRICE",
         formType: "partner",
-        url: import.meta.env.VITE_PARTNER_FORM_URL
+        url:"https://forms.office.com/r/rxBB4d3h1K"
       },
       {
         label: "Apply to Clinics",
         formType: "clinic",
-        url: import.meta.env.VITE_CLINIC_FORM_URL
+        url:"https://forms.office.com/r/mDdvu9Qb9C"
       }
     ].map((cta, i) => (
       <button 
