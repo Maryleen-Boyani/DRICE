@@ -64,6 +64,22 @@ const Hero = () => {
           Research <span className='text-daystar-blue font-bold'>→</span> Innovation <span className='text-daystar-blue'>→</span> Commercialisation <span className='text-daystar-blue'>→</span> Impact
           <br /><br />
         </p>
+        <motion.div className="mt-10 text-daystar-blue hover:cursor-pointer text-center underline underline-offset-4" animate={isInView ? {
+                    scale: [1, 1.2, 1],
+                    textShadow: [
+                      "0px 0px 0px rgba(0,0,0,0)", 
+                      "0px 0px 10px rgba(0,102,204,0.3)", 
+                      "0px 0px 0px rgba(0,0,0,0)"
+                    ]
+                    } : {}}
+                    transition={{ 
+                      duration: 2, 
+                      repeat: Infinity, 
+                      ease: "easeInOut" 
+                    }} >
+                    <a className="font-bold" target="_blank" href="https://daystar.odoo.com/event/du-brains-ai-conference-2026-16/page/introduction-brains-conference-2026-1">DU BRAINS AI CONFRENCE 2026 (May 7th-9th)</a>
+                    
+                  </motion.div>
       </motion.div>
     </section>
   );

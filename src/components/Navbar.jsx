@@ -7,11 +7,12 @@ const Navbar = ({ currentPage, onNavClick }) => {
   const navLinks = [
     // { label: 'Research Pipeline', target: 'researchpipeline', type:'scroll'},
     { label: 'Home', target: 'home', type:'scroll' },
-    { label: 'Research Week', target: 'researchweek', type:'scroll' },
+    // { label: 'BRAINS 2026', target: 'researchweek', type:'scroll' },
     {label: 'Projects', target: 'project'},
     {label: 'Blogs', target: 'blogs'},
     { label: 'Leadership', target: 'leadership' },
-    { label: 'DCAMD', isExternal: true, href:'https://dcamd.daystar.ac.ke/' },
+    { label: 'BRAINS 2026', isExternal: true, href:'https://daystar.odoo.com/event/du-brains-ai-conference-2026-16/page/introduction-brains-conference-2026-1'},
+    { label: 'Collaboration', isExternal: true, href:'https://daystar.nexoracreatives.co.ke/' },
     { label: 'Innovation', isExternal: true, href:'https://drice-start-ups.web.app/' },
   ];
 

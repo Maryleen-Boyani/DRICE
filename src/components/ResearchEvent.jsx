@@ -71,7 +71,7 @@ const ResearchEvent=() =>{
               </div>
             </div>
           </div>
-          <motion.div className="mt-20 text-daystar-blue hover:cursor-pointer text-center underline underline-offset-4" animate={isInView ? {
+          {/* <motion.div className="mt-20 text-daystar-blue hover:cursor-pointer justify-center  underline underline-offset-4" animate={isInView ? {
             scale: [1, 1.1, 1],
             textShadow: [
               "0px 0px 0px rgba(0,0,0,0)", 
@@ -86,7 +86,7 @@ const ResearchEvent=() =>{
             }} >
             <a className="" target="_blank" href="https://daystar.odoo.com/event/du-brains-ai-conference-2026-16/page/introduction-brains-conference-2026-1">DU BRAINS AI CONFRENCE 2026</a>
             
-          </motion.div>
+          </motion.div> */}
         </motion.div>
 
       </motion.div>
