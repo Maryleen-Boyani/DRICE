@@ -9,7 +9,7 @@ const Navbar = ({ currentPage, onNavClick }) => {
     { label: 'Home', target: 'home', type:'scroll' },
     // { label: 'BRAINS 2026', target: 'researchweek', type:'scroll' },
     {label: 'Projects', target: 'project'},
-    {label: 'Blogs', target: 'blogs'},
+    {label: 'DRICE News', target: 'blogs'},
     { label: 'Leadership', target: 'leadership' },
     { label: 'BRAINS 2026', isExternal: true, href:'https://daystar.odoo.com/event/du-brains-ai-conference-2026-16/page/introduction-brains-conference-2026-1'},
     { label: 'Collaboration', isExternal: true, href:'https://daystar.nexoracreatives.co.ke/' },

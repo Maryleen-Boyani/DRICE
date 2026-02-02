@@ -9,24 +9,30 @@ const Blogs = () => {
   const [articles, setArticles] = useState([
     {
       id: 1,
-      title: "The Future of AI in African Research",
-      description: "Exploring how machine learning is accelerating data collection in rural Machakos...",
-      content: "AI-driven research in rural Machakos serves as a prime example of developing local solutions for local problems through socio-economic data analysis. This project embodies the summit’s call for universities to trust student innovations first and provide practical research opportunities that solve real-world industry challenges. By documenting these findings, the research contributes to institutional knowledge management and helps bridge the gap between classroom theory and building on the ground.",
-      author: "Dr. Jane Doe",
-      date: "Oct 24, 2025",
-      image: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&q=80&w=400",
-      authorImg: "https://i.pravatar.cc/150?u=jane"
+      title: "Building a National Innovation Ecosystem: Insights from the Entreprenurial Education Summit",
+      description: "Daystar University joins industry leaders to transition from theoretical teaching to a venture-led innovation ecosystem",
+      content: `
+      <p>Daystar University was honored to participate in the recent Entrepreneurial Education Summit (ESS) 2026, convened by the Kenya National Innovation Agency (KeNIA) in partnership with NEIL, the British Council Kenya, and the UK-Kenya Tech Hub.</p>
+      
+      <p>The powerful theme, "Rethinking Entrepreneurial Education," resonated deeply with our mission. The discussions moved beyond theory, focusing on how universities like ours can become true entrepreneurial engines—commercializing research, nurturing student and faculty ventures, and aligning learning with real market needs.</p>
+      
+      <p>A key takeaway for us was the urgent call to "produce ventures, not just ideas." This aligns perfectly with our ongoing initiatives to empower our students through hands-on, market-facing programs.</p>
+
+      <h4 className="font-bold mt-4">Pivotal insights we’re bringing back:</h4>
+      <ul className="list-decimal ml-5 space-y-2">
+        <li><strong>Learning by Doing:</strong> Empowering students with hands-on, challenge-based projects is non-negotiable.</li>
+        <li><strong>Breaking Silos:</strong> Strengthening academia-industry links and fostering cross-university communities.</li>
+        <li><strong>Systematic Support:</strong> Building structured systems from policies to cross-border capital access.</li>
+        <li><strong>The Power of Mentorship:</strong> Faculty-led mentorship plays an irreplaceable role in inspiring innovators.</li>
+      </ul>
+      <br/>
+      <p className="mt-6 italic font-medium">“The future of Kenya will not be built by certificates alone. It will be built by entrepreneurial minds, ideas, and ventures.” — Prof. Shaukat Abdulrazak</p>
+    `,
+      author: "Dr. Japheth Mursi",
+      date: "Jan 30, 2026",
+      image: "./hero2.jpg",
+      authorImg: "./dr.mursi.jpg"
     },
-     {
-      id: 2,
-      title: "Building a National Innovation Ecosystem: Insights from the Entrepreneurship Education Summit",
-      description: "Exploring how machine learning is accelerating data collection in rural Machakos...",
-      content: "The summit emphasized building a national ecosystem by mapping niche research areas to attract funding and support the commercialization of academic work. Universities are moving beyond theory by establishing innovation funds, implementing robust intellectual property models, and integrating industry mentors directly into the curriculum. A key takeaway was the Research-to-Market pipeline, which encourages turning student theses into viable products through postgraduate-undergraduate partnerships and local case studies.",
-      author: "Dr. Jane Doe",
-      date: "Oct 24, 2025",
-      image: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&q=80&w=400",
-      authorImg: "https://i.pravatar.cc/150?u=jane"
-    }
   ]);
 
   return (
@@ -41,7 +47,7 @@ const Blogs = () => {
             onClick={() => setShowWriteForm(true)}
             className="flex items-center gap-2 bg-daystar-blue text-white px-6 py-3 rounded-full font-semibold hover:scale-105 transition shadow-lg"
           >
-            <PlusCircle size={20} /> Write Blog
+            <PlusCircle size={20} /> Write Article
           </button>
         </div>
 
@@ -61,7 +67,7 @@ const Blogs = () => {
                 </p>
                 
                 <div className="flex items-center gap-3 pt-4 border-t mt-auto"> 
-                  <img src={article.authorImg} alt="" className="w-10 h-10 rounded-full border" />
+                  <img src={article.authorImg} alt="" className="w-10 h-10 object-contain rounded-full border" />
                   <div>
                     <p className="text-sm font-bold text-daystar-dark">{article.author}</p>
                     <p className="text-[10px] text-gray-400 uppercase tracking-wider">{article.date}</p>
@@ -98,7 +104,7 @@ const Blogs = () => {
                 </div>
               </div>
               <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
-                {selectedArticle.content}
+                <div dangerouslySetInnerHTML={{ __html: selectedArticle.content }} />
               </div>
             </div>
           </div>
