@@ -4,7 +4,7 @@ import { motion, useInView } from "framer-motion";
 const Partners = () => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: false, margin: "-100px" });
-    const partners = ["./kenialogo.png", "./cyberprologo.png", "./du.png", "./qhalalogo.svg", "./ditalogo.png", "./ssehlogo.png", "./nacosti.jpg", "./ukid.svg", "./windlelogo.webp", "./wipo_logo.jpg"];
+    const partners = ["./kenialogo.png", "./cyberprologo.png", "./du.png", "./qhalalogo.svg", "./ditalogo.png", "./ssehlogo.png", "./nacosti.jpg", "./ukid.svg", "./windlelogo.webp", "./bclogo.jpeg", "./ccculogo.jpeg", "./wipo_logo.jpg"];
 
     // Container variants for staggered children
     const containerVariants = {
