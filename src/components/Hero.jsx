@@ -11,7 +11,7 @@ const Hero = () => {
     "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=1200",
     "./hero2.jpg",
     "./hero1.jpg",
-    "./hero3.jpg"    
+    "./hero3.jpeg"    
   ];
 
   useEffect(() => {
