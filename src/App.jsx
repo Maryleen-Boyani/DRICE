@@ -11,6 +11,7 @@ import Blogs from './components/Blogs';
 import { Mail, Globe, MapPin } from 'lucide-react';
 import ResearchEvent from './components/ResearchEvent';
 import Footer from './components/Footer';
+import Partners from './components/Partners';
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
@@ -69,6 +70,7 @@ const App = () => {
             <div ref={aboutRef}><About /></div>
             <div ref={worksRef}><HowItWorks/></div>
             <div ref={researchRef}><ResearchEvent/></div>
+            <div><Partners/></div>
             <div ref={contactRef}><ContactForm/></div>
         
         

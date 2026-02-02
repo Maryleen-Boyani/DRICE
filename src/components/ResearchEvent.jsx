@@ -1,13 +1,18 @@
-import { section } from "framer-motion/client";
+import { image, img, section} from 'framer-motion/client';
+import React, {useRef} from 'react';
+import {degrees, easeIn, easeOut, motion, useInView} from "framer-motion";
+
 
 const ResearchEvent=() =>{
-  
+  const ref=useRef(null);
+  const isInView= useInView(ref, {once: false, margin:"-100px"});
+
     return(
-        <section className="min-h-[500px] bg-gradient-to-br from-[#0f172a] via-[#111827] to-[#000000] text-white py-20 px-6 md:px-12 flex items-center">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <motion.section ref={ref} className="min-h-[500px] bg-gradient-to-br from-[#0f172a] via-[#111827] to-[#000000] text-white py-20 px-6 md:px-12 flex items-center">
+          <motion.div initial={{opacity:0, y:30}} animate={isInView ? {opacity:1, y:0}:{}} transition={{duration:2 , ease:"easeOut"}} className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
             {/* Left Side: Content */}
-            <div>
+            <motion.div initial={{opacity:0, y:30}} animate={isInView ? {opacity:1, y:0}:{}} transition={{duration:2 , ease:"easeOut"}}>
               <div className="inline-flex items-center gap-2 bg-daystar-blue/30 border border-daystar-blue/50 px-3 py-1 rounded-full mb-6">
                 <span className="text-sm">ANNUAL EVENT</span>
               </div>
@@ -33,10 +38,10 @@ const ResearchEvent=() =>{
                   </a>
               </div>
           
-          </div>
+          </motion.div>
 
         {/* Right Side: Floating Card */}
-        <div className="relative">
+        <motion.div initial={{opacity:0, y:30}} animate={isInView ? {opacity:1, y:0}:{}} transition={{duration:2 , ease:"easeOut"}} className="relative">
           {/* Decorative background glow */}
           <div className="absolute -inset-4 bg-cyan-500/10 blur-3xl rounded-full"></div>
           
@@ -44,7 +49,7 @@ const ResearchEvent=() =>{
             <div className="flex justify-between items-center mb-8 border-b border-gray-700 pb-4">
               <h3 className="text-xl font-serif italic">Week Schedule</h3>
               <span className="text-orange-400 text-sm font-semibold uppercase tracking-wider">
-                March 10–14, 2025
+                May 7th– 9th, 2026
               </span>
             </div>
 
@@ -66,10 +71,26 @@ const ResearchEvent=() =>{
               </div>
             </div>
           </div>
-        </div>
+          <motion.div className="mt-20 text-daystar-blue hover:cursor-pointer text-center underline underline-offset-4" animate={isInView ? {
+            scale: [1, 1.1, 1],
+            textShadow: [
+              "0px 0px 0px rgba(0,0,0,0)", 
+              "0px 0px 10px rgba(0,102,204,0.3)", 
+              "0px 0px 0px rgba(0,0,0,0)"
+            ]
+            } : {}}
+            transition={{ 
+              duration: 2, 
+              repeat: Infinity, 
+              ease: "easeInOut" 
+            }} >
+            <a className="" target="_blank" href="https://daystar.odoo.com/event/du-brains-ai-conference-2026-16/page/introduction-brains-conference-2026-1">DU BRAINS AI CONFRENCE 2026</a>
+            
+          </motion.div>
+        </motion.div>
 
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
     );
 };
 

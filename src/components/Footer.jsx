@@ -32,9 +32,9 @@ const Footer = ({onNavClick}) => {
           type: "external"
         },
         { 
-          name: "Leadership", 
-          href: "leadership",
-          type: "internal"
+          name: "DCAMD", 
+          href: "https://dcamd.daystar.ac.ke/",
+          type: "external"
         },
         // { 
         //   name: "SDG Dashboard", 

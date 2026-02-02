@@ -1,41 +1,59 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {degrees, easeIn, easeOut, motion, useInView} from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const ref=useRef(null);
-  const isInView= useInView(ref,{ once: false, margin:"-100px"});
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: false, margin: "-100px" });
+  
   const slides = [
-    // "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=1200", // University setting
-    "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80&w=1200", // Innovation/Tech
+    "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80&w=1200",
     "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=1200",
-    "./hero2.jpg",  // Collaboration
-    "./hero1.jpg"
+    "./hero2.jpg",
+    "./hero1.jpg",
+    "./hero3.jpg"    
   ];
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 8000);
+    }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   return (
-    <section ref={ref} className="relative h-[500px] mx-auto md:h-[600px] flex items-center justify-center overflow-hidden text-white">
+    <section ref={ref} className="relative h-[75vh] md:h-[85vh] mx-auto flex items-center justify-center overflow-hidden text-white bg-black">
       
-      {slides.map((img, index) => (
-        <div
-          
-          key={index}
-          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
-        >
-          <div className="absolute inset-0 bg-black/50 z-10" /> {/* Dark overlay for text readability */}
-          <img src={img} alt="Daystar Campus" className="w-full h-full object-cover" />
-        </div>
-      ))}
+      {/* Image Slider Container */}
+      <div className="absolute inset-0 z-0">
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={currentSlide}
+            initial={{ x: "100%" }} // Starts from the right
+            animate={{ x: 0 }}       // Slides to center
+            exit={{ x: "-100%" }}    // Slides out to the left
+            transition={{ 
+              x: { type: "tween", duration: 1.2, ease: "easeInOut" } 
+            }}
+            className="absolute inset-0 w-full h-full"
+          >
+            {/* The overlay is inside the motion div so it moves with the image */}
+            <div className="absolute inset-0 bg-black/50 z-10" />
+            <img 
+              src={slides[currentSlide]} 
+              alt="Daystar Campus" 
+              className="w-full h-full object-cover" 
+            />
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
- 
-      <motion.div initial={{opacity:0, y:30}} animate={isInView ? {opacity:1, y:0}:{}} transition={{duration:2 , ease:"easeOut"}} className="relative z-20 text-center px-6 max-w-4xl animate-in fade-in zoom-in duration-700">
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }} 
+        animate={isInView ? { opacity: 1, y: 0 } : {}} 
+        transition={{ duration: 2, ease: "easeOut" }} 
+        className="relative z-20 text-center px-6 max-w-4xl"
+      >
         <span className="bg-daystar-dark text-white px-4 py-2 rounded-full text-sm font-bold uppercase tracking-widest">
           DIRECTORATE OF RESEARCH & INNOVATION
         </span>
@@ -45,7 +63,6 @@ const Hero = () => {
         <p className="text-lg md:text-xl text-gray-200">
           Research <span className='text-daystar-blue font-bold'>→</span> Innovation <span className='text-daystar-blue'>→</span> Commercialisation <span className='text-daystar-blue'>→</span> Impact
           <br /><br />
-          A structured pipeline producing publications, datasets, grants, and startups.
         </p>
       </motion.div>
     </section>

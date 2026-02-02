@@ -11,6 +11,7 @@ const Navbar = ({ currentPage, onNavClick }) => {
     {label: 'Projects', target: 'project'},
     {label: 'Blogs', target: 'blogs'},
     { label: 'Leadership', target: 'leadership' },
+    { label: 'DCAMD', isExternal: true, href:'https://dcamd.daystar.ac.ke/' },
     { label: 'Innovation', isExternal: true, href:'https://drice-start-ups.web.app/' },
   ];
 

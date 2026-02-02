@@ -108,8 +108,8 @@ Submitted via DRICE Website Contact Form
               <div className="bg-white/10 p-3 rounded-full"><MapPin className="text-daystar-blue"/></div>
               <div>
                 <p className="text-sm text-gray-400">Visit us at</p>
-                <p className="font-bold">Athi River Campus, Machakos County</p>
-                <p className="font-bold">Town Campus, Valley Road</p>
+                
+                <p className="font-bold">Nairobi Campus, Valley Road</p>
               </div>
             </div>
           </div>

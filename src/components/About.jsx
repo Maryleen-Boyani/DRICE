@@ -14,7 +14,7 @@ const About = () => {
           <div className="relative">
             <div initial={{opacity:0, y:30}} animate={isInView ? {opacity:1, y:0}:{}} transition={{duration:2 , ease:"easeOut"}} className="absolute -top-4 -left-4 w-full h-full border-2 border-daystar-blue rounded-2xl z-0" />
             <img 
-              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800" 
+              src="./aboutphoto.jpg" 
               alt="Students Collaborating" 
               className="relative z-10 rounded-2xl shadow-xl w-full h-[400px] object-cover"
             />
