@@ -45,6 +45,11 @@ const Footer = ({onNavClick}) => {
           name: "Blogs", 
           href: "blogs",
           type: "internal"
+        },
+         { 
+          name: "News", 
+          href: "https://www.linkedin.com/posts/entreprenurialeducationsummit-innovation-ugcPost-7423967510284091392-ZaJQ?utm_source=share&utm_medium=member_android&rcm=ACoAAAQ7oQ8BthoguLSQ5lXfrygkZKjoiBL_xnw",
+          type: "external"
         }
       ]
     }

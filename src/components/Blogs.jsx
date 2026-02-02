@@ -11,7 +11,7 @@ const Blogs = () => {
       id: 1,
       title: "The Future of AI in African Research",
       description: "Exploring how machine learning is accelerating data collection in rural Machakos...",
-      content: "Full article content goes here. AI is transforming how we analyze socio-economic data...",
+      content: "AI-driven research in rural Machakos serves as a prime example of developing local solutions for local problems through socio-economic data analysis. This project embodies the summit’s call for universities to trust student innovations first and provide practical research opportunities that solve real-world industry challenges. By documenting these findings, the research contributes to institutional knowledge management and helps bridge the gap between classroom theory and building on the ground.",
       author: "Dr. Jane Doe",
       date: "Oct 24, 2025",
       image: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&q=80&w=400",
@@ -21,7 +21,7 @@ const Blogs = () => {
       id: 2,
       title: "Building a National Innovation Ecosystem: Insights from the Entrepreneurship Education Summit",
       description: "Exploring how machine learning is accelerating data collection in rural Machakos...",
-      content: "Full article content goes here. AI is transforming how we analyze socio-economic data...",
+      content: "The summit emphasized building a national ecosystem by mapping niche research areas to attract funding and support the commercialization of academic work. Universities are moving beyond theory by establishing innovation funds, implementing robust intellectual property models, and integrating industry mentors directly into the curriculum. A key takeaway was the Research-to-Market pipeline, which encourages turning student theses into viable products through postgraduate-undergraduate partnerships and local case studies.",
       author: "Dr. Jane Doe",
       date: "Oct 24, 2025",
       image: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&q=80&w=400",
@@ -69,7 +69,7 @@ const Blogs = () => {
                 </div>
               </div>
 
-              <button className="w-full py-4 bg-gray-50 hover:bg-daystar-blue hover:text-white transition-colors font-bold text-daystar-blue shrink-0">
+              <button onClick={() => setSelectedArticle(article)} className="w-full py-4 bg-gray-50 hover:bg-daystar-blue hover:text-white transition-colors font-bold text-daystar-blue shrink-0">
                 Read More
               </button>
             </div>
