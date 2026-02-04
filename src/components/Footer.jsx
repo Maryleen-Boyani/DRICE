@@ -42,9 +42,9 @@ const Footer = ({onNavClick}) => {
         //   type: "anchor"
         // },
         { 
-          name: "Blogs", 
-          href: "blogs",
-          type: "internal"
+          name: "Journals", 
+          href: "https://journals.daystar.ac.ke/",
+          type: "external"
         },
          { 
           name: "News", 

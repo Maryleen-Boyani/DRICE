@@ -1,7 +1,7 @@
 import React, {useRef} from 'react';
 import { image, img } from 'framer-motion/client';
 import {degrees, easeIn, easeOut, motion, useInView} from "framer-motion";
-import { ArrowRight } from 'lucide-react'; // Optional: Use Lucide icons or simple SVGs
+import { ArrowRight, Upload } from 'lucide-react'; // Optional: Use Lucide icons or simple SVGs
 
 const HowItWorks = () => {
   const steps = [
@@ -13,6 +13,22 @@ const HowItWorks = () => {
   ];
     const ref=useRef(null);
     const isInView= useInView(ref,{ once: false, margin:"-100px"});
+
+    const fileInputRef=useRef(null);
+    const handleButtonClick=()=>{
+      fileInputRef.current.click();
+    };
+
+    const handleFileChange=(event)=>{
+      const file= event.target.files[0];
+      if(file){
+        alert('Success, file has been uploaded.');
+        event.target.value = ''; 
+    } else {
+      alert("Upload failed. No file selected.");
+    }
+      };
+    
 
   return (
     <section ref={ref} className="py-10 px-6 md:px-20">
@@ -30,7 +46,7 @@ const HowItWorks = () => {
         </motion.div>
 
         
-        <motion.div initial={{opacity:0, y:30}} animate={isInView ? {opacity:1, y:0}:{}} transition={{duration:2 , ease:"easeOut"}} className="relative">
+        <motion.div initial={{opacity:0, y:30}} animate={isInView ? {opacity:1, y:0}:{}} transition={{duration:2 , ease:"easeOut"}} className="relative justify-center">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             {steps.map((step, index) => (
               <React.Fragment key={index}>
@@ -59,10 +75,14 @@ const HowItWorks = () => {
               </React.Fragment>
             ))}
           </div>
+          <div className='flex justify-center'>
+            <input type="file" ref={fileInputRef} onChange={handleFileChange} hidden accept=".pdf,.doc,.docx" />
+            <button onClick={handleButtonClick} className='hover: cursor-pointer flex items-center justify-center gap-2 bg-daystar-dark text-white font-bold p-4 rounded-2xl mt-10 w-full sm:w-auto sm:px-8 transition-transform active:scale-95'><Upload size={20} /><span>Upload a Report<input type="file" hidden /></span></button>
+          </div>
+          
         </motion.div>
       </motion.div>
     </section>
   );
-};
-
+}
 export default HowItWorks;

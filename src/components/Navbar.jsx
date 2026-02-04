@@ -11,6 +11,7 @@ const Navbar = ({ currentPage, onNavClick }) => {
     {label: 'Projects', target: 'project'},
     {label: 'DRICE News', target: 'blogs'},
     { label: 'Leadership', target: 'leadership' },
+    { label: 'Publications', target: 'publications' },
     { label: 'BRAINS 2026', isExternal: true, href:'https://daystar.odoo.com/event/du-brains-ai-conference-2026-16/page/introduction-brains-conference-2026-1'},
     { label: 'Collaboration', isExternal: true, href:'https://daystar.nexoracreatives.co.ke/' },
     { label: 'Innovation', isExternal: true, href:'https://drice-start-ups.web.app/' },
@@ -44,9 +45,9 @@ const Navbar = ({ currentPage, onNavClick }) => {
                 </button>
               )
             ))}
-            <button onClick={()=>onNavClick('contact')} className="bg-daystar-blue text-white px-5 py-2 rounded-full font-semibold hover:bg-opacity-90 transition shadow-md">
+            {/* <button onClick={()=>onNavClick('contact')} className="bg-daystar-blue text-white px-5 py-2 rounded-full font-semibold hover:bg-opacity-90 transition shadow-md">
               Engage
-            </button>
+            </button> */}
           </div>
 
         
