@@ -6,12 +6,14 @@ import Leadership from './components/Leadership';
 import HowItWorks from './components/HowItWorks';
 import ContactForm from './components/ContactForm';
 import Project from './components/Project';
+import Events from './components/Events';
 import About from './components/About';
 import Blogs from './components/Blogs';
 import { Mail, Globe, MapPin } from 'lucide-react';
 import ResearchEvent from './components/ResearchEvent';
 import Footer from './components/Footer';
 import Partners from './components/Partners';
+import Publications from './components/Publications';
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
@@ -21,12 +23,12 @@ const App = () => {
   const researchRef = useRef(null);
   const ref=useRef(null);
   const homeRef=useRef(null);
-  const projectsRef = useRef(null);
+  const eventsRef = useRef(null);
 
   const handleNavClick = (target) => {
     setCurrentPage(target);
 
-    const standalonePages=['leadership', 'project'];
+    const standalonePages=['leadership', 'project', 'publications'];
 
     if(standalonePages.includes(target)){
       window.scrollTo({top:0, behavior:'instant'})
@@ -38,7 +40,8 @@ const App = () => {
           about: aboutRef,
           contact: contactRef,
           researchweek: researchRef,
-          researchpipeline: worksRef
+          researchpipeline: worksRef,
+          events: eventsRef
         };
 
         if (target === 'home') {
@@ -62,6 +65,8 @@ const App = () => {
         return <Project/>;
       case 'blogs':
         return <Blogs/>
+      case 'publications':
+        return <Publications/>
       case 'home':
         default :
         return (
@@ -69,7 +74,9 @@ const App = () => {
             <Hero />
             <div ref={aboutRef}><About /></div>
             <div ref={worksRef}><HowItWorks/></div>
+            {/* <div ref={reportsRef}><Reports/></div> */}
             <div ref={researchRef}><ResearchEvent/></div>
+            <div ref={eventsRef}><Events/></div>
             <div><Partners/></div>
             <div ref={contactRef}><ContactForm/></div>
         
