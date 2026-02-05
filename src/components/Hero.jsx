@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from "framer-motion";
 
-const Hero = () => {
+const Hero = ({scrollToEvents}) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, margin: "-100px" });
+  
   
   const slides = [
     "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80&w=1200",
@@ -64,7 +65,7 @@ const Hero = () => {
           Research <span className='text-daystar-blue font-bold'>→</span> Innovation <span className='text-daystar-blue'>→</span> Commercialisation <span className='text-daystar-blue'>→</span> Impact
           <br /><br />
         </p>
-        <motion.div className="mt-10 text-daystar-blue hover:cursor-pointer text-center underline underline-offset-4" animate={isInView ? {
+        <motion.div className="mt-4 text-daystar-blue bg-hover:cursor-pointer text-center underline underline-offset-4" animate={isInView ? {
                     scale: [1, 1.2, 1],
                     textShadow: [
                       "0px 0px 0px rgba(0,0,0,0)", 
@@ -77,8 +78,9 @@ const Hero = () => {
                       repeat: Infinity, 
                       ease: "easeInOut" 
                     }} >
-                    <a className="font-bold" target="_blank" href="https://daystar.odoo.com/event/du-brains-ai-conference-2026-16/page/introduction-brains-conference-2026-1">DU BRAINS AI CONFRENCE 2026 (May 7th-9th)</a>
-                    
+                    <a className="font-bold font-2xl" target="_blank" href="https://daystar.odoo.com/event/du-brains-ai-conference-2026-16/page/introduction-brains-conference-2026-1">DU BRAINS AI CONFERENCE 2026 (May 7th-9th)</a>
+                    <br /><br />
+                    <a onClick={scrollToEvents} href="events" className="font-bold" target="_blank">VIEW OUR UPCOMING EVENTS</a>
                   </motion.div>
       </motion.div>
     </section>

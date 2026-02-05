@@ -25,6 +25,10 @@ const App = () => {
   const homeRef=useRef(null);
   const eventsRef = useRef(null);
 
+  const scrollToEvents=(e)=>{
+    e.preventDefault();
+    eventsRef.current?.scrollIntoView({behavior:'smooth'});
+  }
   const handleNavClick = (target) => {
     setCurrentPage(target);
 
@@ -71,7 +75,7 @@ const App = () => {
         default :
         return (
           <>
-            <Hero />
+            <Hero scrollToEvents={scrollToEvents}/>
             <div ref={aboutRef}><About /></div>
             <div ref={worksRef}><HowItWorks/></div>
             {/* <div ref={reportsRef}><Reports/></div> */}
@@ -79,8 +83,6 @@ const App = () => {
             <div ref={eventsRef}><Events/></div>
             <div><Partners/></div>
             <div ref={contactRef}><ContactForm/></div>
-        
-        
           </>
         )
     }
