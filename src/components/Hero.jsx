@@ -78,7 +78,7 @@ const Hero = ({scrollToEvents}) => {
                       repeat: Infinity, 
                       ease: "easeInOut" 
                     }} >
-                    <a className="font-bold font-2xl" target="_blank" href="https://daystar.odoo.com/event/du-brains-ai-conference-2026-16/page/introduction-brains-conference-2026-1">DU BRAINS AI CONFERENCE 2026 (May 7th-9th)</a>
+                    <a className="font-bold font-2xl" target="_blank" href="https://daystar.odoo.com/event/du-brains-ai-conference-2026-16/page/introduction-brains-conference-2026-1">DU BRAINS AI CONFERENCE 2026 (May 5th- 7th)</a>
                     <br /><br />
                     <a onClick={scrollToEvents} href="events" className="font-bold" target="_blank">VIEW OUR UPCOMING EVENTS</a>
                   </motion.div>
