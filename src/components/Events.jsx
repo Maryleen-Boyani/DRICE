@@ -4,21 +4,21 @@ import { motion, useInView } from "framer-motion";
 const Events = () => {
   const events = [
     {
-      name: "AI & Data Modelling Workshop",
+      name: "DU BRAINS AI CONFERENCE",
       status: "Upcoming",
-      date: "Feb 15, 2026",
+      date: "May 6th, 2026",
       image: "./ai.jpg",
     },
     {
-      name: "DRICE Innovation Summit",
+      name: "DCAMD LAUNCH",
       status: "Past",
-      date:"Jan 23, 2026",
-      image: "./innovation.jpg",
+      date:"Jan 28, 2026",
+      image: "./dcamd.jpg",
     },
     {
-      name: "Graduate Research Seminar",
+      name: "Academic Mentorship",
       status: "Upcoming",
-      date: "March 10, 2026",
+      date: "Feb 9th, 2026",
       image: "./seminar.jpg",
     },
   ];
