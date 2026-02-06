@@ -75,10 +75,10 @@ const HowItWorks = () => {
               </React.Fragment>
             ))}
           </div>
-          <div className='flex justify-center'>
+          {/* <div className='flex justify-center'>
             <input type="file" ref={fileInputRef} onChange={handleFileChange} hidden accept=".pdf,.doc,.docx" />
             <button onClick={handleButtonClick} className='hover: cursor-pointer flex items-center justify-center gap-2 bg-daystar-dark text-white font-bold p-4 rounded-2xl mt-10 w-full sm:w-auto sm:px-8 transition-transform active:scale-95'><Upload size={20} /><span>Upload a Report<input type="file" hidden /></span></button>
-          </div>
+          </div> */}
           
         </motion.div>
       </motion.div>
