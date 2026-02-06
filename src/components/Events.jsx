@@ -16,9 +16,9 @@ const Events = () => {
       image: "./dcamd.jpeg",
     },
     {
-      name: "Academic Mentorship",
+      name: "AI Ressearch Clinic",
       status: "Upcoming",
-      date: "Feb 9th, 2026",
+      date: " \n Cohort 1: February 28, 2026\nCohort 2: March 28, 2026\nCohort 3: April 25, 2026 ",
       image: "./seminar.jpg",
     },
   ];
@@ -63,7 +63,7 @@ const Events = () => {
               
               {/* Conditional Date Rendering */}
               {/* {event.status === "Upcoming" && ( */}
-                <p className="text-daystar-blue text-sm mt-2 font-medium">
+                <p className="text-daystar-blue text-sm mt-2 font-medium whitespace-pre-line">
                   Date: {event.date}
                 </p>
               {/* )} */}
