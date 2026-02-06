@@ -13,7 +13,7 @@ const Events = () => {
       name: "DCAMD LAUNCH",
       status: "Past",
       date:"Jan 28, 2026",
-      image: "./dcamd.jpg",
+      image: "./dcamd.jpeg",
     },
     {
       name: "Academic Mentorship",
