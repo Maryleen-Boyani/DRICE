@@ -55,8 +55,8 @@ const Hero = ({scrollToEvents}) => {
         transition={{ duration: 2, ease: "easeOut" }} 
         className="relative z-20 text-center px-6 max-w-4xl"
       >
-        <span className="bg-daystar-dark text-white px-4 py-2 rounded-full text-sm font-bold uppercase tracking-widest">
-          DIRECTORATE OF RESEARCH & INNOVATION
+        <span className="bg-daystar-dark text-white px-4 py-2 text-sm rounded-full text-sm font-bold uppercase tracking-widest"> 
+          Directorate of Research, Innovation & Commercialisation Enterprise
         </span>
         <h2 className="text-4xl md:text-6xl font-extrabold mt-6 mb-4">
           Empowering the Next Generation of <span className="text-daystar-blue">African Creators</span>
