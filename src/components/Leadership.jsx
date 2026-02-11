@@ -10,7 +10,7 @@ const Leadership = () => {
     { name: "Dr. Japheth Mursi", title: "Deputy Director - Daystar Research, Innovation, Commertialization & Entrepreneurship", img:"./dr.mursi.jpg", href:"https://www.linkedin.com/in/japheth-mursi "},
     { name: "Philipe Tinega", title: "Administrator - Daystar Research, Innovation, Commertialization & Entrepreneurship", img:"./philipe.jpg", href:"https://www.linkedin.com/in/philippe-tinega-304910197 "},
     { name: "John Nderitu", title: "Innovation Officer - Daystar Research, Innovation, Commertialization & Entrepreneurship", img:"./john.jpg", href:"https://www.linkedin.com/in/john-nderitu-8b38aa244 "},
-    { name: "Vivian Angula", title: "Daystar Research Assistant - Research, Innovation, Commertialization & Entrepreneurship", href:"https://www.linkedin.com/in/"}
+    { name: "Vivian Angula", title: "Daystar Research Assistant - Research, Innovation, Commertialization & Entrepreneurship",img:"./vivian.jpeg", href:"https://www.linkedin.com/in/"}
   ];
   const ref=useRef(null);
   const isInView= useInView(ref,{ once: false, margin:"-100px"});

@@ -27,6 +27,12 @@ const Events = () => {
       date: " \n Cohort 1: April 18th, 2026\nCohort 2: July 18th, 2026",
       image: "./researchsprint.png",
     },
+    {
+      name: "Daystar - USW Climate Resilience Learning & Design Lab",
+      status: "Upcoming",
+      date: " 16–20 March 2026",
+      image: "./designlab.jpg",
+    },
   ];
 
   const ref = useRef(null);
