@@ -16,10 +16,16 @@ const Events = () => {
       image: "./dcamd.jpeg",
     },
     {
-      name: "AI Ressearch Clinic",
+      name: "AI Research Clinic",
       status: "Upcoming",
       date: " \n Cohort 1: February 28, 2026\nCohort 2: March 28, 2026\nCohort 3: April 25, 2026 ",
       image: "./seminar.jpg",
+    },
+    {
+      name: "Postgraduate Research Sprint Poster Session",
+      status: "Upcoming",
+      date: " \n Cohort 1: April 18th, 2026\nCohort 2: July 18th, 2026",
+      image: "./researchsprint.png",
     },
   ];
 
