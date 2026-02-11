@@ -28,7 +28,7 @@ const Publications = () => {
                   <p className="text-sm font-bold text-slate-800">{item.title}</p>
                 </div>
                 
-                <a className="whitespace-nowrap ml-auto px-8 py-4 bg-white text-slate-900 font-bold rounded-xl hover:bg-blue-50 transition-colors flex items-center gap-2" href={item.href}><Download size={18} /></a> 
+                <a className="whitespace-nowrap ml-auto px-8 py-4 bg-white text-slate-900 font-bold rounded-xl hover:bg-blue-50 transition-colors flex items-center gap-2" href={item.href} target='_blank'><Download size={18} /></a> 
               </div>
             ))}
           </motion.div>
