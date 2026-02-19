@@ -28,7 +28,7 @@ const Events = () => {
       image: "./researchsprint.png",
     },
     {
-      name: "Daystar - USW Climate Resilience Learning & Design Lab",
+      name: "UK Learning & Design Lab",
       status: "Upcoming",
       date: " 16–20 March 2026",
       image: "./designlab.jpg",

@@ -33,6 +33,47 @@ const Blogs = () => {
       image: "./hero2.jpg",
       authorImg: "./dr.mursi.jpg"
     },
+    {
+      id: 2,
+      title: "From Nairobi's Markets to Vienna: One Scholar's Quest to Make AI Work for African Women",
+      description: "Daystar University PhD candidate Mary Onguko has been awarded a prestigious fellowship at one of Europe's foremost institutes for advanced study -  to build AI that truly serves women in Kenya's informal economy.",
+      content: `
+      <p>Picture a market stall in Nairobi — a Mama Mboga selling vegetables, fabric, or street food, her mobile phone nearby. She has heard that there are apps to help manage her finances, track her stock, even predict demand. But when she opens them, they speak to her in a language that is not hers, assume a bank account she does not have, and present icons that mean nothing in her world. She closes the app and goes back to what she knows.</p>
+      <br/>
+      <p class="text-[#003366]"><strong>This is the problem Mary Onguko wants to solve.</strong></p>
+      <p>A PhD candidate in Strategic Planning at Daystar University's School of Business and Economics, Mary has been awarded a three-month fellowship at the Institute for Human Sciences (IWM) in Vienna, Austria — one of Europe's most respected centres for advanced scholarship in the humanities and social sciences. She will be in residence from 1 March to 31 May 2026.</p>
+      <br/>
+      <p class="text-[#003366]"><strong>A Research Question Born from Real Life</strong></p>
+    
+      <p>Her fellowship project — Human-Centered AI: Culturally Responsive AI-Enabled Mobile Applications for Women Micro-Entrepreneurs in Kenya — is rooted in a deceptively simple observation: the women who stand to benefit most from digital tools are often the ones least served by them.</p>
+      <br/>
+      <p>Kenya's informal economy is overwhelmingly female. Women micro-entrepreneurs are the backbone of household incomes across the country, operating in markets, along roadsides, and within communities that formal financial systems have long overlooked. Mobile technology has begun to change that story — but only partially. Too many AI-powered business tools arrive with built-in assumptions: that users are literate in English, that they have consistent internet access, that they operate within familiar financial frameworks. In reality, many do not.</p>
+      <br/>
+      <p>Mary's research asks: What would these tools look like if the women themselves designed them? Working within a human-centered and participatory design framework, her project will sit with women entrepreneurs, listen to how they actually use their phones, and identify the real barriers — language, cost, cultural context, trust. From there, she will co-design improved prototypes featuring voice interfaces in local languages, intuitive icons, offline functionality, and community device-sharing models.</p>
+      <br/>
+      <h4 class="text-[#003366]"><strong>Why Vienna, and Why Now</strong></h4>
+
+      <p>The IWM is not a typical technology institute. It is a place where philosophers, political scientists, sociologists, and legal scholars gather to grapple with the deepest questions of our time — and in the age of artificial intelligence, few questions are more urgent than this one: who does technology actually serve?</p>
+      <br/>
+      <p>Mary's selection to the IWM's Digital Humanism Fellowship programme places her squarely within that conversation. Her work insists that AI is not a neutral tool — that every algorithm carries assumptions, and those assumptions have consequences for real people. At a moment when the world's most powerful technology companies are shaping the digital futures of the Global South, a scholar from Nairobi asking these questions in Vienna matters.</p>
+      <br/>
+      <p class="italic pl-10 border-l-4 border-[#8b0000] my-4">“I will represent the Daystar name with honor, and I am proud to call Daystar my intellectual home”, Mary says</p>
+      <br/>
+      <h4 class="text-[#003366]"><strong>A Journey of Mentorship and Institutional Support</strong></h4>
+      
+      <p>Mary is quick to share the credit. In her own words, her gratitude begins with Vice-Chancellor Prof. Laban Ayiro: “Through his mentorship and teaching, I have grown into the scholar I am becoming. This is about him.” She also credits Dr. Caroline Ayuya- Director of the Directorate of Innovation, Research, Commercialization and Entrepreneurship at Daystar University, whose support, she says, has made “the PhD journey feel both beautiful and achievable.”</p>
+      <br/>
+      <p>Behind the scenes, Daystar's Directorate of Research, Innovation, Commercialization and Entrepreneurship (DRICE) has walked with Mary through the application process, providing an institutional recommendation in support of her fellowship bid. Dr. Japheth Mursi, Deputy Director of DRICE, has been designated to provide coordination support as she prepares for her departure.</p>
+      <br/>
+      <p>For Daystar University, it affirms a growing institutional identity: a place where faith-rooted, purpose-driven scholarship engages the world’s hardest problems. For Kenya, it means that the women in those market stalls are one step closer to tools built with them in mind — not just for them.</p>
+      
+    `,
+      author: "DRICE",
+      date: "Feb 18, 2026",
+      image: "./blog2.jpg",
+      authorImg: "./drice.jpeg",
+      userImage:"./userimage.jpg"
+    },
   ]);
 
   return (
@@ -58,11 +99,12 @@ const Blogs = () => {
               <img src={article.image} alt={article.title} className="h-48 w-full object-cover shrink-0" /> 
               
               <div className="p-6 flex flex-col flex-grow"> 
-                <h3 className="text-xl font-bold mb-2 text-daystar-dark leading-tight line-clamp-2 min-h-[3.5rem]"> 
+                {/* line-clamp-3 */}
+                <h3 className="text-xl font-bold mb-2 text-daystar-dark leading-tight min-h-[4.5rem]"> 
 
                   {article.title}
                 </h3>
-                <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
+                <p className="text-gray-600 text-sm mb-4 flex-grow">
                   {article.description}
                 </p>
                 
@@ -95,13 +137,17 @@ const Blogs = () => {
             </button>
             <img src={selectedArticle.image} className="w-full h-64 md:h-96 object-cover" />
             <div className="p-8 md:p-12">
-              <h2 className="text-3xl md:text-5xl font-bold text-daystar-dark mb-6">{selectedArticle.title}</h2>
-              <div className="flex items-center gap-4 mb-8">
+              <h2 className="text-xl md:text-3xl font-bold text-daystar-dark mb-6">{selectedArticle.title}</h2>
+              <div className="flex items-center gap-4 mb-2">
                 <img src={selectedArticle.authorImg} className="w-12 h-12 rounded-full" />
                 <div>
                     <p className="font-bold">{selectedArticle.author}</p>
                     <p className="text-sm text-gray-500">{selectedArticle.date}</p>
-                </div>
+                </div> 
+              </div>
+              <div className='mb-4 flex flex-row items-center gap-4' >
+                  {selectedArticle.id === 2 && <img src={selectedArticle.userImage} className="w-40 h-40 rounded-full" />} {/* Show user image only for article with id 2 */}
+                  <p className='italic'>Mary Onguko, Daystar University PhD candidate.</p>
               </div>
               <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
                 <div dangerouslySetInnerHTML={{ __html: selectedArticle.content }} />
