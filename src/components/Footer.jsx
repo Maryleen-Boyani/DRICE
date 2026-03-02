@@ -36,6 +36,11 @@ const Footer = ({onNavClick}) => {
           href: "https://dcamd.daystar.ac.ke/",
           type: "external"
         },
+        { 
+          name: "Grants Intelligence Hub", 
+          href: "https://grants-intelligence-hub.vercel.app/",
+          type: "external"
+        },
         // { 
         //   name: "SDG Dashboard", 
         //   href: "https://daystar-sdg-impact-and-evidence-gen.vercel.app/login",
@@ -50,7 +55,7 @@ const Footer = ({onNavClick}) => {
           name: "News", 
           href: "https://www.linkedin.com/posts/entreprenurialeducationsummit-innovation-ugcPost-7423967510284091392-ZaJQ?utm_source=share&utm_medium=member_android&rcm=ACoAAAQ7oQ8BthoguLSQ5lXfrygkZKjoiBL_xnw",
           type: "external"
-        }
+        },
       ]
     }
   ];

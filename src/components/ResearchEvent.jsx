@@ -49,7 +49,7 @@ const ResearchEvent=() =>{
             <div className="flex justify-between items-center mb-8 border-b border-gray-700 pb-4">
               <h3 className="text-xl font-serif italic">Week Schedule</h3>
               <span className="text-orange-400 text-sm font-semibold uppercase tracking-wider">
-                May 7th– 9th, 2026
+                May 6th– 8th, 2026
               </span>
             </div>
 
