@@ -13,7 +13,7 @@ const Navbar = ({ currentPage, onNavClick }) => {
     { label: 'Leadership', target: 'leadership' },
     { label: 'Publications', target: 'publications' },
     { label: 'BRAINS 2026', isExternal: true, href:'https://daystar.odoo.com/event/du-brains-ai-conference-2026-16/page/introduction-brains-conference-2026-1'},
-    { label: 'Collaboration', isExternal: true, href:'https://daystar.nexoracreatives.co.ke/' },
+    { label: 'Grants Hub', isExternal: true, href:'https://grants-intelligence-hub.vercel.app/' },
     { label: 'Innovation', isExternal: true, href:'https://drice-start-ups.web.app/' },
   ];
 

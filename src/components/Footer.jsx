@@ -36,11 +36,16 @@ const Footer = ({onNavClick}) => {
           href: "https://dcamd.daystar.ac.ke/",
           type: "external"
         },
-        { 
-          name: "Grants Intelligence Hub", 
-          href: "https://grants-intelligence-hub.vercel.app/",
+         { 
+          name: "Research Collaboration", 
+          href: "https://daystar.nexoracreatives.co.ke/",
           type: "external"
         },
+        // { 
+        //   name: "Grants Intelligence Hub", 
+        //   href: "https://grants-intelligence-hub.vercel.app/",
+        //   type: "external"
+        // },
         // { 
         //   name: "SDG Dashboard", 
         //   href: "https://daystar-sdg-impact-and-evidence-gen.vercel.app/login",

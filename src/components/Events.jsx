@@ -14,16 +14,16 @@ const Events = () => {
     {
       name: "DCAMD LAUNCH",
       status: "Past",
-      date:"Jan 28, 2026",
+      date:"Jan 28th, 2026",
       image: "./dcamd.jpeg",
       href:""
     },
     {
-      name: "AI Research Clinic",
+      name: "AI Research Clinic- Faculty Cohort",
       status: "Upcoming",
-      date: " \n Cohort 1: February 28, 2026\nCohort 2: March 28, 2026\nCohort 3: April 25, 2026 ",
+      date: "April 17th, 2026",
       image: "./seminar.jpg",
-      href:"https://forms.office.com/r/VxB20VjGg6"
+      href:"https://forms.office.com/r/mH67vZyLXX"
     },
     {
       name: "Postgraduate Research Sprint Poster Session",
