@@ -74,6 +74,33 @@ const Blogs = () => {
       authorImg: "./drice.jpeg",
       userImage:"./userimage.jpg"
     },
+     {
+      id: 3,
+      title: "Bridging the Gap: Daystar Students Gain Real-World Insights at SHIELD International",
+      description: "Daystar University social entrepreneurship students gained practical industry insights and mentorship during a collaborative field visit to SHIELD International on February 26th.",
+      content: `
+      <p>On February 26th, Daystar University reaffirmed its commitment to fostering innovation by facilitating a specialized field visit for our social entrepreneurship students to SHIELD International.</p>
+      
+      <p>The experience was centered on deep, experiential learning. By engaging directly with the SHIELD ground team, our students moved beyond the classroom to gain unfiltered insights into the operational realities and complexities of running a high-impact social enterprise.</p>
+      
+      <p>At Daystar, we believe these "golden" moments of industry mentorship are essential to our mission: shaping graduates who don't just possess degrees, but possess scalable solutions for the community.</p>
+
+      <h4 className="font-bold mt-4">Key pillars of this engagement:</h4>
+      <ul className="list-decimal ml-5 space-y-2">
+        <li><strong>Reality-Based Learning:</strong> Understanding the bridge between social theory and field-level execution.</li>
+        <li><strong>Mentorship in Action:</strong> Gaining firsthand perspectives from practitioners on sustainable business models.</li>
+        <li><strong>Ecosystem Building:</strong> Strengthening the vital link between academic excellence and practical innovation.</li>
+        <li><strong>Strategic Partnerships:</strong> Collaborating with industry leaders like SHIELD to provide market-ready exposure.</li>
+      </ul>
+      <br/>
+      <p className="mt-6 italic font-medium">“We are building an ecosystem where academic excellence meets practical innovation, ensuring our students are prepared to lead with impact.”</p>
+    `,
+      author: "DRICE",
+      date: "Mar 3, 2026",
+      image: "./blog2.jpg",
+      authorImg: "./drice.jpeg",
+      userImage:""
+    },
   ]);
 
   return (
@@ -146,8 +173,13 @@ const Blogs = () => {
                 </div> 
               </div>
               <div className='mb-4 flex flex-row items-center gap-4' >
-                  {selectedArticle.id === 2 && <img src={selectedArticle.userImage} className="w-40 h-40 rounded-full" />} {/* Show user image only for article with id 2 */}
-                  <p className='italic'>Mary Onguko, Daystar University PhD candidate.</p>
+                  {selectedArticle.id === 2 && 
+                  <div>
+                    <img src={selectedArticle.userImage} className="w-40 h-40 rounded-full" />
+                    <p className='italic'>Mary Onguko, Daystar University PhD candidate.</p>
+                  </div>
+                  } 
+                  
               </div>
               <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
                 <div dangerouslySetInnerHTML={{ __html: selectedArticle.content }} />
