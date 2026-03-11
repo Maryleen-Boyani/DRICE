@@ -56,13 +56,13 @@ const Hero = ({scrollToEvents}) => {
         className="relative z-20 text-center px-6 max-w-4xl"
       >
         <span className="bg-daystar-dark text-white px-4 py-2 text-sm rounded-full text-sm font-bold uppercase tracking-widest"> 
-          Directorate of Research, Innovation & Commertialization Enterprise
+          Directorate of Research, Innovation & Commercialization Enterprise
         </span>
         <h2 className="text-4xl md:text-6xl font-extrabold mt-6 mb-4">
           Empowering the Next Generation of <span className="text-daystar-blue">African Creators</span>
         </h2>
         <p className="text-lg md:text-xl text-gray-200">
-          Research <span className='text-daystar-blue font-bold'>→</span> Innovation <span className='text-daystar-blue'>→</span> Commertialization <span className='text-daystar-blue'>→</span> Impact
+          Research <span className='text-daystar-blue font-bold'>→</span> Innovation <span className='text-daystar-blue'>→</span> Commercialization <span className='text-daystar-blue'>→</span> Impact
           <br /><br />
         </p>
         <motion.div className="mt-4 text-daystar-blue bg-hover:cursor-pointer text-center underline flex justify-center flex-col underline-offset-4" animate={isInView ? {
