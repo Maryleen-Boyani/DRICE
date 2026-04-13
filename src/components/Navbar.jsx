@@ -6,7 +6,7 @@ const Navbar = ({ currentPage, onNavClick }) => {
 
   const navLinks = [
     { label: 'Home', target: 'home', type: 'scroll' },
-    { label: 'Projects', target: 'project' },
+    { label: 'Grants', target: 'grants' },
     { label: 'DRICE News', target: 'blogs' },
     { label: 'Leadership', target: 'leadership' },
     { label: 'Publications', target: 'publications' },

@@ -5,7 +5,7 @@ import Hero from './components/Hero';
 import Leadership from './components/Leadership';
 import HowItWorks from './components/HowItWorks';
 import ContactForm from './components/ContactForm';
-import Project from './components/Project';
+import Grants from './components/grants';
 import Events from './components/Events';
 import About from './components/About';
 import Blogs from './components/Blogs';
@@ -14,6 +14,8 @@ import ResearchEvent from './components/ResearchEvent';
 import Footer from './components/Footer';
 import Partners from './components/Partners';
 import Publications from './components/Publications';
+
+
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
@@ -32,7 +34,7 @@ const App = () => {
   const handleNavClick = (target) => {
     setCurrentPage(target);
 
-    const standalonePages=['leadership', 'project', 'publications'];
+    const standalonePages=['leadership', 'grants', 'publications'];
 
     if(standalonePages.includes(target)){
       window.scrollTo({top:0, behavior:'instant'})
@@ -65,8 +67,8 @@ const App = () => {
     switch (currentPage){
       case 'leadership':
         return <Leadership/>;
-      case 'project':
-        return <Project/>;
+      case 'grants':
+        return <Grants/>;
       case 'blogs':
         return <Blogs/>
       case 'publications':
