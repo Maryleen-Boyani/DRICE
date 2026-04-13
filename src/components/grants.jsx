@@ -248,8 +248,8 @@ const Grants = () => {
   const [grants, setGrants] = useState([
     {
       id: 1,
-      type: "INNOVATION & COMMERCIALIZATION GRANT",
-      title: "Research, Innovation & Commercialization Grant",
+      // type: "INNOVATION & COMMERCIALIZATION GRANT",
+      title: "Innovation & Commercialization Grant",
       description: "Supporting high-potential innovations from proof-of-concept to market-ready products. Open to faculty, staff, students, and university-linked enterprises.",
       category: "Commercialization",
       tags: ["Commercialization", "Product Dev"],
@@ -262,8 +262,8 @@ const Grants = () => {
     },
     {
       id: 2,
-      type: "INNOVATION & COMMERCIALIZATION GRANT",
-      title: "Daystar University Internal Research Grant",
+      // type: "INNOVATION & COMMERCIALIZATION GRANT",
+      title: "Internal Research Grant",
       description: "Strengthening Daystar's research culture by funding interdisciplinary, impact-oriented research aligned to the University's mission and national development priorities.",
       category: "Staff Research",
       tags: ["Interdisciplinary", "Staff Research"],
@@ -294,7 +294,7 @@ const Grants = () => {
                 <div className="bg-white/20 w-10 h-10 rounded-lg flex items-center justify-center mb-4">
                   {grant.id === 1 ? <PlusCircle size={20} /> : <User size={20} />}
                 </div>
-                <p className="text-[10px] uppercase tracking-widest font-bold opacity-80">{grant.type}</p>
+                {/* <p className="text-[10px] uppercase tracking-widest font-bold opacity-80">{grant.type}</p> */}
                 <h3 className="text-xl font-bold leading-tight mt-1">{grant.title}</h3>
               </div>
               
