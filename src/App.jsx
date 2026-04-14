@@ -97,16 +97,15 @@ const App = () => {
         <Navbar onNavClick={handleNavClick} currentPage={currentPage} />
 
         <main className="flex-grow">
-          {renderContent()}
+          <Routes>
+            <Route path="/" element={renderContent()} />
+            <Route path="/contact" element={<ContactForm />} />
+          </Routes>
         </main>
 
         <Footer onNavClick={handleNavClick} />
 
       </div>
-
-      <Routes>
-        <Route path="/contact" element={<ContactForm />} />
-      </Routes>
     </Router>
   );
 };

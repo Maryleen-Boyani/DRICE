@@ -32,8 +32,7 @@ const TeamSection = ({ data, onChange, isInnovation = false }) => {
             <div className="flex items-center justify-between">
                 <div>
                     <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                        <Users size={20} className={isInnovation ? "text-orange-500" : "text-indigo-600"} />
-                        {isInnovation ? 'Section 2: Innovation Team' : 'Section 3: Co-Investigators'}
+                        {isInnovation ? 'Section 2: Innovation Team' : 'Section 3: Project Team (Co-Investigators)'}
                     </h3>
                     <p className="text-xs text-slate-500 mt-1">
                         {isInnovation
@@ -44,10 +43,10 @@ const TeamSection = ({ data, onChange, isInnovation = false }) => {
                 <button
                     type="button"
                     onClick={addMember}
-                    className={`flex items-center gap-1 text-sm font-bold px-3 py-2 rounded-lg transition-colors ${isInnovation ? "text-orange-600 hover:bg-orange-50" : "text-indigo-600 hover:bg-indigo-50"
+                    className={`flex items-center gap-1 text-sm font-bold px-3 py-2 rounded-lg transition-colors ${isInnovation ? "text-daystar-blue hover:bg-blue-50" : "text-daystar-blue hover:bg-blue-50"
                         }`}
                 >
-                    <Plus size={16} /> Add Member
+                    Add Member
                 </button>
             </div>
 
@@ -73,7 +72,7 @@ const TeamSection = ({ data, onChange, isInnovation = false }) => {
                                         type="text"
                                         value={member.name}
                                         onChange={(e) => handleMemberChange(idx, 'name', e.target.value)}
-                                        className="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+                                        className="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-daystar-blue outline-none"
                                         placeholder="e.g. Dr. Jane Doe"
                                         required
                                     />
@@ -90,7 +89,7 @@ const TeamSection = ({ data, onChange, isInnovation = false }) => {
                                         type="text"
                                         value={isInnovation ? member.id : member.institution}
                                         onChange={(e) => handleMemberChange(idx, isInnovation ? 'id' : 'institution', e.target.value)}
-                                        className="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+                                        className="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-daystar-blue outline-none"
                                         placeholder={isInnovation ? "DU-XXXX" : "Daystar University"}
                                         required
                                     />

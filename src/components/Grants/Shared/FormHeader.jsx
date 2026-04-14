@@ -13,12 +13,9 @@ const FormHeader = ({ title, subtitle, deadline, maxAward, citeId }) => {
     const isVC = citeId === 135;
 
     return (
-        <div className={`relative overflow-hidden p-8 text-white ${isVC ? 'bg-gradient-to-br from-orange-600 to-amber-700' : 'bg-gradient-to-br from-indigo-700 to-slate-900'
+        <div className={`relative overflow-hidden p-8 text-white ${isVC ? 'bg-daystar-blue' : 'bg-daystar-dark'
             }`}>
             {/* Decorative Background Icon */}
-            <div className="absolute right-[-20px] top-[-20px] opacity-10 rotate-12">
-                {isVC ? <Lightbulb size={200} /> : <BookOpen size={200} />}
-            </div>
 
             <div className="relative z-10">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -43,8 +40,7 @@ const FormHeader = ({ title, subtitle, deadline, maxAward, citeId }) => {
 
                     <div className="grid grid-cols-1 gap-3 shrink-0">
                         <div className="flex items-center gap-3 bg-black/20 backdrop-blur-md p-3 rounded-2xl border border-white/10">
-                            <div className={`p-2 rounded-lg ${isVC ? 'bg-orange-500' : 'bg-indigo-500'}`}>
-                                <Calendar size={18} />
+                            <div className={`p-2 rounded-lg ${isVC ? 'bg-blue-500' : 'bg-daystar-blue'}`}>
                             </div>
                             <div>
                                 <p className="text-[10px] uppercase font-bold text-white/60 leading-none mb-1">Deadline</p>
@@ -54,8 +50,7 @@ const FormHeader = ({ title, subtitle, deadline, maxAward, citeId }) => {
 
                         {maxAward && (
                             <div className="flex items-center gap-3 bg-black/20 backdrop-blur-md p-3 rounded-2xl border border-white/10">
-                                <div className={`p-2 rounded-lg ${isVC ? 'bg-orange-500' : 'bg-indigo-500'}`}>
-                                    <Award size={18} />
+                                <div className={`p-2 rounded-lg ${isVC ? 'bg-blue-500' : 'bg-daystar-blue'}`}>
                                 </div>
                                 <div>
                                     <p className="text-[10px] uppercase font-bold text-white/60 leading-none mb-1">Grant Value</p>
@@ -66,8 +61,7 @@ const FormHeader = ({ title, subtitle, deadline, maxAward, citeId }) => {
 
                         {isVC && (
                             <div className="flex items-center gap-3 bg-black/20 backdrop-blur-md p-3 rounded-2xl border border-white/10">
-                                <div className="p-2 rounded-lg bg-orange-500">
-                                    <Clock size={18} />
+                                <div className="p-2 rounded-lg bg-blue-500">
                                 </div>
                                 <div>
                                     <p className="text-[10px] uppercase font-bold text-white/60 leading-none mb-1">Submission Time</p>

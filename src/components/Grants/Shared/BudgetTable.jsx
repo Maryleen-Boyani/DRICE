@@ -41,7 +41,6 @@ const BudgetTable = ({ budget, onBudgetChange, max = 800000, isInnovation = fals
             <div className="flex items-center justify-between">
                 <div>
                     <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                        <Calculator size={20} className="text-indigo-600" />
                         {isInnovation ? 'Section 6: Requested Funding' : 'Section 7: Itemized Budget'}
                     </h3>
                     <p className="text-xs text-slate-500 mt-1">
@@ -51,9 +50,9 @@ const BudgetTable = ({ budget, onBudgetChange, max = 800000, isInnovation = fals
                 <button
                     type="button"
                     onClick={addRow}
-                    className="flex items-center gap-1 text-sm font-bold text-indigo-600 hover:bg-indigo-50 px-3 py-2 rounded-lg transition-colors"
+                    className="flex items-center gap-1 text-sm font-bold text-daystar-blue hover:bg-blue-50 px-3 py-2 rounded-lg transition-colors"
                 >
-                    <Plus size={16} /> Add Item
+                    Add Item
                 </button>
             </div>
 
@@ -85,7 +84,7 @@ const BudgetTable = ({ budget, onBudgetChange, max = 800000, isInnovation = fals
                                     <select
                                         value={row.category}
                                         onChange={(e) => handleRowChange(idx, 'category', e.target.value)}
-                                        className="w-full p-2 text-sm bg-transparent border border-slate-200 rounded-md focus:ring-2 focus:ring-indigo-500"
+                                        className="w-full p-2 text-sm bg-transparent border border-slate-200 rounded-md focus:ring-2 focus:ring-daystar-blue"
                                         required
                                     >
                                         <option value="">Select Category</option>

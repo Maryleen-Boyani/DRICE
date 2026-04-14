@@ -1,32 +1,36 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Lightbulb, ClipboardCheck, Sparkles, Target, Zap } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { ArrowRight, Zap, Target, Sparkles, ArrowLeft, Lightbulb, ClipboardCheck } from 'lucide-react';
 import VCInnovationForm from './VCInnovationForm';
 import InternalGrantForm from './InternalGrantForm';
 
 const Grants = () => {
     const [view, setView] = useState('landing');
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: false, margin: "-100px" });
 
     const grantTypes = [
         {
             id: 'vc-innovation',
-            title: "VC'S RESEARCH, INNOVATION & COMMERCIALIZATION GRANT",
-            subtitle: "2025/2026 Concept Note",
-            description: "Targeting high-impact innovations with commercial potential. Up to 10 successful applicants supported.",
-            icon: <Zap className="text-orange-500" size={32} />,
-            color: "orange",
+            title: "Innovation & Commercialization Grant",
+            subtitle: "VC'S RESEARCH & INNOVATION",
+            description: "Supporting high-potential innovations from proof-of-concept to market-ready products. Open to faculty, staff, students, and university-linked enterprises.",
+            colorClass: "bg-daystar-blue",
+            footerTag: "Up to 10 awardees",
             deadline: "10 May 2026",
-            features: ["Commercial Potential", "Joint IP Registration", "Interdisciplinary Teams"]
+            cycle: "2025/2026",
+            eligibility: "Staff & Students"
         },
         {
             id: 'internal-research',
-            title: "2025/2026 INTERNAL RESEARCH GRANT",
-            subtitle: "Full Application Form",
-            description: "Supporting primary research across all academic disciplines within Daystar University.",
-            icon: <Target className="text-emerald-500" size={32} />,
-            color: "emerald",
+            title: "Internal Research Grant",
+            subtitle: "STAFF RESEARCH FUND",
+            description: "Strengthening Daystar's research culture by funding interdisciplinary, impact-oriented research aligned to the University's mission and national priorities.",
+            colorClass: "bg-daystar-dark",
+            footerTag: "KSh 800,000 max",
             deadline: "10 May 2026",
-            features: ["Academic Rigor", "Publication Focused", "Faculty Support"]
+            cycle: "2025/2026",
+            eligibility: "Full-Time Staff"
         }
     ];
 
@@ -39,92 +43,68 @@ const Grants = () => {
             case 'landing':
             default:
                 return (
-                    <div className="max-w-7xl mx-auto px-4 py-12">
-                        <div className="text-center mb-16">
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-600 font-bold text-sm mb-4"
-                            >
-                                <Sparkles size={16} /> DRICE GRANTS PORTAL
-                            </motion.div>
-                            <motion.h1 
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.1 }}
-                                className="text-4xl md:text-5xl font-black text-slate-900 mb-6"
-                            >
-                                Empowering Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Research Journey</span>
-                            </motion.h1>
-                            <motion.p 
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2 }}
-                                className="text-slate-600 text-lg max-w-2xl mx-auto"
-                            >
-                                Select a grant category below to begin your application. Our portal guides you through every step of the process.
-                            </motion.p>
-                        </div>
+                    <div ref={ref} className="max-w-7xl mx-auto px-6 py-12">
+                        {/* High-Attention Header */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={isInView ? { opacity: 1, y: 0 } : {}}
+                            className="text-center mb-16 space-y-4"
+                        >
+                            <h1 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tight">
+                                Available Grants
+                            </h1>
+                            <p className="text-slate-500 text-lg max-w-2xl mx-auto leading-relaxed">
+                                Transform your ideas into impact. Explore our 2025/2026 funding opportunities
+                                designed for the Daystar University research and innovation community.
+                            </p>
+                        </motion.div>
 
-                        <div className="grid md:grid-cols-2 gap-8 mb-20">
+                        {/* Equidistant 50/50 Grid */}
+                        <div className="grid md:grid-cols-2 gap-10 lg:gap-12">
                             {grantTypes.map((grant, idx) => (
                                 <motion.div
                                     key={grant.id}
-                                    initial={{ opacity: 0, x: idx === 0 ? -20 : 20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.3 + (idx * 0.1) }}
-                                    whileHover={{ y: -5 }}
-                                    onClick={() => setView(grant.id)}
-                                    className={`relative group cursor-pointer overflow-hidden rounded-3xl border-2 transition-all duration-300 ${
-                                        grant.color === 'orange' 
-                                        ? 'border-orange-100 hover:border-orange-500 bg-orange-50/30' 
-                                        : 'border-emerald-100 hover:border-emerald-500 bg-emerald-50/30'
-                                    }`}
+                                    initial={{ opacity: 0, x: idx === 0 ? -30 : 30 }}
+                                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                                    transition={{ duration: 0.8, delay: idx * 0.2 }}
+                                    className="bg-white rounded-[2rem] overflow-hidden shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-slate-100 flex flex-col group"
                                 >
-                                    <div className="p-8 md:p-10 flex flex-col h-full">
-                                        <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 transition-transform group-hover:scale-110 duration-300 ${
-                                            grant.color === 'orange' ? 'bg-orange-100' : 'bg-emerald-100'
-                                        }`}>
-                                            {grant.icon}
-                                        </div>
+                                    {/* Header Section */}
+                                    <div className={`${grant.colorClass} p-10 text-white relative overflow-hidden`}>
+                                        <div className="absolute top-[-20px] right-[-20px] bg-white/10 w-40 h-40 rounded-full blur-3xl group-hover:bg-white/20 transition-colors" />
 
-                                        <h2 className="text-2xl font-bold text-slate-900 mb-2">{grant.title}</h2>
-                                        <p className={`font-bold text-sm mb-6 ${
-                                            grant.color === 'orange' ? 'text-orange-600' : 'text-emerald-600'
-                                        }`}>{grant.subtitle}</p>
-                                        
-                                        <p className="text-slate-600 mb-8 flex-grow leading-relaxed">
+                                        <p className="text-xs uppercase tracking-[0.2em] font-bold opacity-70 mb-2">{grant.subtitle}</p>
+                                        <h3 className="text-2xl lg:text-3xl font-bold tracking-tight">{grant.title}</h3>
+                                    </div>
+
+                                    {/* Content Section */}
+                                    <div className="p-10 flex flex-col flex-grow">
+                                        <p className="text-slate-600 text-lg mb-8 flex-grow leading-relaxed">
                                             {grant.description}
                                         </p>
 
-                                        <div className="space-y-3 mb-10">
-                                            {grant.features.map(feature => (
-                                                <div key={feature} className="flex items-center gap-2 text-sm font-medium text-slate-700">
-                                                    <div className={`w-1.5 h-1.5 rounded-full ${grant.color === 'orange' ? 'bg-orange-500' : 'bg-emerald-500'}`} />
-                                                    {feature}
-                                                </div>
-                                            ))}
+                                        <div className="pt-8 border-t border-slate-100 grid grid-cols-2 gap-6 mb-10">
+                                            <div>
+                                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Deadline</p>
+                                                <p className="text-base font-bold text-slate-900">{grant.deadline}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Value</p>
+                                                <p className="text-base font-bold text-slate-900">{grant.footerTag}</p>
+                                            </div>
+                                            <div className="col-span-2">
+                                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Eligibility</p>
+                                                <p className="text-base font-bold text-slate-900">{grant.eligibility}</p>
+                                            </div>
                                         </div>
 
-                                        <div className="flex items-center justify-between pt-6 border-t border-slate-200/50">
-                                            <div className="text-sm">
-                                                <span className="text-slate-400 block font-medium">Deadline</span>
-                                                <span className="font-bold text-slate-900">{grant.deadline}</span>
-                                            </div>
-                                            <button className={`px-6 py-3 rounded-xl font-bold shadow-lg transition-all ${
-                                                grant.color === 'orange' 
-                                                ? 'bg-orange-600 text-white shadow-orange-200 hover:bg-orange-700' 
-                                                : 'bg-emerald-600 text-white shadow-emerald-200 hover:bg-emerald-700'
-                                            }`}>
-                                                Start Application
-                                            </button>
-                                        </div>
+                                        <button
+                                            onClick={() => setView(grant.id)}
+                                            className="w-full py-5 bg-daystar-blue text-white rounded-2xl hover:bg-daystar-dark transition-all duration-300 font-bold flex items-center justify-center gap-3 group shadow-lg shadow-blue-100"
+                                        >
+                                            Apply Now <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
+                                        </button>
                                     </div>
-                                    
-                                    {/* Decorative background glow */}
-                                    <div className={`absolute -right-20 -bottom-20 w-64 h-64 rounded-full blur-[100px] opacity-20 transition-opacity group-hover:opacity-40 ${
-                                        grant.color === 'orange' ? 'bg-orange-400' : 'bg-emerald-400'
-                                    }`} />
                                 </motion.div>
                             ))}
                         </div>
@@ -134,14 +114,14 @@ const Grants = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 pt-10">
+        <div className="min-h-screen bg-white font-sans">
             <AnimatePresence mode="wait">
                 <motion.div
                     key={view}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
                 >
                     {renderView()}
                 </motion.div>
