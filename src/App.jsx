@@ -5,7 +5,8 @@ import Hero from './components/Hero';
 import Leadership from './components/Leadership';
 import HowItWorks from './components/HowItWorks';
 import ContactForm from './components/ContactForm';
-import Grants from './components/grants';
+// import Project from './components/Project';
+import Grants from './components/Grants/Grants';
 import Events from './components/Events';
 import About from './components/About';
 import Blogs from './components/Blogs';
@@ -23,26 +24,26 @@ const App = () => {
   const aboutRef = useRef(null);
   const worksRef = useRef(null);
   const researchRef = useRef(null);
-  const ref=useRef(null);
-  const homeRef=useRef(null);
+  const ref = useRef(null);
+  const homeRef = useRef(null);
   const eventsRef = useRef(null);
 
-  const scrollToEvents=(e)=>{
+  const scrollToEvents = (e) => {
     e.preventDefault();
-    eventsRef.current?.scrollIntoView({behavior:'smooth'});
+    eventsRef.current?.scrollIntoView({ behavior: 'smooth' });
   }
   const handleNavClick = (target) => {
     setCurrentPage(target);
 
-    const standalonePages=['leadership', 'grants', 'publications'];
+    const standalonePages = ['leadership', 'grants', 'publications'];
 
-    if(standalonePages.includes(target)){
-      window.scrollTo({top:0, behavior:'instant'})
+    if (standalonePages.includes(target)) {
+      window.scrollTo({ top: 0, behavior: 'instant' })
     }
-      else{
-        setTimeout(() => {
+    else {
+      setTimeout(() => {
         const refs = {
-          home:homeRef,
+          home: homeRef,
           about: aboutRef,
           contact: contactRef,
           researchweek: researchRef,
@@ -58,33 +59,33 @@ const App = () => {
       }, 100);
     }
   };
-   const scrollToContact = () => {
+  const scrollToContact = () => {
     contactRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   // const mailtoLink=`mailto:drice@daystar.ac.ke?subject=Inquiry: DRICE Research Pipeline&body=${encodeURIComponent(userMessage)}`;
-  const renderContent= ()=>{
-    switch (currentPage){
+  const renderContent = () => {
+    switch (currentPage) {
       case 'leadership':
-        return <Leadership/>;
+        return <Leadership />;
       case 'grants':
-        return <Grants/>;
+        return <Grants />;
       case 'blogs':
-        return <Blogs/>
+        return <Blogs />
       case 'publications':
-        return <Publications/>
+        return <Publications />
       case 'home':
-        default :
+      default:
         return (
           <>
-            <Hero scrollToEvents={scrollToEvents}/>
+            <Hero scrollToEvents={scrollToEvents} />
             <div ref={aboutRef}><About /></div>
-            <div ref={worksRef}><HowItWorks/></div>
+            <div ref={worksRef}><HowItWorks /></div>
             {/* <div ref={reportsRef}><Reports/></div> */}
-            <div ref={researchRef}><ResearchEvent/></div>
-            <div ref={eventsRef}><Events/></div>
-            <div><Partners/></div>
-            <div ref={contactRef}><ContactForm/></div>
+            <div ref={researchRef}><ResearchEvent /></div>
+            <div ref={eventsRef}><Events /></div>
+            <div><Partners /></div>
+            <div ref={contactRef}><ContactForm /></div>
           </>
         )
     }
@@ -98,11 +99,11 @@ const App = () => {
         <main className="flex-grow">
           {renderContent()}
         </main>
-        
-        <Footer onNavClick={handleNavClick}/>
-        
+
+        <Footer onNavClick={handleNavClick} />
+
       </div>
-      
+
       <Routes>
         <Route path="/contact" element={<ContactForm />} />
       </Routes>
