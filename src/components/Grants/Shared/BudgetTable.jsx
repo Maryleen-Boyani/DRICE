@@ -41,12 +41,13 @@ const BudgetTable = ({ budget, onBudgetChange, max = 800000, isInnovation = fals
             <div className="flex items-center justify-between">
                 <div>
                     <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                        {isInnovation ? 'Section 6: Requested Funding' : 'Section 7: Itemized Budget'}
+                        {isInnovation ? '6: Requested Funding' : '7: Detailed Budget'}
                     </h3>
                     <p className="text-xs text-slate-500 mt-1">
                         Provide a clear breakdown of all costs. {max && `Maximum: KSh ${max.toLocaleString()}`}
                     </p>
                 </div>
+                
                 <button
                     type="button"
                     onClick={addRow}

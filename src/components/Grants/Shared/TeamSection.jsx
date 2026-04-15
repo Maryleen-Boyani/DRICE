@@ -32,8 +32,10 @@ const TeamSection = ({ data, onChange, isInnovation = false }) => {
             <div className="flex items-center justify-between">
                 <div>
                     <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                        {isInnovation ? 'Section 2: Innovation Team' : 'Section 3: Project Team (Co-Investigators)'}
+                        {isInnovation ? '2: Innovation Team' : '3: Research Team Composition '}
                     </h3>
+                    <br />
+                    <h5>Project Team (Co-Investigators)</h5>
                     <p className="text-xs text-slate-500 mt-1">
                         {isInnovation
                             ? "List all team members. Multi-disciplinary teams are highly encouraged."

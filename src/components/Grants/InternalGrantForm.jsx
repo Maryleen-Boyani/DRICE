@@ -13,7 +13,7 @@ const InternalGrantForm = ({ onBack }) => {
         // Section 1: Eligibility
         isFullTime: '', academicRank: '', otherRank: '', hasActiveGrant: '',
         // Section 2: PI Details
-        firstName: '', lastName: '', staffId: '', email: '', phone: '', orcid: '', school: '', department: '', researchArea: '',
+        firstName: '', lastName: '', staffId: '', email: '', phone: '', orcid: '', school: '', department: '', researchArea: '', previousGrants: '',
         // Section 3: Co-Investigators
         team: [{ name: '', institution: '', role: '', email: '' }],
         // Section 4: Project Overview
@@ -86,8 +86,9 @@ const InternalGrantForm = ({ onBack }) => {
                         ))}
                     </div>
                 </div>
-
+{/* collecting form responses starts here */}
                 <form className="p-8">
+                    {/* eligibility  */}
                     {step === 1 && (
                         <div className="space-y-6 animate-in fade-in">
                             <h3 className="text-xl font-bold flex items-center gap-2">1. Eligibility Confirmation</h3>
@@ -106,7 +107,23 @@ const InternalGrantForm = ({ onBack }) => {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-semibold mb-2">1.3 Active internal grant? *</label>
+                                    <label className="block text-sm font-semibold mb-2">1.2 Current academic rank? *</label>
+                                    <select 
+                                        value={formData.academicRank}
+                                        onChange={(e) => updateField('academicRank', e.target.value)}
+                                        className="w-full p-2 rounded border" 
+                                        required
+                                    >
+                                        <option value="">Select...</option>
+                                        <option value="lect">Lecturer</option>
+                                        <option value="senior_lecturer">Senior Lecturer</option>
+                                        <option value="associate_professor">Associate Professor</option>
+                                        <option value="professor">Professor</option>
+                                        <option value="other">Other </option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-semibold mb-2">1.2 Active internal grant? *</label>
                                     <select 
                                         value={formData.hasActiveGrant}
                                         onChange={(e) => updateField('hasActiveGrant', e.target.value)}
@@ -126,74 +143,445 @@ const InternalGrantForm = ({ onBack }) => {
                         <div className="space-y-6 animate-in fade-in">
                             <h3 className="text-xl font-bold flex items-center gap-2">2. Principal Investigator Details</h3>
                             <div className="grid md:grid-cols-2 gap-4">
-                                <input 
-                                    type="text" 
-                                    value={formData.firstName}
-                                    onChange={(e) => updateField('firstName', e.target.value)}
-                                    placeholder="First Name *" 
-                                    className="p-3 border rounded-lg" 
-                                    required 
-                                />
-                                <input 
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="firstName">First Name</label>
+                                    <input 
+                                        type="text" 
+                                        value={formData.firstName}
+                                        onChange={(e) => updateField('firstName', e.target.value)}
+                                        placeholder="First Name *" 
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                    />
+                                </div>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="lastName">Last Name</label>
+                                    <input 
                                     type="text" 
                                     value={formData.lastName}
                                     onChange={(e) => updateField('lastName', e.target.value)}
                                     placeholder="Last Name *" 
                                     className="p-3 border rounded-lg" 
                                     required 
-                                />
-                                <input 
+                                    />
+                                </div>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="staffId" required >Staff ID</label>
+                                    <input 
                                     type="text" 
                                     value={formData.staffId}
                                     onChange={(e) => updateField('staffId', e.target.value)}
                                     placeholder="Staff ID (DU-XXXX) *" 
                                     className="p-3 border rounded-lg" 
-                                    required 
-                                />
-                                <input 
+                                    
+                                    />
+                                    
+                                </div>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="email" required >Institutional Email</label>
+                                    <input 
                                     type="email" 
                                     value={formData.email}
                                     onChange={(e) => updateField('email', e.target.value)}
-                                    placeholder="Institutional Email *" 
+                                    placeholder="name@daystar.ac.ke" 
                                     className="p-3 border rounded-lg" 
                                     required 
-                                />
-                                <input 
+                                    />
+                                </div>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="phone" required >Phone Number</label>
+                                    <input 
                                     type="text" 
                                     value={formData.phone}
                                     onChange={(e) => updateField('phone', e.target.value)}
-                                    placeholder="Phone (+254...) *" 
+                                    placeholder="Phone (+254...) " 
                                     className="p-3 border rounded-lg" 
                                     required 
-                                />
-                                <input 
+                                    />
+                                </div>
+                                
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="orcid" required >ORCID / ResearchGate ID (if applicable)</label>
+                                    <input 
+                                    type="text" 
+                                    value={formData.orcid}
+                                    onChange={(e) => updateField('orcid', e.target.value)}
+                                    placeholder="" 
+                                    className="p-3 border rounded-lg" 
+                                    required 
+                                    />
+                                </div>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="school" required >School/ Faculty</label>
+                                    <input 
                                     type="text" 
                                     value={formData.school}
                                     onChange={(e) => updateField('school', e.target.value)}
-                                    placeholder="School / Faculty *" 
+                                    placeholder="" 
                                     className="p-3 border rounded-lg" 
                                     required 
+                                    />
+                                </div>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="department" required >Department</label>
+                                    <input 
+                                    type="text" 
+                                    value={formData.department}
+                                    onChange={(e) => updateField('department', e.target.value)}
+                                    placeholder="Department *" 
+                                    className="p-3 border rounded-lg" 
+                                    required 
+                                    />
+                                </div>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="researchArea" required >Research area / area of specialization</label>
+                                    <textarea 
+                                        type="text" 
+                                        value={formData.researchArea}
+                                        onChange={(e) => updateField('researchArea', e.target.value)}
+                                        placeholder="" 
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                    />
+                                </div>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="previousGrants" required >Previous research grants (last 5 years)</label>
+                                    <textarea
+                                        type="text" 
+                                        value={formData.previousGrants}
+                                        onChange={(e) => updateField('previousGrants', e.target.value)}
+                                        placeholder="List any externally or internally funded projects: (Include Grant Name | Funder | Year | Amount | Status" 
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    )}
+{/* Matters team composition */}
+                    {step === 3 && (
+                        <div className="space-y-6 animate-in fade-in">
+                            {/* <h3 className="text-xl font-bold flex items-center gap-2">3. Research Team Composition</h3> */}
+                            <TeamSection data={formData.team} onTeamChange={(team) => updateField('team', team)} isInnovation={false} />
+                            <div className='flex flex-col gap-2'>
+                                <label htmlFor="staffId" required >Describe the role of each team member and the expertise they are bringing to the project</label>
+                                <textarea
+                                        type="text" 
+                                        value={formData.school}
+                                        onChange={(e) => updateField('school', e.target.value)}
+                                        placeholder="Explain how each member contributes to the project and what expertise they bring." 
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                                <label htmlFor="staffId" required >Mentorship plan for early-career researchers and/or postgraduate students</label>
+                                <textarea
+                                        type="text" 
+                                        value={formData.school}
+                                        onChange={(e) => updateField('school', e.target.value)}
+                                        placeholder=" Describe how junior team members will be mentored and developed through this project" 
+                                        className="p-3 border rounded-lg" 
+                                        required 
                                 />
                             </div>
                         </div>
                     )}
 
-                    {step === 3 && (
+                    {step === 4 && (
                         <div className="space-y-6 animate-in fade-in">
-                            <h3 className="text-xl font-bold flex items-center gap-2">3. Project Team</h3>
-                            <TeamSection data={formData.team} onTeamChange={(team) => updateField('team', team)} isInnovation={false} />
+                            <h3 className="text-xl font-bold flex items-center gap-2">4. Project Overview</h3>
+                            
+                            <div className='flex flex-col gap-2'>
+                                <label htmlFor="staffId" required >4.1 Project Title</label>
+                                <textarea
+                                        type="text" 
+                                        value={formData.school}
+                                        onChange={(e) => updateField('school', e.target.value)}
+                                        placeholder="Clear and descriptive" 
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                                <label htmlFor="staffId" required >4.2 Primary Thematic Area</label>
+                                <select 
+                                    value={formData.isFullTime}
+                                    onChange={(e) => updateField('isFullTime', e.target.value)}
+                                    className="w-full p-2 rounded border" 
+                                    required
+                                >
+                                    <option value="">Select...</option>
+                                    <option value="Yes">Education & Leadership</option>
+                                    <option value="No">Health & Wellbeing</option>
+                                    <option value="No">Theology & Ethics</option>
+                                    <option value="No">Media & Communication</option>
+                                    <option value="No">Business & Entrepreneurship</option>
+                                    <option value="No">Governance & Justice</option>
+                                    <option value="No">Climate & Environment</option>
+                                    <option value="No">Science & AI</option>
+                                    <option value="No">Cross-cutting/ Interdisciplinary</option>
+                                </select>
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                                <label htmlFor="staffId" required >4.3 Secondary Thematic Area (If Applicable) </label>
+                                <textarea
+                                        type="text" 
+                                        value={formData.school}
+                                        onChange={(e) => updateField('school', e.target.value)}
+                                        placeholder="" 
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                                <label htmlFor="staffId" required >4.4 Research Approach</label>
+                                <label htmlFor="" className='flex gap-2'>
+                                    <input 
+                                        type="radio" 
+                                        value={formData.piSignature}
+                                        onChange={(e) => updateField('piSignature', e.target.value)}
+                                        placeholder="PI Full Name (Signature) *" 
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                    />
+                                    <span>Qualitative</span>
+                                </label>
+                                <label htmlFor="" className='flex gap-2'>
+                                    <input 
+                                        type="radio" 
+                                        value={formData.piSignature}
+                                        onChange={(e) => updateField('piSignature', e.target.value)}
+                                        placeholder="PI Full Name (Signature) *" 
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                    />
+                                    <span>Quantitative</span>
+                                </label>
+                                <label htmlFor="" className='flex gap-2'>
+                                    <input 
+                                        type="radio" 
+                                        value={formData.piSignature}
+                                        onChange={(e) => updateField('piSignature', e.target.value)}
+                                        placeholder="PI Full Name (Signature) *" 
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                    />
+                                    <span>Mixed Methods</span>
+                                </label>
+                                <label htmlFor="" className='flex gap-2'>
+                                    <input 
+                                        type="radio" 
+                                        value={formData.piSignature}
+                                        onChange={(e) => updateField('piSignature', e.target.value)}
+                                        placeholder="PI Full Name (Signature) *" 
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                    />
+                                    <span>Action Research</span>
+                                </label>
+                                <label htmlFor="" className='flex gap-2'>
+                                    <input 
+                                        type="radio" 
+                                        value={formData.piSignature}
+                                        onChange={(e) => updateField('piSignature', e.target.value)}
+                                        placeholder="PI Full Name (Signature) *" 
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                    />
+                                    <span>Experimental/ Laboratory</span>
+                                </label>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="staffId" required >Other</label>
+                                    <input 
+                                        type="text" 
+                                        value={formData.school}
+                                        onChange={(e) => updateField('school', e.target.value)}
+                                        placeholder="Specify here" 
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label className="block text-sm font-semibold mb-2">4.5 Is this project interdisciplinary?</label>
+                                    <select 
+                                        value={formData.isFullTime}
+                                        onChange={(e) => updateField('isFullTime', e.target.value)}
+                                        className="w-full p-2 rounded border" 
+                                        required
+                                    >
+                                        <option value="">Select...</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div>
+                                    <label className="block text-sm font-semibold mb-2">4.6 Will this project involve human participants or sensitive data?</label>
+                                    <select 
+                                        value={formData.isFullTime}
+                                        onChange={(e) => updateField('isFullTime', e.target.value)}
+                                        className="w-full p-2 rounded border" 
+                                        required
+                                    >
+                                        <option value="">Select...</option>
+                                        <option value="Yes">Yes- ethics approval obtained</option>
+                                        <option value="">Yes- ethics approval pending</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="staffId" required >4.7 Project Abstract </label>
+                                    <textarea
+                                            type="text" 
+                                            value={formData.school}
+                                            onChange={(e) => updateField('school', e.target.value)}
+                                            placeholder="Summarize the problem, research approach and expected contribution" 
+                                            className="p-3 border rounded-lg" 
+                                            required 
+                                    />
+                                </div>
+                            </div>
                         </div>
                     )}
 
+                    {step === 5 && (
+                        <div className="space-y-6 animate-in fade-in">
+                            <h3 className="text-xl font-bold">5. Technical Research Proposal</h3>
+                            <div className='flex flex-col gap-2'>
+                                <label className='font-semibold'>5.1 Background & Justification</label>
+                                <textarea 
+                                    value={formData.problemStatement}
+                                    onChange={(e) => updateField('problemStatement', e.target.value)}
+                                    className="p-3 border rounded-lg min-h-[120px]" 
+                                    placeholder='Provide the context for your study. What is the current state of knowledge? What gap does this research address?'
+                                />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                                <label className='font-semibold'>5.2 Problem Statement</label>
+                                <textarea 
+                                    value={formData.literatureReview}
+                                    onChange={(e) => updateField('literatureReview', e.target.value)}
+                                    className="p-3 border rounded-lg min-h-[120px]" 
+                                    placeholder='Clearly and concisely articulate the specific research problem being addressed.'
+                                />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                                <label className='font-semibold'>5.3 Research Objectives</label>
+                                <textarea 
+                                    value={formData.theoreticalFramework}
+                                    onChange={(e) => updateField('theoreticalFramework', e.target.value)}
+                                    className="p-3 border rounded-lg min-h-[120px]" 
+                                    placeholder='State your main objective and specific sub-objectives. Example: 1. To examine... 2. To assess... 3. To develop...'
+                                />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                                <label className='font-semibold'>5.4 Research Methodology</label>
+                                <textarea 
+                                    value={formData.methodology}
+                                    onChange={(e) => updateField('methodology', e.target.value)}
+                                    placeholder="Describe your research design, data collection methods, sampling strategy, and analysis approach. Demonstrate methodological rigor and feasibility."
+                                    className="p-3 border rounded-lg min-h-[150px]" 
+                                />
+                            </div>
+                        </div>
+                    )}
+
+                    {step === 6 && (
+                        <div className="space-y-6 animate-in fade-in">
+                            <h3 className="text-xl font-bold">6. Expected Outputs, Outcomes & Impact</h3>
+                            <div className='flex flex-col gap-2'>
+                                <label className='font-semibold'>6.1 Primary Outputs</label>
+                                <textarea 
+                                    value={formData.expectedOutputs}
+                                    onChange={(e) => updateField('expectedOutputs', e.target.value)}
+                                    placeholder="List specific deliverables: e.g. peer-reviewed journal articles, conference papers, policy briefs, datasets, prototypes, technical reports."
+                                    className="p-3 border rounded-lg min-h-[100px]" 
+                                />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                                <label className='font-semibold'>6.2 Dissemination Plan </label>
+                                <textarea 
+                                    value={formData.disseminationPlan}
+                                    onChange={(e) => updateField('disseminationPlan', e.target.value)}
+                                    className="p-3 border rounded-lg min-h-[100px]" 
+                                    placeholder='How will findings be shared? Identify target journals, conferences, and community engagement activities. Note: findings must be presented at a Daystar University dissemination forum'
+                                />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                                <label className='font-semibold'>6.3 Relevance to Policy, Community Transformation or Commercialization</label>
+                                <textarea 
+                                    value={formData.anticipatedImpact}
+                                    onChange={(e) => updateField('anticipatedImpact', e.target.value)}
+                                    className="p-3 border rounded-lg min-h-[100px]" 
+                                    placeholder='Describe any potential policy influence, community impact, innovation, or commercialization value.'
+                                />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                                <label className='font-semibold'>6.4 Stakeholder and Community Involvement</label>
+                                <textarea 
+                                    value={formData.sustainabilityPlan}
+                                    onChange={(e) => updateField('sustainabilityPlan', e.target.value)}
+                                    className="p-3 border rounded-lg min-h-[100px]" 
+                                    placeholder='Identify any stakeholders, community partners, or external organizations involved in or benefiting from the research.'
+                                />
+                            </div>
+                        </div>
+                    )}
+                    
                     {step === 7 && (
                         <div className="space-y-6 animate-in fade-in">
-                            <h3 className="text-xl font-bold flex items-center gap-2">7. Itemized Budget</h3>
+                            
                             <BudgetTable 
                                 budget={formData.budget} 
                                 onBudgetChange={(budget) => updateField('budget', budget)} 
                                 isInnovation={false} 
                                 max={800000} 
                             />
+                            <div className='flex flex-col gap-2'>
+                                <label className='font-semibold'> Budget Justification Narrative</label>
+                                <textarea 
+                                    value={formData.sustainabilityPlan}
+                                    onChange={(e) => updateField('sustainabilityPlan', e.target.value)}
+                                    className="p-3 border rounded-lg min-h-[100px]" 
+                                    placeholder='Explain the rationale and necessity of each major expenditure. Demonstrate value for money.'
+                                />
+                            </div>
+                        </div>
+                    )}
+
+                    {step === 8 && (
+                        <div className="space-y-6 animate-in fade-in">
+                            <h3 className="text-xl font-bold uppercase">8. Work Plan & Implementation Schedule</h3>
+                            <div className='flex flex-col gap-2'>
+                                <label className='font-semibold'>8.1 Detailed Timeline (Question 34)</label>
+                                <textarea 
+                                    value={formData.workPlanTimeline}
+                                    onChange={(e) => updateField('workPlanTimeline', e.target.value)}
+                                    placeholder="List activities you will work on during Month 1-3, Month 4-6, Month 7-9, Month 10-12 and the responsible person"
+                                    className="p-3 border rounded-lg min-h-[120px]" 
+                                />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                                <label className='font-semibold'>8.2 Key Milestones and Deliverables</label>
+                                <textarea 
+                                    value={formData.monitoringPlan}
+                                    onChange={(e) => updateField('monitoringPlan', e.target.value)}
+                                    className="p-3 border rounded-lg min-h-[100px]" 
+                                    placeholder='List your key milestones, target dates, and the responsible team member for each.'
+                                />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                                <label className='font-semibold'>8.3 Potential Risks and Mitigation measures</label>
+                                <textarea 
+                                    value={formData.riskManagement}
+                                    onChange={(e) => updateField('riskManagement', e.target.value)}
+                                    placeholder="Identify key risks to successful implementation and describe your mitigation strategies."
+                                    className="p-3 border rounded-lg min-h-[100px]" 
+                                />
+                            </div>
                         </div>
                     )}
 
@@ -201,47 +589,258 @@ const InternalGrantForm = ({ onBack }) => {
                         <div className="space-y-6 animate-in fade-in">
                             <h3 className="text-xl font-bold flex items-center gap-2">9. PI Declaration</h3>
                             <div className="space-y-4">
-                                <input 
-                                    type="text" 
-                                    value={formData.piSignature}
-                                    onChange={(e) => updateField('piSignature', e.target.value)}
-                                    placeholder="PI Full Name (Signature) *" 
-                                    className="w-full p-3 border rounded-lg" 
-                                    required 
-                                />
-                                <input 
-                                    type="date" 
-                                    value={formData.date}
-                                    onChange={(e) => updateField('date', e.target.value)}
-                                    className="w-full p-3 border rounded-lg" 
-                                    required 
-                                />
+                                <h5>Read all declarations carefully. By signing this form, the Principal Investigator confirms all statements below.</h5>
+                                <p className='text-md font-bold'>I hereby declare that: *</p>
+                                <label htmlFor="" className='flex gap-2'>
+                                    <input 
+                                        type="checkbox" 
+                                        checked={formData.piSignature}
+                                        onChange={(e) => updateField('piSignature', e.target.checked)}
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                    />
+                                    <span>I am a full-time member of staff at Daystar University, currently at the rank of Lecturer or above.</span>
+                                </label>
+                                <label htmlFor="" className='flex gap-2'>
+                                    <input 
+                                        type="checkbox" 
+                                        checked={formData.piSignature}
+                                        onChange={(e) => updateField('piSignature', e.target.checked)}
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                    />
+                                    <span>I do not currently hold an active Daystar Internal Research Grant, or all obligations for any previous grant have been fully completed and formally closed.</span>
+                                </label>
+                                <label htmlFor="" className='flex gap-2'>
+                                    <input 
+                                        type="checkbox" 
+                                        checked={formData.piSignature}
+                                        onChange={(e) => updateField('piSignature', e.target.checked)}
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                    />
+                                    <span>All information provided in this application is accurate, complete, and original to the best of my knowledge.</span>
+                                </label>
+                                <label htmlFor="" className='flex gap-2'>
+                                    <input 
+                                        type="checkbox" 
+                                        checked={formData.piSignature}
+                                        onChange={(e) => updateField('piSignature', e.target.checked)}
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                    />
+                                    <span>If awarded, I will implement the project within the approved period and budget, and comply with all Daystar University research ethics, financial accountability, innovation, and intellectual property requirements.</span>
+                                </label>
+                                <label htmlFor="" className='flex gap-2'>
+                                    <input 
+                                        type="checkbox" 
+                                        checked={formData.piSignature}
+                                        onChange={(e) => updateField('piSignature', e.target.checked)}
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                    />
+                                    <span>I will submit quarterly technical and financial progress reports as required, and present findings at a Daystar University research dissemination forum.</span>
+                                </label>
+                                <label htmlFor="" className='flex gap-2'>
+                                    <input 
+                                        type="checkbox" 
+                                        checked={formData.piSignature}
+                                        onChange={(e) => updateField('piSignature', e.target.checked)}
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                    />
+                                    <span>I will acknowledge the Daystar University Internal Research Grant in all resulting publications, presentations, innovations, reports, and related outputs.</span>
+                                </label>
+                                <label htmlFor="" className='flex gap-2'>
+                                    <input 
+                                        type="checkbox" 
+                                        checked={formData.piSignature}
+                                        onChange={(e) => updateField('piSignature', e.target.checked)}
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                    />
+                                    <span>I understand the grant does not cover personal stipends, tuition, or costs unrelated to approved research activities.</span>
+                                </label>
+                                <label htmlFor="" className='flex gap-2'>
+                                    <input 
+                                        type="checkbox" 
+                                        checked={formData.piSignature}
+                                        onChange={(e) => updateField('piSignature', e.target.checked)}
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                    />
+                                    <span>I consent to the collection and processing of information in this application for grant evaluation and administration purposes.</span>
+                                </label>
+                                <div className='grid md:grid-cols-2 gap-6'>
+                                    <div className='flex flex-col gap-2'>
+                                    <label htmlFor="firstName">PI Full Name (As Signature)</label>
+                                    <input 
+                                        type="text" 
+                                        value={formData.firstName}
+                                        onChange={(e) => updateField('firstName', e.target.value)}
+                                        placeholder="Full Name " 
+                                        className="p-3 border rounded-lg" 
+                                        required 
+                                    />
+                                    </div>
+                                    <div className='flex flex-col gap-2'>
+                                        <label htmlFor="firstName">Date</label>
+                                        <input 
+                                            type="date" 
+                                            value={formData.firstName}
+                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            placeholder="Full Name " 
+                                            className="p-3 border rounded-lg" 
+                                            required 
+                                        />
+                                    </div>
+                                    <div className='flex flex-col gap-2'>
+                                        <label htmlFor="firstName">Head of Department- Name</label>
+                                        <input 
+                                            type="text" 
+                                            value={formData.firstName}
+                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            placeholder=" " 
+                                            className="p-3 border rounded-lg" 
+                                            required 
+                                        />
+                                    </div>
+                                    <div className='flex flex-col gap-2'>
+                                        <label htmlFor="firstName">Head of Department- Email</label>
+                                        <input 
+                                            type="text" 
+                                            value={formData.firstName}
+                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            placeholder=" " 
+                                            className="p-3 border rounded-lg" 
+                                            required 
+                                        />
+                                    </div>
+                                    <div className='flex flex-col gap-2'>
+                                        <label htmlFor="firstName">Head of Department- Name</label>
+                                        <input 
+                                            type="text" 
+                                            value={formData.firstName}
+                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            placeholder=" " 
+                                            className="p-3 border rounded-lg" 
+                                            required 
+                                        />
+                                    </div>
+                                    <div className='flex flex-col gap-2'>
+                                        <label htmlFor="firstName">Head of Department- Date</label>
+                                        <input 
+                                            type="date" 
+                                            value={formData.firstName}
+                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            placeholder=" " 
+                                            className="p-3 border rounded-lg" 
+                                            required 
+                                        />
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
                     )}
-
+                    {/* uploads start here */}
                     {step === 10 && (
                         <div className="space-y-6 animate-in fade-in">
-                            <h3 className="text-xl font-bold flex items-center gap-2 text-red-600">10. Attachments Checklist</h3>
-                            <div className="space-y-3 bg-slate-50 p-6 rounded-xl border border-dashed border-slate-400">
-                                {[
-                                    "Completed Application Form",
-                                    "Technical Proposal (Max 10 pages)",
-                                    "Principal Investigator CV",
-                                    "Ethics Approval / Pending Letter",
-                                    "Gantt Chart"
-                                ].map((item, idx) => (
-                                    <label key={idx} className="flex items-center gap-3 p-2 hover:bg-white rounded transition-colors">
-                                        <input 
-                                            type="checkbox" 
-                                            className="w-5 h-5" 
-                                        />
-                                        <span className="text-slate-700">{item}</span>
-                                    </label>
-                                ))}
-                            </div>
+                            <h3 className="text-xl font-bold flex items-center gap-2 text-[1e293b]">10. Attachments Checklist</h3>
+                            
+                            <div className='grid md:grid-cols-2 gap-6'>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="firstName">Technical Proposal document</label>
+                                    <input 
+                                            type="file" 
+                                            value={formData.firstName}
+                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            placeholder=" " 
+                                            className="p-3 border rounded-lg" 
+                                            required 
+                                    />
+                                </div>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="firstName">Principal Investigator CV </label>
+                                    <input 
+                                            type="file" 
+                                            value={formData.firstName}
+                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            placeholder=" " 
+                                            className="p-3 border rounded-lg" 
+                                            required 
+                                    />
+                                </div>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="firstName">Co-Investigator CVs (If Applicable)</label>
+                                    <input 
+                                            type="file" 
+                                            value={formData.firstName}
+                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            placeholder=" " 
+                                            className="p-3 border rounded-lg" 
+                                            required 
+                                    />
+                                </div>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="firstName">Research Assistant/ Postgraduate Student CVs (If Applicable)</label>
+                                    <input 
+                                            type="file" 
+                                            value={formData.firstName}
+                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            placeholder=" " 
+                                            className="p-3 border rounded-lg" 
+                                            required 
+                                    />
+                                </div>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="firstName">Ethics Approval Certificate or Pending Application Letter (If Applicable)</label>
+                                    <input 
+                                            type="file" 
+                                            value={formData.firstName}
+                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            placeholder=" " 
+                                            className="p-3 border rounded-lg" 
+                                            required 
+                                    />
+                                </div>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="firstName">Gantt Chart/ Detailed Implementation Schedule (Recommended)</label>
+                                    <input 
+                                            type="file" 
+                                            value={formData.firstName}
+                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            placeholder=" " 
+                                            className="p-3 border rounded-lg" 
+                                            required 
+                                    />
+                                </div>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="firstName">Letters of Support from Partner Organizations (If Applicable)</label>
+                                    <input 
+                                            type="file" 
+                                            value={formData.firstName}
+                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            placeholder=" " 
+                                            className="p-3 border rounded-lg" 
+                                            required 
+                                    />
+                                </div>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="firstName">Any other relevant supporting documents (If Applicable)</label>
+                                    <input 
+                                            type="file" 
+                                            value={formData.firstName}
+                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            placeholder=" " 
+                                            className="p-3 border rounded-lg" 
+                                            required 
+                                    />
+                                </div>
+                            </div>                             
+                               
                             <div className="p-4 bg-blue-50 text-blue-800 rounded-lg text-sm">
-                                Submit completed applications to: <strong>drice@daystar.ac.ke</strong>
+                                All completed applications will be sent to: <strong>drice@daystar.ac.ke</strong>
                             </div>
                         </div>
                     )}
