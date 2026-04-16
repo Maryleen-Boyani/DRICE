@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from '@tanstack/react-form';
 import { ShieldCheck } from 'lucide-react';
 import FormHeader from './Shared/FormHeader';
@@ -14,6 +14,7 @@ import EvaluationSection from './VCInnovation/EvaluationSection';
 import DeclarationSection from './VCInnovation/DeclarationSection';
 import AttachmentsSection from './VCInnovation/AttachmentsSection';
 import { submitVcInnovationApplication } from '../../api/grants';
+import { uploadFile } from '../../api/storage';
 
 const TOTAL_STEPS = 11;
 
@@ -31,15 +32,69 @@ const SECTION_LABELS = [
   'Attachments',
 ];
 
+const ATTACHMENT_FIELDS = [
+  { fileKey: 'cvFile', payloadKey: 'cvUrl', folder: 'vc-innovation/cv' },
+  { fileKey: 'mvpPhotosFile', payloadKey: 'mvpPhotosUrl', folder: 'vc-innovation/mvp-photos' },
+  { fileKey: 'demoVideoFile', payloadKey: 'demoVideoUrl', folder: 'vc-innovation/demo-video' },
+  { fileKey: 'researchPapersFile', payloadKey: 'researchPapersUrl', folder: 'vc-innovation/research-papers' },
+  { fileKey: 'lettersOfIntentFile', payloadKey: 'lettersOfIntentUrl', folder: 'vc-innovation/letters-of-intent' },
+  { fileKey: 'marketResearchFile', payloadKey: 'marketResearchUrl', folder: 'vc-innovation/market-research' },
+  { fileKey: 'ipDocumentsFile', payloadKey: 'ipDocumentsUrl', folder: 'vc-innovation/ip-documents' },
+  { fileKey: 'otherDocumentsFile', payloadKey: 'otherDocumentsUrl', folder: 'vc-innovation/other' },
+];
+
+async function buildSubmissionPayload(value) {
+  const payload = { ...value };
+
+  for (const field of ATTACHMENT_FIELDS) {
+    const raw = value[field.fileKey];
+
+    if (Array.isArray(raw)) {
+      if (raw.length > 0) {
+        const uploaded = await Promise.all(
+          raw.map((file) => uploadFile({ file, folder: field.folder })),
+        );
+        payload[field.payloadKey] = uploaded.map((item) => item.referenceId).join(',');
+      }
+    } else if (raw instanceof File) {
+      const uploaded = await uploadFile({ file: raw, folder: field.folder });
+      payload[field.payloadKey] = uploaded.referenceId;
+    }
+
+    delete payload[field.fileKey];
+  }
+
+  return payload;
+}
+
 const VCInnovationForm = ({ onBack }) => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(() => {
+    const saved = localStorage.getItem("vcInnovationFormStep");
+    return saved ? parseInt(saved, 10) : 1;
+  });
   const [submitError, setSubmitError] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm({
-    defaultValues: {
-      // Section 1
+    defaultValues: (() => {
+      const savedData = localStorage.getItem("vcInnovationFormData");
+      if (savedData) {
+        try {
+          const parsed = JSON.parse(savedData);
+          parsed.cvFile = null;
+          parsed.mvpPhotosFile = null;
+          parsed.demoVideoFile = null;
+          parsed.researchPapersFile = null;
+          parsed.lettersOfIntentFile = null;
+          parsed.marketResearchFile = null;
+          parsed.ipDocumentsFile = null;
+          parsed.otherDocumentsFile = [];
+          return parsed;
+        } catch (e) {}
+      }
+      return {
+        // Section 1
       firstName: '', lastName: '', studentLevel: '', category: '',
       staffId: '', school: '', department: '', email: '', phone: '',
       orcid: '', hasActiveGrant: '', prevGrantDetails: '',
@@ -69,23 +124,27 @@ const VCInnovationForm = ({ onBack }) => {
       cvFile: null, mvpPhotosFile: null, demoVideoFile: null,
       researchPapersFile: null, lettersOfIntentFile: null,
       marketResearchFile: null, ipDocumentsFile: null, otherDocumentsFile: [],
-    },
+      };
+    })(),
 
     onSubmit: async ({ value }) => {
       setSubmitError(null);
       setIsSubmitting(true);
       try {
-        const result = await submitVcInnovationApplication(value);
+        const payload = await buildSubmissionPayload(value);
+        const result = await submitVcInnovationApplication(payload);
         if (!result.success) {
           const msg = result.errors
             ? result.errors.map((e) => e.message).join(', ')
             : result.message ?? 'Submission failed. Please try again.';
           setSubmitError(msg);
         } else {
+          localStorage.removeItem("vcInnovationFormData");
+          localStorage.removeItem("vcInnovationFormStep");
           setSubmitted(true);
         }
-      } catch {
-        setSubmitError('Network error. Please check your connection and try again.');
+      } catch (error) {
+        setSubmitError(error?.message ?? 'Network error. Please check your connection and try again.');
       } finally {
         setIsSubmitting(false);
       }
@@ -95,6 +154,25 @@ const VCInnovationForm = ({ onBack }) => {
   const nextStep = () => setStep((s) => Math.min(s + 1, TOTAL_STEPS));
   const prevStep = () => setStep((s) => Math.max(s - 1, 1));
   const isLastStep = step === TOTAL_STEPS;
+
+  useEffect(() => {
+    const saveState = () => {
+      const vals = { ...form.state.values };
+      vals.cvFile = null;
+      vals.mvpPhotosFile = null;
+      vals.demoVideoFile = null;
+      vals.researchPapersFile = null;
+      vals.lettersOfIntentFile = null;
+      vals.marketResearchFile = null;
+      vals.ipDocumentsFile = null;
+      vals.otherDocumentsFile = [];
+      localStorage.setItem("vcInnovationFormData", JSON.stringify(vals));
+      localStorage.setItem("vcInnovationFormStep", step.toString());
+    };
+    saveState();
+    window.addEventListener("beforeunload", saveState);
+    return () => window.removeEventListener("beforeunload", saveState);
+  }, [step]);
 
   if (submitted) {
     return (
