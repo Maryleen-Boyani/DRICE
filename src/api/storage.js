@@ -33,8 +33,13 @@ export async function uploadFile({ file, folder = 'vc-innovation' }) {
     throw new Error(error.message || 'Failed to upload file');
   }
 
+  const { data: publicUrlData } = supabase.storage
+    .from(STORAGE_BUCKET)
+    .getPublicUrl(referenceId);
+
   return {
     bucket: STORAGE_BUCKET,
     referenceId,
+    publicUrl: publicUrlData.publicUrl,
   };
 }
