@@ -77,7 +77,7 @@ const BudgetTable = ({ budget, onBudgetChange, max = 800000, isInnovation = fals
                                         value={row.item}
                                         onChange={(e) => handleRowChange(idx, 'item', e.target.value)}
                                         placeholder="e.g. Laboratory reagents"
-                                        className="w-full p-2 text-sm bg-transparent border-none focus:ring-0"
+                                        className="w-full p-3 text-sm bg-transparent border-none focus:ring-0"
                                         required
                                     />
                                 </td>
@@ -85,7 +85,7 @@ const BudgetTable = ({ budget, onBudgetChange, max = 800000, isInnovation = fals
                                     <select
                                         value={row.category}
                                         onChange={(e) => handleRowChange(idx, 'category', e.target.value)}
-                                        className="w-full p-2 text-sm bg-transparent border border-slate-200 rounded-md focus:ring-2 focus:ring-daystar-blue"
+                                        className="w-full p-3 text-sm bg-transparent border border-slate-200 rounded-lg focus:ring-2 focus:ring-daystar-blue outline-none"
                                         required
                                     >
                                         <option value="">Select Category</option>
@@ -98,7 +98,7 @@ const BudgetTable = ({ budget, onBudgetChange, max = 800000, isInnovation = fals
                                         value={row.amount}
                                         onChange={(e) => handleRowChange(idx, 'amount', e.target.value)}
                                         placeholder="0"
-                                        className="w-full p-2 text-sm bg-transparent font-mono border-none focus:ring-0"
+                                        className="w-full p-3 text-sm bg-transparent font-mono border-none focus:ring-0"
                                         required
                                     />
                                 </td>
@@ -108,7 +108,7 @@ const BudgetTable = ({ budget, onBudgetChange, max = 800000, isInnovation = fals
                                         value={row.justification}
                                         onChange={(e) => handleRowChange(idx, 'justification', e.target.value)}
                                         placeholder="Why is this needed?"
-                                        className="w-full p-2 text-sm bg-transparent border-none focus:ring-0"
+                                        className="w-full p-3 text-sm bg-transparent border-none focus:ring-0"
                                     />
                                 </td>
                                 <td className="p-3">

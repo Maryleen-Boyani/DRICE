@@ -26,7 +26,7 @@ export default function DeclarationSection({ form }) {
                   type="checkbox"
                   checked={field.state.value === true}
                   onChange={(e) => field.handleChange(e.target.checked)}
-                  className="mt-0.5 accent-daystar-blue"
+                  className="w-6 h-6 mt-0.5 accent-daystar-blue cursor-pointer shrink-0"
                 />
                 <span className="text-sm">{item}</span>
               </label>

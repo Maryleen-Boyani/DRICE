@@ -74,7 +74,7 @@ const TeamSection = ({ data, onChange, isInnovation = false }) => {
                                         type="text"
                                         value={member.name}
                                         onChange={(e) => handleMemberChange(idx, 'name', e.target.value)}
-                                        className="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-daystar-blue outline-none"
+                                        className="w-full p-3 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-daystar-blue outline-none"
                                         placeholder="e.g. Dr. Jane Doe"
                                         required
                                     />
@@ -91,7 +91,7 @@ const TeamSection = ({ data, onChange, isInnovation = false }) => {
                                         type="text"
                                         value={isInnovation ? member.id : member.institution}
                                         onChange={(e) => handleMemberChange(idx, isInnovation ? 'id' : 'institution', e.target.value)}
-                                        className="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-daystar-blue outline-none"
+                                        className="w-full p-3 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-daystar-blue outline-none"
                                         placeholder={isInnovation ? "DU-XXXX" : "Daystar University"}
                                         required
                                     />

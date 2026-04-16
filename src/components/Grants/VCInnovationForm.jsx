@@ -66,9 +66,9 @@ const VCInnovationForm = ({ onBack }) => {
       applicantSignatureName: '', declarationDate: '',
       mentorSignatureName: '', mentorSignatureDate: '',
       // Section 11
-      cvUrl: '', mvpPhotosUrl: '', demoVideoUrl: '',
-      researchPapersUrl: '', lettersOfIntentUrl: '',
-      marketResearchUrl: '', ipDocumentsUrl: '', otherDocumentsUrl: '',
+      cvFile: null, mvpPhotosFile: null, demoVideoFile: null,
+      researchPapersFile: null, lettersOfIntentFile: null,
+      marketResearchFile: null, ipDocumentsFile: null, otherDocumentsFile: [],
     },
 
     onSubmit: async ({ value }) => {
