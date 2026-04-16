@@ -292,22 +292,22 @@ const InternalGrantForm = ({ onBack }) => {
                             {/* <h3 className="text-xl font-bold flex items-center gap-2">3. Research Team Composition</h3> */}
                             <TeamSection data={formData.team} onTeamChange={(team) => updateField('team', team)} isInnovation={false} />
                             <div className='flex flex-col gap-2'>
-                                <label htmlFor="staffId" required >Describe the role of each team member and the expertise they are bringing to the project</label>
+                                <label htmlFor="teamRoleDescription" required >Describe the role of each team member and the expertise they are bringing to the project</label>
                                 <textarea
                                     type="text"
-                                    value={formData.school}
-                                    onChange={(e) => updateField('school', e.target.value)}
+                                    value={formData.teamRoleDescription || ''}
+                                    onChange={(e) => updateField('teamRoleDescription', e.target.value)}
                                     placeholder="Explain how each member contributes to the project and what expertise they bring."
                                     className="p-3 border rounded-lg"
                                     required
                                 />
                             </div>
                             <div className='flex flex-col gap-2'>
-                                <label htmlFor="staffId" required >Mentorship plan for early-career researchers and/or postgraduate students</label>
+                                <label htmlFor="mentorshipPlan" required >Mentorship plan for early-career researchers and/or postgraduate students</label>
                                 <textarea
                                     type="text"
-                                    value={formData.school}
-                                    onChange={(e) => updateField('school', e.target.value)}
+                                    value={formData.mentorshipPlan || ''}
+                                    onChange={(e) => updateField('mentorshipPlan', e.target.value)}
                                     placeholder=" Describe how junior team members will be mentored and developed through this project"
                                     className="p-3 border rounded-lg"
                                     required
@@ -321,11 +321,11 @@ const InternalGrantForm = ({ onBack }) => {
                             <h3 className="text-xl font-bold flex items-center gap-2">4. Project Overview</h3>
 
                             <div className='flex flex-col gap-2'>
-                                <label htmlFor="staffId" required >4.1 Project Title</label>
+                                <label htmlFor="projectTitle" required >4.1 Project Title</label>
                                 <textarea
                                     type="text"
-                                    value={formData.school}
-                                    onChange={(e) => updateField('school', e.target.value)}
+                                    value={formData.projectTitle}
+                                    onChange={(e) => updateField('projectTitle', e.target.value)}
                                     placeholder="Clear and descriptive"
                                     className="p-3 border rounded-lg"
                                     required
@@ -352,11 +352,11 @@ const InternalGrantForm = ({ onBack }) => {
                                 </select>
                             </div>
                             <div className='flex flex-col gap-2'>
-                                <label htmlFor="staffId" required >4.3 Secondary Thematic Area (If Applicable) </label>
+                                <label htmlFor="secondaryTheme" required >4.3 Secondary Thematic Area (If Applicable) </label>
                                 <textarea
                                     type="text"
-                                    value={formData.school}
-                                    onChange={(e) => updateField('school', e.target.value)}
+                                    value={formData.otherTheme || ''}
+                                    onChange={(e) => updateField('otherTheme', e.target.value)}
                                     placeholder=""
                                     className="p-3 border rounded-lg"
                                     required
@@ -437,11 +437,11 @@ const InternalGrantForm = ({ onBack }) => {
                                     <span>Other</span>
                                 </label>
                                 <div className='flex flex-col gap-2'>
-                                    <label htmlFor="staffId" required >Other</label>
+                                    <label htmlFor="otherApproach" required >Other</label>
                                     <input
                                         type="text"
-                                        value={formData.school}
-                                        onChange={(e) => updateField('school', e.target.value)}
+                                        value={formData.otherApproach || ''}
+                                        onChange={(e) => updateField('otherApproach', e.target.value)}
                                         placeholder="Specify here"
                                         className="p-3 border rounded-lg"
                                         required
@@ -451,8 +451,8 @@ const InternalGrantForm = ({ onBack }) => {
                                 <div>
                                     <label className="block text-sm font-semibold mb-2">4.5 Is this project interdisciplinary?</label>
                                     <select
-                                        value={formData.isFullTime}
-                                        onChange={(e) => updateField('isFullTime', e.target.value)}
+                                        value={formData.isInterdisciplinary || ''}
+                                        onChange={(e) => updateField('isInterdisciplinary', e.target.value)}
                                         className="w-full p-2 rounded border"
                                         required
                                     >
@@ -465,8 +465,8 @@ const InternalGrantForm = ({ onBack }) => {
                                 <div>
                                     <label className="block text-sm font-semibold mb-2">4.6 Will this project involve human participants or sensitive data?</label>
                                     <select
-                                        value={formData.isFullTime}
-                                        onChange={(e) => updateField('isFullTime', e.target.value)}
+                                        value={formData.requiresEthics}
+                                        onChange={(e) => updateField('requiresEthics', e.target.value)}
                                         className="w-full p-2 rounded border"
                                         required
                                     >
@@ -478,11 +478,11 @@ const InternalGrantForm = ({ onBack }) => {
                                 </div>
                                 <br />
                                 <div className='flex flex-col gap-2'>
-                                    <label htmlFor="staffId" required >4.7 Project Abstract </label>
+                                    <label htmlFor="projectAbstract" required >4.7 Project Abstract </label>
                                     <textarea
                                         type="text"
-                                        value={formData.school}
-                                        onChange={(e) => updateField('school', e.target.value)}
+                                        value={formData.abstract}
+                                        onChange={(e) => updateField('abstract', e.target.value)}
                                         placeholder="Summarize the problem, research approach and expected contribution"
                                         className="p-3 border rounded-lg"
                                         required
@@ -498,8 +498,8 @@ const InternalGrantForm = ({ onBack }) => {
                             <div className='flex flex-col gap-2'>
                                 <label className='font-semibold'>5.1 Background & Justification</label>
                                 <textarea
-                                    value={formData.problemStatement}
-                                    onChange={(e) => updateField('problemStatement', e.target.value)}
+                                    value={formData.backgroundJustification || ''}
+                                    onChange={(e) => updateField('backgroundJustification', e.target.value)}
                                     className="p-3 border rounded-lg min-h-[120px]"
                                     placeholder='Provide the context for your study. What is the current state of knowledge? What gap does this research address?'
                                 />
@@ -507,8 +507,8 @@ const InternalGrantForm = ({ onBack }) => {
                             <div className='flex flex-col gap-2'>
                                 <label className='font-semibold'>5.2 Problem Statement</label>
                                 <textarea
-                                    value={formData.literatureReview}
-                                    onChange={(e) => updateField('literatureReview', e.target.value)}
+                                    value={formData.problemStatement || ''}
+                                    onChange={(e) => updateField('problemStatement', e.target.value)}
                                     className="p-3 border rounded-lg min-h-[120px]"
                                     placeholder='Clearly and concisely articulate the specific research problem being addressed.'
                                 />
@@ -516,8 +516,8 @@ const InternalGrantForm = ({ onBack }) => {
                             <div className='flex flex-col gap-2'>
                                 <label className='font-semibold'>5.3 Research Objectives</label>
                                 <textarea
-                                    value={formData.theoreticalFramework}
-                                    onChange={(e) => updateField('theoreticalFramework', e.target.value)}
+                                    value={formData.objectives || ''}
+                                    onChange={(e) => updateField('objectives', e.target.value)}
                                     className="p-3 border rounded-lg min-h-[120px]"
                                     placeholder='State your main objective and specific sub-objectives. Example: 1. To examine... 2. To assess... 3. To develop...'
                                 />
@@ -588,8 +588,8 @@ const InternalGrantForm = ({ onBack }) => {
                             <div className='flex flex-col gap-2'>
                                 <label className='font-semibold'> Budget Justification Narrative</label>
                                 <textarea
-                                    value={formData.sustainabilityPlan}
-                                    onChange={(e) => updateField('sustainabilityPlan', e.target.value)}
+                                    value={formData.budgetJustificationNarrative || ''}
+                                    onChange={(e) => updateField('budgetJustificationNarrative', e.target.value)}
                                     className="p-3 border rounded-lg min-h-[100px]"
                                     placeholder='Explain the rationale and necessity of each major expenditure. Demonstrate value for money.'
                                 />
@@ -639,8 +639,8 @@ const InternalGrantForm = ({ onBack }) => {
                                 <label htmlFor="" className='flex gap-2'>
                                     <input
                                         type="checkbox"
-                                        checked={formData.piSignature}
-                                        onChange={(e) => updateField('piSignature', e.target.checked)}
+                                        checked={formData.declaration1 || false}
+                                        onChange={(e) => updateField('declaration1', e.target.checked)}
                                         className="w-6 h-6 rounded border-slate-300 accent-daystar-blue cursor-pointer"
                                         required
                                     />
@@ -649,8 +649,8 @@ const InternalGrantForm = ({ onBack }) => {
                                 <label htmlFor="" className='flex gap-2'>
                                     <input
                                         type="checkbox"
-                                        checked={formData.piSignature}
-                                        onChange={(e) => updateField('piSignature', e.target.checked)}
+                                        checked={formData.declaration2 || false}
+                                        onChange={(e) => updateField('declaration2', e.target.checked)}
                                         className="w-6 h-6 rounded border-slate-300 accent-daystar-blue cursor-pointer"
                                         required
                                     />
@@ -659,8 +659,8 @@ const InternalGrantForm = ({ onBack }) => {
                                 <label htmlFor="" className='flex gap-2'>
                                     <input
                                         type="checkbox"
-                                        checked={formData.piSignature}
-                                        onChange={(e) => updateField('piSignature', e.target.checked)}
+                                        checked={formData.declaration3 || false}
+                                        onChange={(e) => updateField('declaration3', e.target.checked)}
                                         className="w-6 h-6 rounded border-slate-300 accent-daystar-blue cursor-pointer"
                                         required
                                     />
@@ -669,8 +669,8 @@ const InternalGrantForm = ({ onBack }) => {
                                 <label htmlFor="" className='flex gap-2'>
                                     <input
                                         type="checkbox"
-                                        checked={formData.piSignature}
-                                        onChange={(e) => updateField('piSignature', e.target.checked)}
+                                        checked={formData.declaration4 || false}
+                                        onChange={(e) => updateField('declaration4', e.target.checked)}
                                         className="w-6 h-6 rounded border-slate-300 accent-daystar-blue cursor-pointer"
                                         required
                                     />
@@ -679,8 +679,8 @@ const InternalGrantForm = ({ onBack }) => {
                                 <label htmlFor="" className='flex gap-2'>
                                     <input
                                         type="checkbox"
-                                        checked={formData.piSignature}
-                                        onChange={(e) => updateField('piSignature', e.target.checked)}
+                                        checked={formData.declaration5 || false}
+                                        onChange={(e) => updateField('declaration5', e.target.checked)}
                                         className="w-6 h-6 rounded border-slate-300 accent-daystar-blue cursor-pointer"
                                         required
                                     />
@@ -689,8 +689,8 @@ const InternalGrantForm = ({ onBack }) => {
                                 <label htmlFor="" className='flex gap-2'>
                                     <input
                                         type="checkbox"
-                                        checked={formData.piSignature}
-                                        onChange={(e) => updateField('piSignature', e.target.checked)}
+                                        checked={formData.declaration6 || false}
+                                        onChange={(e) => updateField('declaration6', e.target.checked)}
                                         className="w-6 h-6 rounded border-slate-300 accent-daystar-blue cursor-pointer"
                                         required
                                     />
@@ -699,8 +699,8 @@ const InternalGrantForm = ({ onBack }) => {
                                 <label htmlFor="" className='flex gap-2'>
                                     <input
                                         type="checkbox"
-                                        checked={formData.piSignature}
-                                        onChange={(e) => updateField('piSignature', e.target.checked)}
+                                        checked={formData.declaration7 || false}
+                                        onChange={(e) => updateField('declaration7', e.target.checked)}
                                         className="w-6 h-6 rounded border-slate-300 accent-daystar-blue cursor-pointer"
                                         required
                                     />
@@ -709,8 +709,8 @@ const InternalGrantForm = ({ onBack }) => {
                                 <label htmlFor="" className='flex gap-2'>
                                     <input
                                         type="checkbox"
-                                        checked={formData.piSignature}
-                                        onChange={(e) => updateField('piSignature', e.target.checked)}
+                                        checked={formData.declaration8 || false}
+                                        onChange={(e) => updateField('declaration8', e.target.checked)}
                                         className="w-6 h-6 rounded border-slate-300 accent-daystar-blue cursor-pointer"
                                         required
                                     />
@@ -729,55 +729,55 @@ const InternalGrantForm = ({ onBack }) => {
                                         />
                                     </div>
                                     <div className='flex flex-col gap-2'>
-                                        <label htmlFor="firstName">Date</label>
+                                        <label htmlFor="date">Date</label>
                                         <input
                                             type="date"
-                                            value={formData.firstName}
-                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            value={formData.date}
+                                            onChange={(e) => updateField('date', e.target.value)}
                                             placeholder="Full Name "
                                             className="p-3 border rounded-lg"
                                             required
                                         />
                                     </div>
                                     <div className='flex flex-col gap-2'>
-                                        <label htmlFor="firstName">Head of Department- Name</label>
+                                        <label htmlFor="hodName">Head of Department- Name</label>
                                         <input
                                             type="text"
-                                            value={formData.firstName}
-                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            value={formData.hodName}
+                                            onChange={(e) => updateField('hodName', e.target.value)}
                                             placeholder=" "
                                             className="p-3 border rounded-lg"
                                             required
                                         />
                                     </div>
                                     <div className='flex flex-col gap-2'>
-                                        <label htmlFor="firstName">Head of Department- Email</label>
+                                        <label htmlFor="hodEmail">Head of Department- Email</label>
                                         <input
                                             type="text"
-                                            value={formData.firstName}
-                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            value={formData.hodEmail}
+                                            onChange={(e) => updateField('hodEmail', e.target.value)}
                                             placeholder=" "
                                             className="p-3 border rounded-lg"
                                             required
                                         />
                                     </div>
                                     <div className='flex flex-col gap-2'>
-                                        <label htmlFor="firstName">Head of Department- Name</label>
+                                        <label htmlFor="deanName">Dean- Name</label>
                                         <input
                                             type="text"
-                                            value={formData.firstName}
-                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            value={formData.deanName || ''}
+                                            onChange={(e) => updateField('deanName', e.target.value)}
                                             placeholder=" "
                                             className="p-3 border rounded-lg"
                                             required
                                         />
                                     </div>
                                     <div className='flex flex-col gap-2'>
-                                        <label htmlFor="firstName">Head of Department- Date</label>
+                                        <label htmlFor="deanDate">Dean- Date</label>
                                         <input
                                             type="date"
-                                            value={formData.firstName}
-                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            value={formData.deanDate || ''}
+                                            onChange={(e) => updateField('deanDate', e.target.value)}
                                             placeholder=" "
                                             className="p-3 border rounded-lg"
                                             required
