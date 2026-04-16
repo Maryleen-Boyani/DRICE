@@ -69,7 +69,7 @@ export const contactService = {
     const subject = `DRICE Inquiry #${inquiryId}: ${formData.firstName} ${formData.lastName}`;
     const body = `
 INQUIRY ID: ${inquiryId}
-NAME: ${formData.firstName} ${formName} ${formData.lastName}
+NAME: ${formData.firstName} ${formData.lastName}
 EMAIL: ${formData.email}
 DATE: ${new Date().toLocaleDateString('en-KE', { 
   weekday: 'long', 

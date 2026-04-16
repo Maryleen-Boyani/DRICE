@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import { ClipboardCheck } from 'lucide-react';
-import emailjs from '@emailjs/browser';
-import { flattenFormData, jsonToCSV } from '../../utils/formUtils';
 import { submitInternalGrantApplication } from '../../api/grants';
+import { uploadFile } from '../../api/storage';
 import TeamSection from './Shared/TeamSection';
 import BudgetTable from './Shared/BudgetTable';
 import FormHeader from './Shared/FormHeader';
 import FileUploadField from './Shared/FileUploadField';
+
+// Map between form attachment fields and backend URL fields
+const ATTACHMENT_FIELDS = [
+  { fileKey: 'proposal', payloadKey: 'proposalUrl', folder: 'internal-grant/proposal' },
+  { fileKey: 'piCv', payloadKey: 'piCvUrl', folder: 'internal-grant/pi-cv' },
+  { fileKey: 'coIvCv', payloadKey: 'coIvCvUrl', folder: 'internal-grant/co-investigator-cv' },
+  { fileKey: 'raCv', payloadKey: 'studentCvUrl', folder: 'internal-grant/ra-cv' },
+  { fileKey: 'ethics', payloadKey: 'ethicsUrl', folder: 'internal-grant/ethics' },
+  { fileKey: 'gantt', payloadKey: 'ganttUrl', folder: 'internal-grant/gantt' },
+];
 
 const InternalGrantForm = ({ onBack }) => {
     const [step, setStep] = useState(1);
@@ -23,7 +32,7 @@ const InternalGrantForm = ({ onBack }) => {
         // Section 5: Technical Proposal (Briefs)
         abstract: '', problemStatement: '', objectives: '', methodology: '', significance: '',
         // Section 6: Work Plan
-        durationMonths: '12', ganttStatus: '',
+        durationMonths: '12', ganttStatus: '', milestones: '', monitoringPlan: '',
         // Section 7: Budget
         budget: [{ item: '', category: '', amount: '', justification: '' }],
         totalAmount: 0,
@@ -58,29 +67,47 @@ const InternalGrantForm = ({ onBack }) => {
         setStatus({ submitting: true, success: false, error: null });
 
         try {
-            const formDataToSend = new FormData();
+            // Step 1: Upload all files to Supabase and collect reference IDs
+            const payload = { ...formData };
 
-            // Add applicantName and formName
+            for (const field of ATTACHMENT_FIELDS) {
+                const raw = formData.attachments[field.fileKey];
+
+                if (raw instanceof File) {
+                    const uploaded = await uploadFile({ file: raw, folder: field.folder });
+                    payload[field.payloadKey] = uploaded.referenceId;
+                }
+            }
+
+            // Step 2: Normalize payload for backend
+            const normalizedPayload = {
+                ...payload,
+                // Backend expects piDeclarationDate, but UI currently stores this as `date`.
+                piDeclarationDate: formData.date,
+                // Ensure PI signature is sent even if previously typed in the old declaration binding.
+                piSignature: formData.piSignature || `${formData.firstName} ${formData.lastName}`.trim(),
+                // Backend expects milestones; fall back to work-plan text if explicit milestones are empty.
+                milestones:
+                    (formData.milestones || '').trim() ||
+                    (formData.monitoringPlan || '').trim() ||
+                    (formData.workPlanTimeline || '').trim(),
+                budget: (formData.budget || []).map((item) => ({
+                    ...item,
+                    // Backend requires `item`; use category as fallback when user leaves description blank.
+                    item: (item.item || '').trim() || item.category || 'Budget item',
+                    amount: Number(item.amount) || 0,
+                })),
+            };
+
+            delete normalizedPayload.date;
+            delete normalizedPayload.monitoringPlan;
+            delete normalizedPayload.attachments;
+
+            // Step 3: Create FormData and submit (no files this time, just reference IDs)
+            const formDataToSend = new FormData();
             formDataToSend.append('applicantName', `${formData.firstName} ${formData.lastName}`);
             formDataToSend.append('formName', 'Internal Research Grant');
-
-            // Add all form data as JSON string
-            formDataToSend.append('data', JSON.stringify(formData));
-
-            // Add all file attachments to the 'attachments' field as array
-            Object.entries(formData.attachments).forEach(([key, value]) => {
-                if (value) {
-                    if (Array.isArray(value)) {
-                        value.forEach(file => {
-                            if (file) {
-                                formDataToSend.append('attachments', file);
-                            }
-                        });
-                    } else {
-                        formDataToSend.append('attachments', value);
-                    }
-                }
-            });
+            formDataToSend.append('data', JSON.stringify(normalizedPayload));
 
             const result = await submitInternalGrantApplication(formDataToSend);
 
@@ -718,11 +745,11 @@ const InternalGrantForm = ({ onBack }) => {
                                 </label>
                                 <div className='grid md:grid-cols-2 gap-6'>
                                     <div className='flex flex-col gap-2'>
-                                        <label htmlFor="firstName">PI Full Name (As Signature)</label>
+                                        <label htmlFor="piSignature">PI Full Name (As Signature)</label>
                                         <input
                                             type="text"
-                                            value={formData.firstName}
-                                            onChange={(e) => updateField('firstName', e.target.value)}
+                                            value={formData.piSignature}
+                                            onChange={(e) => updateField('piSignature', e.target.value)}
                                             placeholder="Full Name "
                                             className="p-3 border rounded-lg"
                                             required

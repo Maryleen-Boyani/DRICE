@@ -14,6 +14,7 @@ import EvaluationSection from './VCInnovation/EvaluationSection';
 import DeclarationSection from './VCInnovation/DeclarationSection';
 import AttachmentsSection from './VCInnovation/AttachmentsSection';
 import { submitVcInnovationApplication } from '../../api/grants';
+import { uploadFile } from '../../api/storage';
 
 const TOTAL_STEPS = 11;
 
@@ -30,6 +31,41 @@ const SECTION_LABELS = [
   'Declaration',
   'Attachments',
 ];
+
+const ATTACHMENT_FIELDS = [
+  { fileKey: 'cvFile', payloadKey: 'cvUrl', folder: 'vc-innovation/cv' },
+  { fileKey: 'mvpPhotosFile', payloadKey: 'mvpPhotosUrl', folder: 'vc-innovation/mvp-photos' },
+  { fileKey: 'demoVideoFile', payloadKey: 'demoVideoUrl', folder: 'vc-innovation/demo-video' },
+  { fileKey: 'researchPapersFile', payloadKey: 'researchPapersUrl', folder: 'vc-innovation/research-papers' },
+  { fileKey: 'lettersOfIntentFile', payloadKey: 'lettersOfIntentUrl', folder: 'vc-innovation/letters-of-intent' },
+  { fileKey: 'marketResearchFile', payloadKey: 'marketResearchUrl', folder: 'vc-innovation/market-research' },
+  { fileKey: 'ipDocumentsFile', payloadKey: 'ipDocumentsUrl', folder: 'vc-innovation/ip-documents' },
+  { fileKey: 'otherDocumentsFile', payloadKey: 'otherDocumentsUrl', folder: 'vc-innovation/other' },
+];
+
+async function buildSubmissionPayload(value) {
+  const payload = { ...value };
+
+  for (const field of ATTACHMENT_FIELDS) {
+    const raw = value[field.fileKey];
+
+    if (Array.isArray(raw)) {
+      if (raw.length > 0) {
+        const uploaded = await Promise.all(
+          raw.map((file) => uploadFile({ file, folder: field.folder })),
+        );
+        payload[field.payloadKey] = uploaded.map((item) => item.referenceId).join(',');
+      }
+    } else if (raw instanceof File) {
+      const uploaded = await uploadFile({ file: raw, folder: field.folder });
+      payload[field.payloadKey] = uploaded.referenceId;
+    }
+
+    delete payload[field.fileKey];
+  }
+
+  return payload;
+}
 
 const VCInnovationForm = ({ onBack }) => {
   const [step, setStep] = useState(1);
@@ -75,7 +111,8 @@ const VCInnovationForm = ({ onBack }) => {
       setSubmitError(null);
       setIsSubmitting(true);
       try {
-        const result = await submitVcInnovationApplication(value);
+        const payload = await buildSubmissionPayload(value);
+        const result = await submitVcInnovationApplication(payload);
         if (!result.success) {
           const msg = result.errors
             ? result.errors.map((e) => e.message).join(', ')
@@ -84,8 +121,8 @@ const VCInnovationForm = ({ onBack }) => {
         } else {
           setSubmitted(true);
         }
-      } catch {
-        setSubmitError('Network error. Please check your connection and try again.');
+      } catch (error) {
+        setSubmitError(error?.message ?? 'Network error. Please check your connection and try again.');
       } finally {
         setIsSubmitting(false);
       }
