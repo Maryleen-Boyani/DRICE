@@ -290,7 +290,7 @@ const InternalGrantForm = ({ onBack }) => {
                     {step === 3 && (
                         <div className="space-y-6 animate-in fade-in">
                             {/* <h3 className="text-xl font-bold flex items-center gap-2">3. Research Team Composition</h3> */}
-                            <TeamSection data={formData.team} onTeamChange={(team) => updateField('team', team)} isInnovation={false} />
+                            <TeamSection data={formData.team} onChange={(team) => updateField('team', team)} isInnovation={false} />
                             <div className='flex flex-col gap-2'>
                                 <label htmlFor="teamRoleDescription" required >Describe the role of each team member and the expertise they are bringing to the project</label>
                                 <textarea
@@ -567,8 +567,8 @@ const InternalGrantForm = ({ onBack }) => {
                             <div className='flex flex-col gap-2'>
                                 <label className='font-semibold'>6.4 Stakeholder and Community Involvement</label>
                                 <textarea
-                                    value={formData.sustainabilityPlan}
-                                    onChange={(e) => updateField('sustainabilityPlan', e.target.value)}
+                                    value={formData.stakeholderInvolvement || ''}
+                                    onChange={(e) => updateField('stakeholderInvolvement', e.target.value)}
                                     className="p-3 border rounded-lg min-h-[100px]"
                                     placeholder='Identify any stakeholders, community partners, or external organizations involved in or benefiting from the research.'
                                 />
