@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Footer = ({onNavClick}) => {
+const Footer = () => {
   const footerSections = [
     {
       title: "ENGAGE",
@@ -80,9 +80,6 @@ const Footer = ({onNavClick}) => {
         // Show placeholder alert for now
         alert(`${link.name} - Coming Soon!`);
       }
-    } else if (link.type === "internal") {
-      // Navigate to leadership page
-      onNavClick(link.href);
     }
   };
 
