@@ -61,13 +61,14 @@ const BudgetTable = ({
   const isOverBudget = max && total > max;
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-2">
         <div>
-          <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-            {isInnovation ? "6: Requested Funding" : "7: Detailed Budget"}
+          <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+            <Calculator className="text-daystar-blue" size={24} />
+            {isInnovation ? "6. Requested Funding" : "7. Detailed Budget"}
           </h3>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-sm text-slate-500 mt-2 font-medium">
             Provide a clear breakdown of all costs.{" "}
             {max && `Maximum: KSh ${max.toLocaleString()}`}
           </p>
@@ -76,26 +77,26 @@ const BudgetTable = ({
         <button
           type="button"
           onClick={addRow}
-          className="flex items-center gap-1 text-sm font-bold text-daystar-blue hover:bg-blue-50 px-3 py-2 rounded-lg transition-colors"
+          className="flex items-center gap-2 text-sm font-bold text-daystar-blue hover:bg-blue-50 px-4 py-2 border border-blue-200 rounded-xl transition-all hover:scale-[1.02]"
         >
-          Add Item
+          <Plus size={16} /> Add Item
         </button>
       </div>
 
-      <div className="overflow-x-auto border border-slate-200 rounded-xl">
-        <table className="w-full text-left border-collapse">
-          <thead className="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider">
+      <div className="overflow-x-auto border border-slate-200 rounded-2xl bg-white shadow-sm">
+        <table className="w-full text-left border-collapse min-w-[800px]">
+          <thead className="bg-slate-50 border-b border-slate-200">
             <tr>
-              <th className="p-4 font-semibold">Description / Item</th>
-              <th className="p-4 font-semibold w-48">Category</th>
-              <th className="p-4 font-semibold w-40">Amount (KSh)</th>
-              <th className="p-4 font-semibold">Justification</th>
+              <th className="p-4 font-bold text-xs text-slate-500 uppercase tracking-wider">Description / Item</th>
+              <th className="p-4 font-bold text-xs text-slate-500 uppercase tracking-wider w-48">Category</th>
+              <th className="p-4 font-bold text-xs text-slate-500 uppercase tracking-wider w-40">Amount (KSh)</th>
+              <th className="p-4 font-bold text-xs text-slate-500 uppercase tracking-wider">Justification</th>
               <th className="p-4 w-12"></th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-200">
+          <tbody className="divide-y divide-slate-100">
             {budget.map((row, idx) => (
-              <tr key={idx} className="hover:bg-slate-50 transition-colors">
+              <tr key={idx} className="hover:bg-slate-50/50 transition-colors group">
                 <td className="p-3">
                   <input
                     type="text"
@@ -104,7 +105,7 @@ const BudgetTable = ({
                       handleRowChange(idx, "description", e.target.value)
                     }
                     placeholder="e.g. Laboratory reagents"
-                    className="w-full p-3 text-sm bg-transparent border-none focus:ring-0"
+                    className="w-full p-3 text-sm bg-slate-50 border border-transparent rounded-lg focus:bg-white focus:border-slate-200 focus:ring-2 focus:ring-offset-0 focus:ring-daystar-blue transition-all outline-none"
                     required
                   />
                 </td>
@@ -114,10 +115,10 @@ const BudgetTable = ({
                     onChange={(e) =>
                       handleRowChange(idx, "category", e.target.value)
                     }
-                    className="w-full p-3 text-sm bg-transparent border border-slate-200 rounded-lg focus:ring-2 focus:ring-daystar-blue outline-none"
+                    className="w-full p-3 text-sm bg-slate-50 border border-transparent rounded-lg focus:bg-white focus:border-slate-200 focus:ring-2 focus:ring-offset-0 focus:ring-daystar-blue transition-all outline-none"
                     required
                   >
-                    <option value="">Select Category</option>
+                    <option value="">Select...</option>
                     {categories.map((cat) => (
                       <option key={cat} value={cat}>
                         {cat}
@@ -132,8 +133,8 @@ const BudgetTable = ({
                     onChange={(e) =>
                       handleRowChange(idx, "amount", e.target.value)
                     }
-                    placeholder="0"
-                    className="w-full p-3 text-sm bg-transparent font-mono border-none focus:ring-0"
+                    placeholder=""
+                    className="w-full p-3 text-sm bg-slate-50 font-mono border border-transparent rounded-lg focus:bg-white focus:border-slate-200 focus:ring-2 focus:ring-offset-0 focus:ring-daystar-blue transition-all outline-none"
                     required
                   />
                 </td>
@@ -145,14 +146,15 @@ const BudgetTable = ({
                       handleRowChange(idx, "justification", e.target.value)
                     }
                     placeholder="Why is this needed?"
-                    className="w-full p-3 text-sm bg-transparent border-none focus:ring-0"
+                    className="w-full p-3 text-sm bg-slate-50 border border-transparent rounded-lg focus:bg-white focus:border-slate-200 focus:ring-2 focus:ring-offset-0 focus:ring-daystar-blue transition-all outline-none"
                   />
                 </td>
-                <td className="p-3">
+                <td className="p-3 text-center">
                   <button
                     type="button"
                     onClick={() => removeRow(idx)}
-                    className="text-slate-400 hover:text-red-500 transition-colors"
+                    className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all opacity-0 group-hover:opacity-100"
+                    title="Remove Item"
                   >
                     <Trash2 size={16} />
                   </button>
@@ -160,20 +162,20 @@ const BudgetTable = ({
               </tr>
             ))}
           </tbody>
-          <tfoot className="bg-slate-50 font-bold">
+          <tfoot className="bg-slate-50 border-t border-slate-200">
             <tr>
-              <td colSpan="2" className="p-4 text-right text-slate-600">
+              <td colSpan="2" className="p-5 text-right font-bold text-slate-700">
                 Total Requested Amount:
               </td>
               <td
-                className={`p-4 font-mono text-lg ${isOverBudget ? "text-red-600" : "text-green-600"}`}
+                className={`p-5 font-mono font-bold text-lg \${isOverBudget ? "text-red-600" : "text-emerald-600"}`}
               >
                 KSh {total.toLocaleString()}
               </td>
-              <td colSpan="2" className="p-4">
+              <td colSpan="2" className="p-5">
                 {isOverBudget && (
-                  <div className="flex items-center gap-1 text-red-500 text-xs">
-                    <Info size={14} /> Exceeds maximum limit
+                  <div className="flex items-center gap-2 text-red-500 text-sm font-semibold bg-red-50 px-4 py-2 rounded-lg w-fit">
+                    <Info size={16} /> Exceeds maximum limit
                   </div>
                 )}
               </td>
@@ -182,8 +184,8 @@ const BudgetTable = ({
         </table>
       </div>
 
-      <div className="p-4 bg-blue-50 border border-blue-100 rounded-xl flex gap-3 text-blue-700 text-sm italic">
-        <Info className="shrink-0" size={18} />
+      <div className="p-4 bg-slate-50 rounded-xl flex gap-3 text-slate-600 text-sm italic font-medium">
+        <Info className="shrink-0 text-slate-400 mt-0.5" size={18} />
         <p>
           {isInnovation
             ? "Ensure costs align with product development and commercialization milestones."

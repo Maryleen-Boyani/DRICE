@@ -6,13 +6,13 @@ import { Upload, FileText, Image as ImageIcon, X, File, FileCode, FileArchive } 
  */
 const FileEntry = ({ file, onRemove, preview }) => {
   return (
-    <div className="relative group border border-slate-200 rounded-xl p-3 bg-white hover:bg-slate-50 flex items-center gap-3 transition-colors duration-200">
+    <div className="relative group border border-slate-200 rounded-xl p-4 bg-white shadow-sm hover:shadow-md flex items-center gap-4 transition-all duration-200">
       {/* Thumbnail / Icon */}
-      <div className="w-10 h-10 rounded bg-slate-100 flex items-center justify-center overflow-hidden shrink-0 border border-slate-200">
+      <div className="w-12 h-12 rounded-lg bg-slate-50 flex items-center justify-center overflow-hidden shrink-0 border border-slate-200">
         {preview ? (
-          <img src={preview} alt="Preview" className="w-full h-full object-cover grayscale-[0.5] hover:grayscale-0 transition-all" />
+          <img src={preview} alt="Preview" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
         ) : (
-          <FileText className="text-slate-700" size={24} />
+          <FileText className="text-daystar-blue" size={24} />
         )}
       </div>
 
@@ -21,7 +21,7 @@ const FileEntry = ({ file, onRemove, preview }) => {
         <p className="text-sm font-bold text-slate-900 truncate" title={file.name}>
           {file.name}
         </p>
-        <p className="text-[10px] text-slate-500 font-medium">
+        <p className="text-xs text-slate-500 font-medium tracking-wide mt-0.5">
           {(file.size / 1024 / 1024).toFixed(2)} MB
         </p>
       </div>
@@ -30,7 +30,7 @@ const FileEntry = ({ file, onRemove, preview }) => {
       <button
         type="button"
         onClick={onRemove}
-        className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-slate-200 transition-all rounded-full"
+        className="w-9 h-9 flex items-center justify-center text-slate-400 hover:text-red-600 hover:bg-red-50 transition-all rounded-full border border-transparent hover:border-red-100"
         title="Remove file"
       >
         <X size={18} />
@@ -41,15 +41,6 @@ const FileEntry = ({ file, onRemove, preview }) => {
 
 /**
  * A modern file upload field with support for single or multiple files.
- * 
- * @param {string} label - The label for the field
- * @param {File | File[] | null} file - The currently selected file(s)
- * @param {function} onChange - Callback when file(s) change
- * @param {string} id - Unique ID for the input
- * @param {boolean} required - Whether the field is required
- * @param {string} accept - File types to accept
- * @param {boolean} multiple - Whether to allow multiple files
- * @param {number} maxFiles - Maximum number of files allowed (if multiple is true)
  */
 const FileUploadField = ({ 
   label, 
@@ -113,21 +104,21 @@ const FileUploadField = ({
   const canAddMore = !multiple ? filesArray.length === 0 : filesArray.length < maxFiles;
 
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-3 w-full">
       {label && (
-        <div className="flex justify-between items-center">
-          <label htmlFor={id} className="text-sm font-bold text-slate-800 flex items-center gap-1">
-            {label} {required && <span className="text-red-500">*</span>}
+        <div className="flex justify-between items-end">
+          <label htmlFor={id} className="text-sm font-semibold text-slate-700 flex items-center gap-1">
+            {label} {required && <span className="text-daystar-blue">*</span>}
           </label>
           {multiple && maxFiles > 1 && (
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-              {filesArray.length} / {maxFiles} Files
+            <span className="text-xs font-bold text-slate-400 bg-slate-100 px-2 py-1 rounded-md tracking-wider">
+              {filesArray.length} OF {maxFiles}
             </span>
           )}
         </div>
       )}
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {filesArray.map((f, idx) => (
           <FileEntry 
             key={f.name + idx} 
@@ -140,17 +131,17 @@ const FileUploadField = ({
         {canAddMore && (
           <label
             htmlFor={id}
-            className="relative group border-2 border-dashed border-slate-200 rounded-xl p-8 bg-slate-50 hover:bg-white hover:border-slate-800 transition-all cursor-pointer flex flex-col items-center justify-center gap-2"
+            className="relative group border-2 border-dashed border-slate-200 rounded-2xl p-10 bg-slate-50/50 hover:bg-blue-50/50 hover:border-daystar-blue/40 hover:shadow-inner transition-all cursor-pointer flex flex-col items-center justify-center gap-4"
           >
-            <div className="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center text-slate-400 group-hover:text-slate-800 group-hover:scale-110 transition-all">
-              <Upload size={20} />
+            <div className="w-14 h-14 rounded-full bg-white shadow-sm flex items-center justify-center text-daystar-blue group-hover:scale-110 group-hover:shadow-md transition-all">
+              <Upload size={24} />
             </div>
             <div className="text-center">
-              <p className="text-sm font-bold text-slate-600">
-                {multiple ? (filesArray.length === 0 ? "Click to upload files" : "Add another file") : "Click to upload or drag & drop"}
+              <p className="text-sm font-bold text-slate-700 group-hover:text-daystar-blue transition-colors">
+                {multiple ? (filesArray.length === 0 ? "Click here to upload files" : "Add another file") : "Click here to upload or drag & drop"}
               </p>
-              <p className="text-[10px] text-slate-400 mt-1 uppercase tracking-tighter font-extrabold px-3 py-0.5 rounded-full border border-slate-100">
-                {accept.replace(/\./g, '').toUpperCase().split(',').join(' • ')}
+              <p className="text-xs text-slate-400 mt-2 font-medium tracking-wide">
+                Supported formats: {accept.replace(/\./g, '').toUpperCase().split(',').join(', ')}
               </p>
             </div>
             <input

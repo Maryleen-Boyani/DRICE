@@ -164,7 +164,7 @@ const InternalGrantForm = ({ onBack }) => {
             file: raw,
             folder: field.folder,
           });
-          payload[field.payloadKey] = uploaded.referenceId;
+          payload[field.payloadKey] = uploaded.publicUrl;
         }
       }
 
@@ -225,44 +225,49 @@ const InternalGrantForm = ({ onBack }) => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto pb-20 px-4">
+    <div className="max-w-5xl mx-auto pb-20 px-4 min-h-screen bg-slate-50/50">
       <FormHeader
         title="2025/2026 INTERNAL RESEARCH GRANT"
         subtitle="Full Application Form - Directorate of Research, Innovation, Commercialization & Entrepreneurship"
         deadline="10 May 2026"
       />
 
-      <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-200">
-        <div className="bg-slate-50 border-b px-8 py-4 flex justify-between items-center">
+      {/* Enhanced Progress Bar */}
+      <div className="mb-8">
+        <div className="flex justify-between items-center mb-2">
           <span className="text-sm font-bold text-slate-500 uppercase tracking-widest">
             Section {step} of 10
           </span>
-          <div className="flex gap-1">
-            {[...Array(10)].map((_, i) => (
-              <div
-                key={i}
-                className={`h-1.5 w-6 rounded-full ${step > i ? "bg-daystar-blue" : "bg-slate-200"}`}
-              />
-            ))}
-          </div>
+          <span className="text-sm font-bold text-daystar-blue">
+            {Math.round((step / 10) * 100)}% Completed
+          </span>
         </div>
+        <div className="w-full bg-slate-200 rounded-full h-2">
+          <div 
+            className="bg-daystar-blue h-2 rounded-full transition-all duration-500 ease-out"
+            style={{ width: `${(step / 10) * 100}%` }}
+          />
+        </div>
+      </div>
+
+      <div className="bg-white shadow-sm rounded-2xl overflow-hidden border border-slate-100">
         {/* collecting form responses starts here */}
         <form className="p-8">
           {/* eligibility  */}
           {step === 1 && (
             <div className="space-y-6 animate-in fade-in">
-              <h3 className="text-xl font-bold flex items-center gap-2">
+              <h3 className="text-2xl font-bold text-slate-800 flex items-center gap-2 mb-6 pb-4 border-b border-slate-100">
                 1. Eligibility Confirmation
               </h3>
               <div className="grid md:grid-cols-2 gap-6 p-6 bg-blue-50/30 rounded-xl border border-blue-100/50">
                 <div>
-                  <label className="block text-sm font-semibold mb-2">
+                  <label className="block text-sm font-semibold mb-2 text-slate-700">
                     1.1 Full-time staff member? *
                   </label>
                   <select
                     value={formData.isFullTime}
                     onChange={(e) => updateField("isFullTime", e.target.value)}
-                    className="w-full p-3 rounded-lg border focus:ring-2 focus:ring-daystar-blue outline-none"
+                    className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
                   >
                     <option value="">Select...</option>
@@ -271,7 +276,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold mb-2">
+                  <label className="block text-sm font-semibold mb-2 text-slate-700">
                     1.2 Current academic rank? *
                   </label>
                   <select
@@ -279,7 +284,7 @@ const InternalGrantForm = ({ onBack }) => {
                     onChange={(e) =>
                       updateField("academicRank", e.target.value)
                     }
-                    className="w-full p-3 rounded-lg border focus:ring-2 focus:ring-daystar-blue outline-none"
+                    className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
                   >
                     <option value="">Select...</option>
@@ -293,7 +298,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold mb-2">
+                  <label className="block text-sm font-semibold mb-2 text-slate-700">
                     1.2 Active internal grant? *
                   </label>
                   <select
@@ -301,7 +306,7 @@ const InternalGrantForm = ({ onBack }) => {
                     onChange={(e) =>
                       updateField("hasActiveGrant", e.target.value)
                     }
-                    className="w-full p-3 rounded-lg border focus:ring-2 focus:ring-daystar-blue outline-none"
+                    className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
                   >
                     <option value="">Select...</option>
@@ -315,7 +320,7 @@ const InternalGrantForm = ({ onBack }) => {
 
           {step === 2 && (
             <div className="space-y-6 animate-in fade-in">
-              <h3 className="text-xl font-bold flex items-center gap-2">
+              <h3 className="text-2xl font-bold text-slate-800 flex items-center gap-2 mb-6 pb-4 border-b border-slate-100">
                 2. Principal Investigator Details
               </h3>
               <div className="grid md:grid-cols-2 gap-4">
@@ -326,7 +331,7 @@ const InternalGrantForm = ({ onBack }) => {
                     value={formData.firstName}
                     onChange={(e) => updateField("firstName", e.target.value)}
                     placeholder="First Name *"
-                    className="p-3 border rounded-lg"
+                    className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
                   />
                 </div>
@@ -337,7 +342,7 @@ const InternalGrantForm = ({ onBack }) => {
                     value={formData.lastName}
                     onChange={(e) => updateField("lastName", e.target.value)}
                     placeholder="Last Name *"
-                    className="p-3 border rounded-lg"
+                    className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
                   />
                 </div>
@@ -350,7 +355,7 @@ const InternalGrantForm = ({ onBack }) => {
                     value={formData.staffId}
                     onChange={(e) => updateField("staffId", e.target.value)}
                     placeholder="Staff ID (DU-XXXX) *"
-                    className="p-3 border rounded-lg"
+                    className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
@@ -362,7 +367,7 @@ const InternalGrantForm = ({ onBack }) => {
                     value={formData.email}
                     onChange={(e) => updateField("email", e.target.value)}
                     placeholder="name@daystar.ac.ke"
-                    className="p-3 border rounded-lg"
+                    className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
                   />
                 </div>
@@ -375,7 +380,7 @@ const InternalGrantForm = ({ onBack }) => {
                     value={formData.phone}
                     onChange={(e) => updateField("phone", e.target.value)}
                     placeholder="Phone (+254...) "
-                    className="p-3 border rounded-lg"
+                    className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
                   />
                 </div>
@@ -389,7 +394,7 @@ const InternalGrantForm = ({ onBack }) => {
                     value={formData.orcid}
                     onChange={(e) => updateField("orcid", e.target.value)}
                     placeholder=""
-                    className="p-3 border rounded-lg"
+                    className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
                   />
                 </div>
@@ -402,7 +407,7 @@ const InternalGrantForm = ({ onBack }) => {
                     value={formData.school}
                     onChange={(e) => updateField("school", e.target.value)}
                     placeholder=""
-                    className="p-3 border rounded-lg"
+                    className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
                   />
                 </div>
@@ -415,7 +420,7 @@ const InternalGrantForm = ({ onBack }) => {
                     value={formData.department}
                     onChange={(e) => updateField("department", e.target.value)}
                     placeholder="Department *"
-                    className="p-3 border rounded-lg"
+                    className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
                   />
                 </div>
@@ -430,7 +435,7 @@ const InternalGrantForm = ({ onBack }) => {
                       updateField("researchArea", e.target.value)
                     }
                     placeholder=""
-                    className="p-3 border rounded-lg"
+                    className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
                   />
                 </div>
@@ -445,7 +450,7 @@ const InternalGrantForm = ({ onBack }) => {
                       updateField("previousGrants", e.target.value)
                     }
                     placeholder="List any externally or internally funded projects: (Include Grant Name | Funder | Year | Amount | Status"
-                    className="p-3 border rounded-lg"
+                    className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
                   />
                 </div>
@@ -455,7 +460,7 @@ const InternalGrantForm = ({ onBack }) => {
           {/* Matters team composition */}
           {step === 3 && (
             <div className="space-y-6 animate-in fade-in">
-              {/* <h3 className="text-xl font-bold flex items-center gap-2">3. Research Team Composition</h3> */}
+              {/* <h3 className="text-2xl font-bold text-slate-800 flex items-center gap-2 mb-6 pb-4 border-b border-slate-100">3. Research Team Composition</h3> */}
               <TeamSection
                 data={formData.team}
                 onChange={(team) => updateField("team", team)}
@@ -473,7 +478,7 @@ const InternalGrantForm = ({ onBack }) => {
                     updateField("teamRoleDescription", e.target.value)
                   }
                   placeholder="Explain how each member contributes to the project and what expertise they bring."
-                  className="p-3 border rounded-lg"
+                  className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                   required
                 />
               </div>
@@ -489,7 +494,7 @@ const InternalGrantForm = ({ onBack }) => {
                     updateField("mentorshipPlan", e.target.value)
                   }
                   placeholder=" Describe how junior team members will be mentored and developed through this project"
-                  className="p-3 border rounded-lg"
+                  className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                   required
                 />
               </div>
@@ -498,7 +503,7 @@ const InternalGrantForm = ({ onBack }) => {
 
           {step === 4 && (
             <div className="space-y-6 animate-in fade-in">
-              <h3 className="text-xl font-bold flex items-center gap-2">
+              <h3 className="text-2xl font-bold text-slate-800 flex items-center gap-2 mb-6 pb-4 border-b border-slate-100">
                 4. Project Overview
               </h3>
 
@@ -511,7 +516,7 @@ const InternalGrantForm = ({ onBack }) => {
                   value={formData.projectTitle}
                   onChange={(e) => updateField("projectTitle", e.target.value)}
                   placeholder="Clear and descriptive"
-                  className="p-3 border rounded-lg"
+                  className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                   required
                 />
               </div>
@@ -522,7 +527,7 @@ const InternalGrantForm = ({ onBack }) => {
                 <select
                   value={formData.primaryTheme}
                   onChange={(e) => updateField("primaryTheme", e.target.value)}
-                  className="w-full p-3 rounded-lg border focus:ring-2 focus:ring-daystar-blue outline-none"
+                  className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                   required
                 >
                   <option value="">Select...</option>
@@ -546,7 +551,7 @@ const InternalGrantForm = ({ onBack }) => {
                   value={formData.otherTheme || ""}
                   onChange={(e) => updateField("otherTheme", e.target.value)}
                   placeholder=""
-                  className="p-3 border rounded-lg"
+                  className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                   required
                 />
               </div>
@@ -651,13 +656,13 @@ const InternalGrantForm = ({ onBack }) => {
                       updateField("otherApproach", e.target.value)
                     }
                     placeholder="Specify here"
-                    className="p-3 border rounded-lg"
+                    className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
                   />
                 </div>
                 <br />
                 <div>
-                  <label className="block text-sm font-semibold mb-2">
+                  <label className="block text-sm font-semibold mb-2 text-slate-700">
                     4.5 Is this project interdisciplinary?
                   </label>
                   <select
@@ -665,7 +670,7 @@ const InternalGrantForm = ({ onBack }) => {
                     onChange={(e) =>
                       updateField("isInterdisciplinary", e.target.value)
                     }
-                    className="w-full p-2 rounded border"
+                    className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
                   >
                     <option value="">Select...</option>
@@ -675,7 +680,7 @@ const InternalGrantForm = ({ onBack }) => {
                 </div>
                 <br />
                 <div>
-                  <label className="block text-sm font-semibold mb-2">
+                  <label className="block text-sm font-semibold mb-2 text-slate-700">
                     4.6 Will this project involve human participants or
                     sensitive data?
                   </label>
@@ -684,7 +689,7 @@ const InternalGrantForm = ({ onBack }) => {
                     onChange={(e) =>
                       updateField("requiresEthics", e.target.value)
                     }
-                    className="w-full p-2 rounded border"
+                    className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
                   >
                     <option value="">Select...</option>
@@ -703,7 +708,7 @@ const InternalGrantForm = ({ onBack }) => {
                     value={formData.abstract}
                     onChange={(e) => updateField("abstract", e.target.value)}
                     placeholder="Summarize the problem, research approach and expected contribution"
-                    className="p-3 border rounded-lg"
+                    className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
                   />
                 </div>
@@ -713,11 +718,11 @@ const InternalGrantForm = ({ onBack }) => {
 
           {step === 5 && (
             <div className="space-y-6 animate-in fade-in">
-              <h3 className="text-xl font-bold">
+              <h3 className="text-2xl font-bold text-slate-800 flex items-center gap-2 mb-6 pb-4 border-b border-slate-100">
                 5. Technical Research Proposal
               </h3>
               <div className="flex flex-col gap-2">
-                <label className="font-semibold">
+                <label className="block text-sm font-semibold mb-2 text-slate-700">
                   5.1 Background & Justification
                 </label>
                 <textarea
@@ -725,39 +730,39 @@ const InternalGrantForm = ({ onBack }) => {
                   onChange={(e) =>
                     updateField("backgroundJustification", e.target.value)
                   }
-                  className="p-3 border rounded-lg min-h-[120px]"
+                  className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none min-h-[120px]"
                   placeholder="Provide the context for your study. What is the current state of knowledge? What gap does this research address?"
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="font-semibold">5.2 Problem Statement</label>
+                <label className="block text-sm font-semibold mb-2 text-slate-700">5.2 Problem Statement</label>
                 <textarea
                   value={formData.problemStatement || ""}
                   onChange={(e) =>
                     updateField("problemStatement", e.target.value)
                   }
-                  className="p-3 border rounded-lg min-h-[120px]"
+                  className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none min-h-[120px]"
                   placeholder="Clearly and concisely articulate the specific research problem being addressed."
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="font-semibold">5.3 Research Objectives</label>
+                <label className="block text-sm font-semibold mb-2 text-slate-700">5.3 Research Objectives</label>
                 <textarea
                   value={formData.objectives || ""}
                   onChange={(e) => updateField("objectives", e.target.value)}
-                  className="p-3 border rounded-lg min-h-[120px]"
+                  className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none min-h-[120px]"
                   placeholder="State your main objective and specific sub-objectives. Example: 1. To examine... 2. To assess... 3. To develop..."
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="font-semibold">
+                <label className="block text-sm font-semibold mb-2 text-slate-700">
                   5.4 Research Methodology
                 </label>
                 <textarea
                   value={formData.methodology}
                   onChange={(e) => updateField("methodology", e.target.value)}
                   placeholder="Describe your research design, data collection methods, sampling strategy, and analysis approach. Demonstrate methodological rigor and feasibility."
-                  className="p-3 border rounded-lg min-h-[150px]"
+                  className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none min-h-[150px]"
                 />
               </div>
             </div>
@@ -765,33 +770,33 @@ const InternalGrantForm = ({ onBack }) => {
 
           {step === 6 && (
             <div className="space-y-6 animate-in fade-in">
-              <h3 className="text-xl font-bold">
+              <h3 className="text-2xl font-bold text-slate-800 flex items-center gap-2 mb-6 pb-4 border-b border-slate-100">
                 6. Expected Outputs, Outcomes & Impact
               </h3>
               <div className="flex flex-col gap-2">
-                <label className="font-semibold">6.1 Primary Outputs</label>
+                <label className="block text-sm font-semibold mb-2 text-slate-700">6.1 Primary Outputs</label>
                 <textarea
                   value={formData.expectedOutputs}
                   onChange={(e) =>
                     updateField("expectedOutputs", e.target.value)
                   }
                   placeholder="List specific deliverables: e.g. peer-reviewed journal articles, conference papers, policy briefs, datasets, prototypes, technical reports."
-                  className="p-3 border rounded-lg min-h-[100px]"
+                  className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none min-h-[100px]"
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="font-semibold">6.2 Dissemination Plan </label>
+                <label className="block text-sm font-semibold mb-2 text-slate-700">6.2 Dissemination Plan </label>
                 <textarea
                   value={formData.disseminationPlan}
                   onChange={(e) =>
                     updateField("disseminationPlan", e.target.value)
                   }
-                  className="p-3 border rounded-lg min-h-[100px]"
+                  className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none min-h-[100px]"
                   placeholder="How will findings be shared? Identify target journals, conferences, and community engagement activities. Note: findings must be presented at a Daystar University dissemination forum"
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="font-semibold">
+                <label className="block text-sm font-semibold mb-2 text-slate-700">
                   6.3 Relevance to Policy, Community Transformation or
                   Commercialization
                 </label>
@@ -800,12 +805,12 @@ const InternalGrantForm = ({ onBack }) => {
                   onChange={(e) =>
                     updateField("anticipatedImpact", e.target.value)
                   }
-                  className="p-3 border rounded-lg min-h-[100px]"
+                  className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none min-h-[100px]"
                   placeholder="Describe any potential policy influence, community impact, innovation, or commercialization value."
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="font-semibold">
+                <label className="block text-sm font-semibold mb-2 text-slate-700">
                   6.4 Stakeholder and Community Involvement
                 </label>
                 <textarea
@@ -813,7 +818,7 @@ const InternalGrantForm = ({ onBack }) => {
                   onChange={(e) =>
                     updateField("stakeholderInvolvement", e.target.value)
                   }
-                  className="p-3 border rounded-lg min-h-[100px]"
+                  className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none min-h-[100px]"
                   placeholder="Identify any stakeholders, community partners, or external organizations involved in or benefiting from the research."
                 />
               </div>
@@ -829,7 +834,7 @@ const InternalGrantForm = ({ onBack }) => {
                 max={800000}
               />
               <div className="flex flex-col gap-2">
-                <label className="font-semibold">
+                <label className="block text-sm font-semibold mb-2 text-slate-700">
                   {" "}
                   Budget Justification Narrative
                 </label>
@@ -838,7 +843,7 @@ const InternalGrantForm = ({ onBack }) => {
                   onChange={(e) =>
                     updateField("budgetJustificationNarrative", e.target.value)
                   }
-                  className="p-3 border rounded-lg min-h-[100px]"
+                  className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none min-h-[100px]"
                   placeholder="Explain the rationale and necessity of each major expenditure. Demonstrate value for money."
                 />
               </div>
@@ -851,7 +856,7 @@ const InternalGrantForm = ({ onBack }) => {
                 8. Work Plan & Implementation Schedule
               </h3>
               <div className="flex flex-col gap-2">
-                <label className="font-semibold">
+                <label className="block text-sm font-semibold mb-2 text-slate-700">
                   8.1 Detailed Timeline (Question 34)
                 </label>
                 <textarea
@@ -860,11 +865,11 @@ const InternalGrantForm = ({ onBack }) => {
                     updateField("workPlanTimeline", e.target.value)
                   }
                   placeholder="List activities you will work on during Month 1-3, Month 4-6, Month 7-9, Month 10-12 and the responsible person"
-                  className="p-3 border rounded-lg min-h-[120px]"
+                  className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none min-h-[120px]"
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="font-semibold">
+                <label className="block text-sm font-semibold mb-2 text-slate-700">
                   8.2 Key Milestones and Deliverables
                 </label>
                 <textarea
@@ -872,12 +877,12 @@ const InternalGrantForm = ({ onBack }) => {
                   onChange={(e) =>
                     updateField("monitoringPlan", e.target.value)
                   }
-                  className="p-3 border rounded-lg min-h-[100px]"
+                  className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none min-h-[100px]"
                   placeholder="List your key milestones, target dates, and the responsible team member for each."
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="font-semibold">
+                <label className="block text-sm font-semibold mb-2 text-slate-700">
                   8.3 Potential Risks and Mitigation measures
                 </label>
                 <textarea
@@ -886,7 +891,7 @@ const InternalGrantForm = ({ onBack }) => {
                     updateField("riskManagement", e.target.value)
                   }
                   placeholder="Identify key risks to successful implementation and describe your mitigation strategies."
-                  className="p-3 border rounded-lg min-h-[100px]"
+                  className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none min-h-[100px]"
                 />
               </div>
             </div>
@@ -894,7 +899,7 @@ const InternalGrantForm = ({ onBack }) => {
 
           {step === 9 && (
             <div className="space-y-6 animate-in fade-in">
-              <h3 className="text-xl font-bold flex items-center gap-2">
+              <h3 className="text-2xl font-bold text-slate-800 flex items-center gap-2 mb-6 pb-4 border-b border-slate-100">
                 9. PI Declaration
               </h3>
               <div className="space-y-4">
@@ -1041,7 +1046,7 @@ const InternalGrantForm = ({ onBack }) => {
                         updateField("piSignature", e.target.value)
                       }
                       placeholder="Full Name "
-                      className="p-3 border rounded-lg"
+                      className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                       required
                     />
                   </div>
@@ -1052,7 +1057,7 @@ const InternalGrantForm = ({ onBack }) => {
                       value={formData.date}
                       onChange={(e) => updateField("date", e.target.value)}
                       placeholder="Full Name "
-                      className="p-3 border rounded-lg"
+                      className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                       required
                     />
                   </div>
@@ -1063,7 +1068,7 @@ const InternalGrantForm = ({ onBack }) => {
                       value={formData.hodName}
                       onChange={(e) => updateField("hodName", e.target.value)}
                       placeholder=" "
-                      className="p-3 border rounded-lg"
+                      className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                       required
                     />
                   </div>
@@ -1074,7 +1079,7 @@ const InternalGrantForm = ({ onBack }) => {
                       value={formData.hodEmail}
                       onChange={(e) => updateField("hodEmail", e.target.value)}
                       placeholder=" "
-                      className="p-3 border rounded-lg"
+                      className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                       required
                     />
                   </div>
@@ -1085,7 +1090,7 @@ const InternalGrantForm = ({ onBack }) => {
                       value={formData.deanName || ""}
                       onChange={(e) => updateField("deanName", e.target.value)}
                       placeholder=" "
-                      className="p-3 border rounded-lg"
+                      className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                       required
                     />
                   </div>
@@ -1096,7 +1101,7 @@ const InternalGrantForm = ({ onBack }) => {
                       value={formData.deanDate || ""}
                       onChange={(e) => updateField("deanDate", e.target.value)}
                       placeholder=" "
-                      className="p-3 border rounded-lg"
+                      className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                       required
                     />
                   </div>

@@ -54,11 +54,11 @@ async function buildSubmissionPayload(value) {
         const uploaded = await Promise.all(
           raw.map((file) => uploadFile({ file, folder: field.folder })),
         );
-        payload[field.payloadKey] = uploaded.map((item) => item.referenceId).join(',');
+        payload[field.payloadKey] = uploaded.map((item) => item.publicUrl).join(',');
       }
     } else if (raw instanceof File) {
       const uploaded = await uploadFile({ file: raw, folder: field.folder });
-      payload[field.payloadKey] = uploaded.referenceId;
+      payload[field.payloadKey] = uploaded.publicUrl;
     }
 
     delete payload[field.fileKey];
@@ -110,7 +110,7 @@ const VCInnovationForm = ({ onBack }) => {
       revenueModel: '', marketSize: '', traction: '',
       commercializationStrategy: '', competition: '', partnerships: '',
       // Section 6
-      requestedAmount: 0, budgetItems: [], otherFunding: '', otherFundingDetails: '',
+      requestedAmount: '', budgetItems: [], otherFunding: '', otherFundingDetails: '',
       // Section 7
       ipStatus: '', ipStatusOther: '', jointIPConsent: '', jointIPExplanation: '',
       equityConsent: '', equityExplanation: '', ownershipStructure: '',
@@ -176,7 +176,7 @@ const VCInnovationForm = ({ onBack }) => {
 
   if (submitted) {
     return (
-      <div className="max-w-5xl mx-auto pb-20 px-4">
+      <div className="max-w-5xl mx-auto pb-20 px-4 min-h-screen bg-slate-50/50">
         <div className="bg-white shadow-2xl rounded-3xl p-16 text-center space-y-4 border border-blue-100">
           <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <ShieldCheck size={32} />
@@ -206,15 +206,26 @@ const VCInnovationForm = ({ onBack }) => {
         deadline="10 May 2026 | 5:00 PM EAT"
       />
 
-      <div className="bg-white shadow-2xl rounded-3xl overflow-hidden border border-blue-100">
-        {/* Step indicator */}
-        <div className="bg-daystar-blue px-8 py-3 text-white flex justify-between items-center">
-          <span className="font-medium">
+      {/* Enhanced Progress Bar */}
+      <div className="mb-8">
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-sm font-bold text-slate-500 uppercase tracking-widest">
             Section {step} of {TOTAL_STEPS} — {SECTION_LABELS[step - 1]}
           </span>
-          <div className="text-xs opacity-80 italic">Up to 10 successful applicants supported</div>
+          <span className="text-sm font-bold text-daystar-blue flex flex-col items-end">
+            <span>{Math.round((step / TOTAL_STEPS) * 100)}% Completed</span>
+            <span className="text-xs text-slate-400 font-normal">Up to 10 successful applicants supported</span>
+          </span>
         </div>
+        <div className="w-full bg-slate-200 rounded-full h-2">
+          <div 
+            className="bg-daystar-blue h-2 rounded-full transition-all duration-500 ease-out"
+            style={{ width: `${(step / TOTAL_STEPS) * 100}%` }}
+          />
+        </div>
+      </div>
 
+      <div className="bg-white shadow-sm rounded-2xl overflow-hidden border border-slate-100">
         <form
           className="p-8"
           onSubmit={(e) => {
@@ -246,7 +257,7 @@ const VCInnovationForm = ({ onBack }) => {
               type="button"
               onClick={step === 1 ? onBack : prevStep}
               disabled={isSubmitting}
-              className="text-slate-400 font-bold hover:text-daystar-blue transition-colors disabled:opacity-50"
+              className="text-slate-500 font-bold hover:text-daystar-blue hover:bg-blue-50 px-6 py-3 rounded-xl transition-all disabled:opacity-50"
             >
               {step === 1 ? 'Exit Form' : 'Go Back'}
             </button>
@@ -255,7 +266,7 @@ const VCInnovationForm = ({ onBack }) => {
               type="button"
               onClick={isLastStep ? () => form.handleSubmit() : nextStep}
               disabled={isSubmitting}
-              className="bg-daystar-blue text-white px-12 py-3 rounded-2xl font-bold shadow-lg shadow-blue-200 hover:bg-daystar-dark transition-all disabled:opacity-50 flex items-center gap-2"
+              className="bg-daystar-blue text-white px-12 py-4 rounded-xl font-bold shadow-sm hover:scale-[1.02] hover:shadow-md transition-all disabled:opacity-50 flex items-center gap-2 border border-blue-600"
             >
               {isSubmitting ? 'Submitting...' : isLastStep ? 'Submit Concept Note' : 'Next Section'}
             </button>
