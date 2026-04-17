@@ -48,18 +48,17 @@ const InternalGrantForm = ({ onBack }) => {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        if (parsed.attachments) {
-          parsed.attachments = {
-            proposal: null,
-            piCv: null,
-            coIvCv: null,
-            raCv: null,
-            ethics: null,
-            gantt: null,
-            support: null,
-            other: [],
-          };
-        }
+        // Always ensure attachments is initialized correctly as it's not persisted
+        parsed.attachments = {
+          proposal: null,
+          piCv: null,
+          coIvCv: null,
+          raCv: null,
+          ethics: null,
+          gantt: null,
+          support: null,
+          other: [],
+        };
         return parsed;
       } catch (e) {}
     }
@@ -145,6 +144,25 @@ const InternalGrantForm = ({ onBack }) => {
     localStorage.setItem("internalGrantFormStep", step.toString());
   }, [step]);
 
+  // Safety check to ensure attachments is never null in state
+  useEffect(() => {
+    if (formData && !formData.attachments) {
+      setFormData(prev => ({
+        ...prev,
+        attachments: {
+          proposal: null,
+          piCv: null,
+          coIvCv: null,
+          raCv: null,
+          ethics: null,
+          gantt: null,
+          support: null,
+          other: [],
+        }
+      }));
+    }
+  }, [formData?.attachments]);
+
   const nextStep = () => setStep((s) => s + 1);
   const prevStep = () => setStep((s) => s - 1);
 
@@ -157,7 +175,7 @@ const InternalGrantForm = ({ onBack }) => {
       const payload = { ...formData };
 
       for (const field of ATTACHMENT_FIELDS) {
-        const raw = formData.attachments[field.fileKey];
+        const raw = formData.attachments?.[field.fileKey];
 
         if (raw instanceof File) {
           const uploaded = await uploadFile({
@@ -1123,11 +1141,11 @@ const InternalGrantForm = ({ onBack }) => {
                 <FileUploadField
                   label="Technical Proposal document"
                   id="proposal-upload"
-                  file={formData.attachments.proposal}
+                  file={formData.attachments?.proposal}
                   onChange={(file) =>
                     setFormData((prev) => ({
                       ...prev,
-                      attachments: { ...prev.attachments, proposal: file },
+                      attachments: { ...(prev.attachments || {}), proposal: file },
                     }))
                   }
                   required
@@ -1136,11 +1154,11 @@ const InternalGrantForm = ({ onBack }) => {
                 <FileUploadField
                   label="Principal Investigator CV"
                   id="piCv-upload"
-                  file={formData.attachments.piCv}
+                  file={formData.attachments?.piCv}
                   onChange={(file) =>
                     setFormData((prev) => ({
                       ...prev,
-                      attachments: { ...prev.attachments, piCv: file },
+                      attachments: { ...(prev.attachments || {}), piCv: file },
                     }))
                   }
                   required
@@ -1149,11 +1167,11 @@ const InternalGrantForm = ({ onBack }) => {
                 <FileUploadField
                   label="Co-Investigator CV(s) (If Applicable)"
                   id="coIvCv-upload"
-                  file={formData.attachments.coIvCv}
+                  file={formData.attachments?.coIvCv}
                   onChange={(file) =>
                     setFormData((prev) => ({
                       ...prev,
-                      attachments: { ...prev.attachments, coIvCv: file },
+                      attachments: { ...(prev.attachments || {}), coIvCv: file },
                     }))
                   }
                 />
@@ -1161,11 +1179,11 @@ const InternalGrantForm = ({ onBack }) => {
                 <FileUploadField
                   label="Research Assistant/ Postgraduate Student CV(s) (If Applicable)"
                   id="raCv-upload"
-                  file={formData.attachments.raCv}
+                  file={formData.attachments?.raCv}
                   onChange={(file) =>
                     setFormData((prev) => ({
                       ...prev,
-                      attachments: { ...prev.attachments, raCv: file },
+                      attachments: { ...(prev.attachments || {}), raCv: file },
                     }))
                   }
                 />
@@ -1173,11 +1191,11 @@ const InternalGrantForm = ({ onBack }) => {
                 <FileUploadField
                   label="Ethics Approval Certificate or Pending Application Letter (If Applicable)"
                   id="ethics-upload"
-                  file={formData.attachments.ethics}
+                  file={formData.attachments?.ethics}
                   onChange={(file) =>
                     setFormData((prev) => ({
                       ...prev,
-                      attachments: { ...prev.attachments, ethics: file },
+                      attachments: { ...(prev.attachments || {}), ethics: file },
                     }))
                   }
                 />
@@ -1185,11 +1203,11 @@ const InternalGrantForm = ({ onBack }) => {
                 <FileUploadField
                   label="Gantt Chart/ Detailed Implementation Schedule (Recommended)"
                   id="gantt-upload"
-                  file={formData.attachments.gantt}
+                  file={formData.attachments?.gantt}
                   onChange={(file) =>
                     setFormData((prev) => ({
                       ...prev,
-                      attachments: { ...prev.attachments, gantt: file },
+                      attachments: { ...(prev.attachments || {}), gantt: file },
                     }))
                   }
                 />
@@ -1197,11 +1215,11 @@ const InternalGrantForm = ({ onBack }) => {
                 <FileUploadField
                   label="Letters of Support from Partner Organizations (If Applicable)"
                   id="support-upload"
-                  file={formData.attachments.support}
+                  file={formData.attachments?.support}
                   onChange={(file) =>
                     setFormData((prev) => ({
                       ...prev,
-                      attachments: { ...prev.attachments, support: file },
+                      attachments: { ...(prev.attachments || {}), support: file },
                     }))
                   }
                 />
@@ -1209,11 +1227,11 @@ const InternalGrantForm = ({ onBack }) => {
                 <FileUploadField
                   label="Any other relevant supporting documents (If Applicable - Max 4)"
                   id="other-upload"
-                  file={formData.attachments.other}
+                  file={formData.attachments?.other}
                   onChange={(file) =>
                     setFormData((prev) => ({
                       ...prev,
-                      attachments: { ...prev.attachments, other: file },
+                      attachments: { ...(prev.attachments || {}), other: file },
                     }))
                   }
                   multiple={true}
