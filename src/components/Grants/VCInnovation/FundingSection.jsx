@@ -4,18 +4,18 @@ import BudgetTable from '../Shared/BudgetTable';
 export default function FundingSection({ form }) {
   return (
     <div className="space-y-6 animate-in slide-in-from-right-4">
-      <h3 className="text-xl font-bold text-daystar-blue">Funding Requirements</h3>
+      <h3 className="text-xl font-bold text-slate-800 border-b border-slate-100 pb-4 mb-6">6. Funding Requirements</h3>
 
       <form.Field name="requestedAmount">
         {(field) => (
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold">Amount Requested (Ksh) *</label>
+            <label className="text-sm font-semibold text-slate-700">Amount Requested (Ksh) *</label>
             <input
               type="number"
               value={field.state.value}
-              onChange={(e) => field.handleChange(Number(e.target.value))}
+              onChange={(e) => field.handleChange(e.target.value)}
               placeholder="Enter amount in Ksh (max 1,000,000)"
-              className="p-3 border rounded-lg"
+              className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
             />
           </div>
         )}
@@ -34,22 +34,22 @@ export default function FundingSection({ form }) {
 
       <form.Field name="otherFunding">
         {(field) => (
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold">
+          <div className="flex flex-col gap-2 mt-6">
+            <label className="text-sm font-semibold text-slate-700">
               Have you received or applied for other funding for this innovation? *
             </label>
-            <div className="flex gap-6">
+            <div className="flex gap-6 mt-1">
               {['Yes', 'No'].map((option) => (
-                <label key={option} className="flex items-center gap-2 cursor-pointer">
+                <label key={option} className="flex items-center gap-2 cursor-pointer bg-slate-50 border border-slate-200 px-6 py-3 rounded-xl hover:bg-white transition-all">
                   <input
                     type="radio"
                     name="otherFunding"
                     value={option}
                     checked={field.state.value === option}
                     onChange={() => field.handleChange(option)}
-                    className="accent-daystar-blue"
+                    className="w-4 h-4 text-daystar-blue accent-daystar-blue"
                   />
-                  <span>{option}</span>
+                  <span className="font-medium text-slate-700">{option}</span>
                 </label>
               ))}
             </div>
@@ -59,14 +59,14 @@ export default function FundingSection({ form }) {
 
       <form.Field name="otherFundingDetails">
         {(field) => (
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold">If yes, specify funder, amount, and status</label>
+          <div className="flex flex-col gap-2 mt-2">
+            <label className="text-sm font-semibold text-slate-700">If yes, specify funder, amount, and status</label>
             <input
               type="text"
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
               placeholder="Funder name, amount, and current status..."
-              className="w-full p-3 border rounded-lg"
+              className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
             />
           </div>
         )}
