@@ -7,14 +7,37 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3001/api
  * @returns {Promise<{ success: boolean, data?: object, errors?: object[] }>}
  * @throws Will throw if the network request itself fails
  */
+async function handleResponse(response) {
+  const contentType = response.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    const data = await response.json();
+    if (!response.ok) {
+      return { 
+        success: false, 
+        message: data.message || "Request failed", 
+        errors: data.errors 
+      };
+    }
+    return data;
+  } else {
+    // Handle non-JSON responses (like HTML error pages)
+    const text = await response.text();
+    if (!response.ok) {
+      throw new Error(`Server error (${response.status}): ${text.slice(0, 100)}...`);
+    }
+    return { success: true, message: "Request completed, but returned non-JSON response" };
+  }
+}
+
 export async function submitInternalGrantApplication(formData) {
   const response = await fetch(`${API_BASE}/internal-research`, {
     method: "POST",
     body: formData,
   });
 
-  return response.json();
+  return handleResponse(response);
 }
+
 export async function submitVcInnovationApplication(data) {
   const response = await fetch(`${API_BASE}/vc-innovation`, {
     method: "POST",
@@ -22,7 +45,7 @@ export async function submitVcInnovationApplication(data) {
     body: JSON.stringify(data),
   });
 
-  return response.json();
+  return handleResponse(response);
 }
 
 /**

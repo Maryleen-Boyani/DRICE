@@ -13,8 +13,11 @@ export default function FundingSection({ form }) {
             <input
               type="number"
               value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
-              placeholder="Enter amount in Ksh (max 1,000,000)"
+              onChange={(e) => {
+                const val = e.target.value;
+                field.handleChange(val === '' ? '' : Number(val));
+              }}
+              placeholder="Enter amount in Ksh (max 800,000)"
               className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
             />
           </div>
