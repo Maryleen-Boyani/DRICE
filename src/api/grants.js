@@ -12,6 +12,7 @@ async function handleResponse(response) {
   if (contentType && contentType.includes("application/json")) {
     const data = await response.json();
     if (!response.ok) {
+      console.error("[API Error]", data);
       return { 
         success: false, 
         message: data.message || "Request failed", 
@@ -23,6 +24,7 @@ async function handleResponse(response) {
     // Handle non-JSON responses (like HTML error pages)
     const text = await response.text();
     if (!response.ok) {
+      console.error("[Server Error]", response.status, text.slice(0, 200));
       throw new Error(`Server error (${response.status}): ${text.slice(0, 100)}...`);
     }
     return { success: true, message: "Request completed, but returned non-JSON response" };
@@ -47,6 +49,7 @@ export async function submitVcInnovationApplication(data) {
 
   return handleResponse(response);
 }
+
 
 /**
  * Fetches a single VC Innovation application by ID.

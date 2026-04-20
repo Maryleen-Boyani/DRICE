@@ -100,7 +100,7 @@ const BudgetTable = ({
                 <td className="p-3">
                   <input
                     type="text"
-                    value={row.description}
+                    value={row.description ?? ''}
                     onChange={(e) =>
                       handleRowChange(idx, "description", e.target.value)
                     }
@@ -111,7 +111,7 @@ const BudgetTable = ({
                 </td>
                 <td className="p-3">
                   <select
-                    value={row.category}
+                    value={row.category ?? ''}
                     onChange={(e) =>
                       handleRowChange(idx, "category", e.target.value)
                     }
@@ -129,7 +129,7 @@ const BudgetTable = ({
                 <td className="p-3">
                   <input
                     type="number"
-                    value={row.amount}
+                    value={row.amount ?? ''}
                     onChange={(e) =>
                       handleRowChange(idx, "amount", e.target.value)
                     }
@@ -141,7 +141,7 @@ const BudgetTable = ({
                 <td className="p-3">
                   <input
                     type="text"
-                    value={row.justification}
+                    value={row.justification ?? ''}
                     onChange={(e) =>
                       handleRowChange(idx, "justification", e.target.value)
                     }

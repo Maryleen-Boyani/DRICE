@@ -10,7 +10,7 @@ export default function InnovationSection({ form }) {
             <label className="text-sm font-semibold">Title of Innovation / Product / Service *</label>
             <input
               type="text"
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
               placeholder="Clear and concise — maximum 15 words"
               className="w-full p-3 border-2 border-slate-100 rounded-xl"
@@ -24,7 +24,7 @@ export default function InnovationSection({ form }) {
           <div className="flex flex-col gap-2">
             <label className="text-sm font-semibold">Current Innovation Stage *</label>
             <select
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
               className="w-full p-3 border-2 border-slate-100 rounded-xl"
             >
@@ -44,7 +44,7 @@ export default function InnovationSection({ form }) {
             <label className="text-sm font-semibold">Sector / Industry *</label>
             <input
               type="text"
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
               placeholder="e.g. HealthTech, AgriTech, EdTech..."
               className="w-full p-3 border-2 border-slate-100 rounded-xl"
@@ -58,7 +58,7 @@ export default function InnovationSection({ form }) {
           <div className="flex flex-col gap-2">
             <label className="text-sm font-semibold">Brief description of the innovation *</label>
             <textarea
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
               placeholder="What is the innovation, product, or service? What does it do and how does it work?"
               rows={4}
@@ -75,7 +75,7 @@ export default function InnovationSection({ form }) {
               What makes this innovation unique? (Value proposition / competitive advantage) *
             </label>
             <textarea
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
               placeholder="How is this different from or better than existing solutions?"
               rows={4}

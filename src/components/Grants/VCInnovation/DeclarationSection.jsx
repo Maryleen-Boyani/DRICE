@@ -42,7 +42,7 @@ export default function DeclarationSection({ form }) {
               <label className="text-sm font-semibold">Lead Applicant Full Name (as signature) *</label>
               <input
                 type="text"
-                value={field.state.value}
+                value={field.state.value ?? ''}
                 onChange={(e) => field.handleChange(e.target.value)}
                 placeholder="Full Name"
                 className="p-3 border rounded-lg"
@@ -57,7 +57,7 @@ export default function DeclarationSection({ form }) {
               <label className="text-sm font-semibold">Date *</label>
               <input
                 type="date"
-                value={field.state.value}
+                value={field.state.value ?? ''}
                 onChange={(e) => field.handleChange(e.target.value)}
                 className="p-3 border rounded-lg"
               />
@@ -71,7 +71,7 @@ export default function DeclarationSection({ form }) {
               <label className="text-sm font-semibold">Faculty Mentor Name &amp; Signature (if applicable)</label>
               <input
                 type="text"
-                value={field.state.value}
+                value={field.state.value ?? ''}
                 onChange={(e) => field.handleChange(e.target.value)}
                 placeholder="Mentor full name"
                 className="p-3 border rounded-lg"
@@ -86,7 +86,7 @@ export default function DeclarationSection({ form }) {
               <label className="text-sm font-semibold">Mentor Date</label>
               <input
                 type="date"
-                value={field.state.value}
+                value={field.state.value ?? ''}
                 onChange={(e) => field.handleChange(e.target.value)}
                 className="p-3 border rounded-lg"
               />

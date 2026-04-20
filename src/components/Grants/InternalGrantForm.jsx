@@ -283,7 +283,7 @@ const InternalGrantForm = ({ onBack }) => {
                     1.1 Full-time staff member? *
                   </label>
                   <select
-                    value={formData.isFullTime}
+                    value={formData.isFullTime ?? ''}
                     onChange={(e) => updateField("isFullTime", e.target.value)}
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
@@ -298,7 +298,7 @@ const InternalGrantForm = ({ onBack }) => {
                     1.2 Current academic rank? *
                   </label>
                   <select
-                    value={formData.academicRank}
+                    value={formData.academicRank ?? ''}
                     onChange={(e) =>
                       updateField("academicRank", e.target.value)
                     }
@@ -320,7 +320,7 @@ const InternalGrantForm = ({ onBack }) => {
                     1.2 Active internal grant? *
                   </label>
                   <select
-                    value={formData.hasActiveGrant}
+                    value={formData.hasActiveGrant ?? ''}
                     onChange={(e) =>
                       updateField("hasActiveGrant", e.target.value)
                     }
@@ -346,7 +346,7 @@ const InternalGrantForm = ({ onBack }) => {
                   <label htmlFor="firstName">First Name</label>
                   <input
                     type="text"
-                    value={formData.firstName}
+                    value={formData.firstName ?? ''}
                     onChange={(e) => updateField("firstName", e.target.value)}
                     placeholder="First Name *"
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -357,7 +357,7 @@ const InternalGrantForm = ({ onBack }) => {
                   <label htmlFor="lastName">Last Name</label>
                   <input
                     type="text"
-                    value={formData.lastName}
+                    value={formData.lastName ?? ''}
                     onChange={(e) => updateField("lastName", e.target.value)}
                     placeholder="Last Name *"
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -370,7 +370,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.staffId}
+                    value={formData.staffId ?? ''}
                     onChange={(e) => updateField("staffId", e.target.value)}
                     placeholder="Staff ID (DU-XXXX) *"
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -382,7 +382,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <input
                     type="email"
-                    value={formData.email}
+                    value={formData.email ?? ''}
                     onChange={(e) => updateField("email", e.target.value)}
                     placeholder="name@daystar.ac.ke"
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -395,7 +395,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.phone}
+                    value={formData.phone ?? ''}
                     onChange={(e) => updateField("phone", e.target.value)}
                     placeholder="Phone (+254...) "
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -409,7 +409,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.orcid}
+                    value={formData.orcid ?? ''}
                     onChange={(e) => updateField("orcid", e.target.value)}
                     placeholder=""
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -422,7 +422,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.school}
+                    value={formData.school ?? ''}
                     onChange={(e) => updateField("school", e.target.value)}
                     placeholder=""
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -435,7 +435,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.department}
+                    value={formData.department ?? ''}
                     onChange={(e) => updateField("department", e.target.value)}
                     placeholder="Department *"
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -448,7 +448,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <textarea
                     type="text"
-                    value={formData.researchArea}
+                    value={formData.researchArea ?? ''}
                     onChange={(e) =>
                       updateField("researchArea", e.target.value)
                     }
@@ -463,7 +463,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <textarea
                     type="text"
-                    value={formData.previousGrants}
+                    value={formData.previousGrants ?? ''}
                     onChange={(e) =>
                       updateField("previousGrants", e.target.value)
                     }
@@ -531,7 +531,7 @@ const InternalGrantForm = ({ onBack }) => {
                 </label>
                 <textarea
                   type="text"
-                  value={formData.projectTitle}
+                  value={formData.projectTitle ?? ''}
                   onChange={(e) => updateField("projectTitle", e.target.value)}
                   placeholder="Clear and descriptive"
                   className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -543,7 +543,7 @@ const InternalGrantForm = ({ onBack }) => {
                   4.2 Primary Thematic Area
                 </label>
                 <select
-                  value={formData.primaryTheme}
+                  value={formData.primaryTheme ?? ''}
                   onChange={(e) => updateField("primaryTheme", e.target.value)}
                   className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                   required
@@ -703,7 +703,7 @@ const InternalGrantForm = ({ onBack }) => {
                     sensitive data?
                   </label>
                   <select
-                    value={formData.requiresEthics}
+                    value={formData.requiresEthics ?? ''}
                     onChange={(e) =>
                       updateField("requiresEthics", e.target.value)
                     }
@@ -723,7 +723,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <textarea
                     type="text"
-                    value={formData.abstract}
+                    value={formData.abstract ?? ''}
                     onChange={(e) => updateField("abstract", e.target.value)}
                     placeholder="Summarize the problem, research approach and expected contribution"
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -800,7 +800,7 @@ const InternalGrantForm = ({ onBack }) => {
                   6.1 Primary Outputs
                 </label>
                 <textarea
-                  value={formData.expectedOutputs}
+                  value={formData.expectedOutputs ?? ''}
                   onChange={(e) =>
                     updateField("expectedOutputs", e.target.value)
                   }
@@ -813,7 +813,7 @@ const InternalGrantForm = ({ onBack }) => {
                   6.2 Dissemination Plan{" "}
                 </label>
                 <textarea
-                  value={formData.disseminationPlan}
+                  value={formData.disseminationPlan ?? ''}
                   onChange={(e) =>
                     updateField("disseminationPlan", e.target.value)
                   }
@@ -827,7 +827,7 @@ const InternalGrantForm = ({ onBack }) => {
                   Commercialization
                 </label>
                 <textarea
-                  value={formData.anticipatedImpact}
+                  value={formData.anticipatedImpact ?? ''}
                   onChange={(e) =>
                     updateField("anticipatedImpact", e.target.value)
                   }
@@ -886,7 +886,7 @@ const InternalGrantForm = ({ onBack }) => {
                   8.1 Detailed Timeline (Question 34)
                 </label>
                 <textarea
-                  value={formData.workPlanTimeline}
+                  value={formData.workPlanTimeline ?? ''}
                   onChange={(e) =>
                     updateField("workPlanTimeline", e.target.value)
                   }
@@ -899,7 +899,7 @@ const InternalGrantForm = ({ onBack }) => {
                   8.2 Key Milestones and Deliverables
                 </label>
                 <textarea
-                  value={formData.monitoringPlan}
+                  value={formData.monitoringPlan ?? ''}
                   onChange={(e) =>
                     updateField("monitoringPlan", e.target.value)
                   }
@@ -912,7 +912,7 @@ const InternalGrantForm = ({ onBack }) => {
                   8.3 Potential Risks and Mitigation measures
                 </label>
                 <textarea
-                  value={formData.riskManagement}
+                  value={formData.riskManagement ?? ''}
                   onChange={(e) =>
                     updateField("riskManagement", e.target.value)
                   }
@@ -1067,7 +1067,7 @@ const InternalGrantForm = ({ onBack }) => {
                     </label>
                     <input
                       type="text"
-                      value={formData.piSignature}
+                      value={formData.piSignature ?? ''}
                       onChange={(e) =>
                         updateField("piSignature", e.target.value)
                       }
@@ -1080,7 +1080,7 @@ const InternalGrantForm = ({ onBack }) => {
                     <label htmlFor="date">Date</label>
                     <input
                       type="date"
-                      value={formData.date}
+                      value={formData.date ?? ''}
                       onChange={(e) => updateField("date", e.target.value)}
                       placeholder="Full Name "
                       className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -1091,7 +1091,7 @@ const InternalGrantForm = ({ onBack }) => {
                     <label htmlFor="hodName">Head of Department- Name</label>
                     <input
                       type="text"
-                      value={formData.hodName}
+                      value={formData.hodName ?? ''}
                       onChange={(e) => updateField("hodName", e.target.value)}
                       placeholder=" "
                       className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -1102,7 +1102,7 @@ const InternalGrantForm = ({ onBack }) => {
                     <label htmlFor="hodEmail">Head of Department- Email</label>
                     <input
                       type="text"
-                      value={formData.hodEmail}
+                      value={formData.hodEmail ?? ''}
                       onChange={(e) => updateField("hodEmail", e.target.value)}
                       placeholder=" "
                       className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"

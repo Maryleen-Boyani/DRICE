@@ -39,7 +39,7 @@ export default function CommercializationSection({ form }) {
               />
               <input
                 type="text"
-                value={REVENUE_MODELS.includes(field.state.value) ? '' : field.state.value}
+                value={(REVENUE_MODELS.includes(field.state.value) ? '' : field.state.value) ?? ''}
                 onChange={(e) => field.handleChange(e.target.value)}
                 placeholder="Other..."
                 className="p-2 border rounded-lg flex-1"
@@ -54,7 +54,7 @@ export default function CommercializationSection({ form }) {
           <div className="flex flex-col gap-2">
             <label className="text-sm font-semibold">Market Size &amp; Opportunity</label>
             <textarea
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
               placeholder="Describe the total addressable market, target market size, and growth potential."
               rows={4}
@@ -69,7 +69,7 @@ export default function CommercializationSection({ form }) {
           <div className="flex flex-col gap-2">
             <label className="text-sm font-semibold">Current traction and validation evidence</label>
             <textarea
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
               placeholder="Describe any existing customers, users, pilots, letters of intent, partnerships, sales, or other validation achieved so far."
               rows={4}
@@ -84,7 +84,7 @@ export default function CommercializationSection({ form }) {
           <div className="flex flex-col gap-2">
             <label className="text-sm font-semibold">Commercialization strategy and planned activities</label>
             <textarea
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
               placeholder="Describe your go-to-market approach, key milestones for product launch, and scale-up strategy."
               rows={4}
@@ -99,7 +99,7 @@ export default function CommercializationSection({ form }) {
           <div className="flex flex-col gap-2">
             <label className="text-sm font-semibold">Competitive landscape</label>
             <textarea
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
               placeholder="Who are your main competitors? How does your solution compare and what is your sustainable competitive advantage?"
               rows={4}
@@ -114,7 +114,7 @@ export default function CommercializationSection({ form }) {
           <div className="flex flex-col gap-2">
             <label className="text-sm font-semibold">Strategic partnerships and stakeholder engagement</label>
             <textarea
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
               placeholder="Identify any existing or planned partnerships with industry, government, NGOs, or other universities."
               rows={4}

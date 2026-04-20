@@ -7,13 +7,15 @@ export default function ImplementationSection({ form }) {
       <form.Field name="fundingActivities">
         {(field) => (
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold">What specific activities will this funding support?</label>
+            <label className="text-sm font-semibold">
+              Proposed activities to be funded by the Innovation Grant *
+            </label>
             <textarea
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
-              placeholder="List the key activities you plan to undertake with this funding, including product refinement, testing, regulatory processes, market entry, etc."
+              placeholder="Detail exactly how you will use the grant funds to achieve your next milestones."
               rows={4}
-              className="w-full p-3 border-2 border-slate-100 rounded-xl"
+              className="p-3 border rounded-lg"
             />
           </div>
         )}
@@ -22,13 +24,15 @@ export default function ImplementationSection({ form }) {
       <form.Field name="successMetrics">
         {(field) => (
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold">Expected outcomes and success metrics</label>
+            <label className="text-sm font-semibold">
+              Expected outcomes and success metrics *
+            </label>
             <textarea
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
-              placeholder="What will success look like? How will you measure it? Include quantitative targets where possible."
+              placeholder="What specific results do you expect to achieve? How will you measure success?"
               rows={4}
-              className="w-full p-3 border-2 border-slate-100 rounded-xl"
+              className="p-3 border rounded-lg"
             />
           </div>
         )}
@@ -37,13 +41,15 @@ export default function ImplementationSection({ form }) {
       <form.Field name="risks">
         {(field) => (
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold">Risks and mitigation strategies</label>
+            <label className="text-sm font-semibold">
+              Potential risks and mitigation strategies *
+            </label>
             <textarea
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
-              placeholder="Identify the main risks to achieving your goals and how you plan to address them."
+              placeholder="What could go wrong? How will you prevent or manage these risks?"
               rows={4}
-              className="w-full p-3 border-2 border-slate-100 rounded-xl"
+              className="p-3 border rounded-lg"
             />
           </div>
         )}
