@@ -1,43 +1,43 @@
-import React, { useRef } from 'react';
+import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { href } from 'react-router-dom';
+import { href } from "react-router-dom";
 
 const Events = () => {
   const events = [
     {
       name: "DU BRAINS AI CONFERENCE",
       status: "Upcoming",
-      date: "May 6th, 2026",
+      date: "June 6th, 2026",
       image: "./ai.jpg",
-      href:"https://daystar.odoo.com/event/du-brains-ai-conference-2026-16/page/introduction-brains-conference-2026-1"
+      href: "https://daystar.odoo.com/event/du-brains-ai-conference-2026-16/page/introduction-brains-conference-2026-1",
     },
     {
       name: "DCAMD LAUNCH",
       status: "Past",
-      date:"Jan 28th, 2026",
+      date: "Jan 28th, 2026",
       image: "./dcamd.jpeg",
-      href:""
+      href: "",
     },
     {
       name: "AI Research Clinic- Faculty Cohort",
-      status: "Upcoming",
+      status: "Past",
       date: "April 17th, 2026",
       image: "./seminar.jpg",
-      href:"https://forms.office.com/r/mH67vZyLXX"
+      href: "https://forms.office.com/r/mH67vZyLXX",
     },
     {
       name: "Postgraduate Research Sprint Poster Session",
-      status: "Upcoming",
+      status: "Ongoing",
       date: " \n Cohort 1: April 18th, 2026\nCohort 2: July 18th, 2026",
       image: "./researchsprint.png",
-      href:"https://forms.office.com/r/jGKcsSMxub"
+      href: "https://forms.office.com/r/jGKcsSMxub",
     },
     {
       name: "UK Learning & Design Lab",
-      status: "Upcoming",
+      status: "Past",
       date: " 16–20 March 2026",
       image: "./designlab.jpg",
-      href:"https://forms.office.com/r/iGz0TSqbif"
+      href: "",
     },
   ];
 
@@ -45,13 +45,28 @@ const Events = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <motion.section ref={ref} initial={{opacity:0, y:30}} animate={isInView ? {opacity:1, y:0}:{}} transition={{duration:2 , ease:"easeOut"}} className="max-w-7xl mx-auto py-20 px-6">
+    <motion.section
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 2, ease: "easeOut" }}
+      className="max-w-7xl mx-auto py-20 px-6"
+    >
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-extrabold text-daystar-dark mb-4">Events & Trainings</h2>
-        <p className="text-gray-500">Stay updated with the latest research workshops and summits</p>
+        <h2 className="text-4xl font-extrabold text-daystar-dark mb-4">
+          Events & Trainings
+        </h2>
+        <p className="text-gray-500">
+          Stay updated with the latest research workshops and summits
+        </p>
       </div>
 
-      <motion.div initial={{opacity:0, y:30}} animate={isInView ? {opacity:1, y:0}:{}} transition={{duration:2 , ease:"easeOut"}} className="flex flex-col md:flex-row gap-8 overflow-x-auto pb-2 px-4 scrollbar-hide">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 2, ease: "easeOut" }}
+        className="flex flex-col md:flex-row gap-8 overflow-x-auto pb-2 px-4 scrollbar-hide"
+      >
         {events.map((event, i) => (
           <motion.div
             key={i}
@@ -61,37 +76,40 @@ const Events = () => {
             className="min-w-[300px] flex-1 bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
           >
             {/* Event Image */}
-            <img 
-              src={event.image} 
-              alt={event.name} 
-              className="w-full h-48 object-cover" 
+            <img
+              src={event.image}
+              alt={event.name}
+              className="w-full h-48 object-cover"
             />
 
             <div className="p-5 flex flex-col h-64">
               <div>
                 {/* Status Badge */}
-                <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${
-                  event.status === 'Upcoming' 
-                    ? 'bg-green-100 text-green-700' 
-                    : 'bg-gray-100 text-gray-500'
-                }`}>
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${
+                    event.status === "Upcoming"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-gray-100 text-gray-500"
+                  }`}
+                >
                   {event.status}
                 </span>
 
-                <h3 className="text-lg font-bold text-slate-800 mt-3">{event.name}</h3>
-                
+                <h3 className="text-lg font-bold text-slate-800 mt-3">
+                  {event.name}
+                </h3>
+
                 {/* Conditional Date Rendering */}
                 {/* {event.status === "Upcoming" && ( */}
-                  <p className="text-daystar-blue text-sm mt-2 font-medium whitespace-pre-line">
-                    Date: {event.date}
-                  </p>
+                <p className="text-daystar-blue text-sm mt-2 font-medium whitespace-pre-line">
+                  Date: {event.date}
+                </p>
               </div>
               <div className="flex-grow" />
-              
-                <button 
-                  className="bg-daystar-blue max-w-fit mt-4 font-bold text-white py-4 hover:cursor-pointer px-4 rounded-xl">
-                  <a href={event.href}>Register Now</a>
-                </button>
+
+              <button className="bg-daystar-blue max-w-fit mt-4 font-bold text-white py-4 hover:cursor-pointer px-4 rounded-xl">
+                <a href={event.href}>Register Now</a>
+              </button>
               {/* )} */}
             </div>
           </motion.div>

@@ -1,46 +1,74 @@
-import { useState, useEffect } from 'react';
-import { useForm } from '@tanstack/react-form';
-import { ShieldCheck } from 'lucide-react';
-import FormHeader from './Shared/FormHeader';
-import ApplicantSection from './VCInnovation/ApplicantSection';
-import TeamCompositionSection from './VCInnovation/TeamCompositionSection';
-import InnovationSection from './VCInnovation/InnovationSection';
-import ResearchSection from './VCInnovation/ResearchSection';
-import CommercializationSection from './VCInnovation/CommercializationSection';
-import FundingSection from './VCInnovation/FundingSection';
-import IPSection from './VCInnovation/IPSection';
-import ImplementationSection from './VCInnovation/ImplementationSection';
-import EvaluationSection from './VCInnovation/EvaluationSection';
-import DeclarationSection from './VCInnovation/DeclarationSection';
-import AttachmentsSection from './VCInnovation/AttachmentsSection';
-import { submitVcInnovationApplication, ApiError } from '../../api/grants';
-import { uploadFile } from '../../api/storage';
+import { useState, useEffect } from "react";
+import { useForm } from "@tanstack/react-form";
+import { ShieldCheck } from "lucide-react";
+import FormHeader from "./Shared/FormHeader";
+import ApplicantSection from "./VCInnovation/ApplicantSection";
+import TeamCompositionSection from "./VCInnovation/TeamCompositionSection";
+import InnovationSection from "./VCInnovation/InnovationSection";
+import ResearchSection from "./VCInnovation/ResearchSection";
+import CommercializationSection from "./VCInnovation/CommercializationSection";
+import FundingSection from "./VCInnovation/FundingSection";
+import IPSection from "./VCInnovation/IPSection";
+import ImplementationSection from "./VCInnovation/ImplementationSection";
+import EvaluationSection from "./VCInnovation/EvaluationSection";
+import DeclarationSection from "./VCInnovation/DeclarationSection";
+import AttachmentsSection from "./VCInnovation/AttachmentsSection";
+import { submitVcInnovationApplication, ApiError } from "../../api/grants";
+import { uploadFile } from "../../api/storage";
 
 const TOTAL_STEPS = 11;
 
 const SECTION_LABELS = [
-  'Applicant Information',
-  'Innovation Team',
-  'Innovation Overview',
-  'Research & Evidence',
-  'Commercialization Plan',
-  'Funding Requirements',
-  'IP & Equity',
-  'Implementation Plan',
-  'Evaluation Criteria',
-  'Declaration',
-  'Attachments',
+  "Applicant Information",
+  "Innovation Team",
+  "Innovation Overview",
+  "Research & Evidence",
+  "Commercialization Plan",
+  "Funding Requirements",
+  "IP & Equity",
+  "Implementation Plan",
+  "Evaluation Criteria",
+  "Declaration",
+  "Attachments",
 ];
 
 const ATTACHMENT_FIELDS = [
-  { fileKey: 'cvFile', payloadKey: 'cvUrl', folder: 'vc-innovation/cv' },
-  { fileKey: 'mvpPhotosFile', payloadKey: 'mvpPhotosUrl', folder: 'vc-innovation/mvp-photos' },
-  { fileKey: 'demoVideoFile', payloadKey: 'demoVideoUrl', folder: 'vc-innovation/demo-video' },
-  { fileKey: 'researchPapersFile', payloadKey: 'researchPapersUrl', folder: 'vc-innovation/research-papers' },
-  { fileKey: 'lettersOfIntentFile', payloadKey: 'lettersOfIntentUrl', folder: 'vc-innovation/letters-of-intent' },
-  { fileKey: 'marketResearchFile', payloadKey: 'marketResearchUrl', folder: 'vc-innovation/market-research' },
-  { fileKey: 'ipDocumentsFile', payloadKey: 'ipDocumentsUrl', folder: 'vc-innovation/ip-documents' },
-  { fileKey: 'otherDocumentsFile', payloadKey: 'otherDocumentsUrl', folder: 'vc-innovation/other' },
+  { fileKey: "cvFile", payloadKey: "cvUrl", folder: "vc-innovation/cv" },
+  {
+    fileKey: "mvpPhotosFile",
+    payloadKey: "mvpPhotosUrl",
+    folder: "vc-innovation/mvp-photos",
+  },
+  {
+    fileKey: "demoVideoFile",
+    payloadKey: "demoVideoUrl",
+    folder: "vc-innovation/demo-video",
+  },
+  {
+    fileKey: "researchPapersFile",
+    payloadKey: "researchPapersUrl",
+    folder: "vc-innovation/research-papers",
+  },
+  {
+    fileKey: "lettersOfIntentFile",
+    payloadKey: "lettersOfIntentUrl",
+    folder: "vc-innovation/letters-of-intent",
+  },
+  {
+    fileKey: "marketResearchFile",
+    payloadKey: "marketResearchUrl",
+    folder: "vc-innovation/market-research",
+  },
+  {
+    fileKey: "ipDocumentsFile",
+    payloadKey: "ipDocumentsUrl",
+    folder: "vc-innovation/ip-documents",
+  },
+  {
+    fileKey: "otherDocumentsFile",
+    payloadKey: "otherDocumentsUrl",
+    folder: "vc-innovation/other",
+  },
 ];
 
 async function buildSubmissionPayload(value) {
@@ -54,7 +82,9 @@ async function buildSubmissionPayload(value) {
         const uploaded = await Promise.all(
           raw.map((file) => uploadFile({ file, folder: field.folder })),
         );
-        payload[field.payloadKey] = uploaded.map((item) => item.publicUrl).join(',');
+        payload[field.payloadKey] = uploaded
+          .map((item) => item.publicUrl)
+          .join(",");
       }
     } else if (raw instanceof File) {
       const uploaded = await uploadFile({ file: raw, folder: field.folder });
@@ -95,35 +125,72 @@ const VCInnovationForm = ({ onBack }) => {
       }
       return {
         // Section 1
-      firstName: '', lastName: '', studentLevel: '', category: '',
-      staffId: '', school: '', department: '', email: '', phone: '',
-      orcid: '', hasActiveGrant: '', prevGrantDetails: '',
-      // Section 2
-      team: [{ name: '', role: '', studentId: '', email: '' }],
-      facultyMentor: '', teamExpertise: '',
-      // Section 3
-      innovationTitle: '', innovationStage: '', sector: '',
-      innovationDescription: '', valueProp: '',
-      // Section 4
-      isResearchBased: '', evidenceBasis: '', researchPaperDetails: '', researchSummary: '',
-      // Section 5
-      revenueModel: '', marketSize: '', traction: '',
-      commercializationStrategy: '', competition: '', partnerships: '',
-      // Section 6
-      requestedAmount: '', budgetItems: [], otherFunding: '', otherFundingDetails: '',
-      // Section 7
-      ipStatus: '', ipStatusOther: '', jointIPConsent: '', jointIPExplanation: '',
-      equityConsent: '', equityExplanation: '', ownershipStructure: '',
-      // Section 8
-      fundingActivities: '', successMetrics: '', risks: '',
-      // Section 10
-      declarationAccepted: false,
-      applicantSignatureName: '', declarationDate: '',
-      mentorSignatureName: '', mentorSignatureDate: '',
-      // Section 11
-      cvFile: null, mvpPhotosFile: null, demoVideoFile: null,
-      researchPapersFile: null, lettersOfIntentFile: null,
-      marketResearchFile: null, ipDocumentsFile: null, otherDocumentsFile: [],
+        firstName: "",
+        lastName: "",
+        studentLevel: "",
+        category: "",
+        staffId: "",
+        school: "",
+        department: "",
+        email: "",
+        phone: "",
+        orcid: "",
+        hasActiveGrant: "",
+        prevGrantDetails: "",
+        // Section 2
+        team: [{ name: "", role: "", studentId: "", email: "" }],
+        facultyMentor: "",
+        teamExpertise: "",
+        // Section 3
+        innovationTitle: "",
+        innovationStage: "",
+        sector: "",
+        innovationDescription: "",
+        valueProp: "",
+        // Section 4
+        isResearchBased: "",
+        evidenceBasis: "",
+        researchPaperDetails: "",
+        researchSummary: "",
+        // Section 5
+        revenueModel: "",
+        marketSize: "",
+        traction: "",
+        commercializationStrategy: "",
+        competition: "",
+        partnerships: "",
+        // Section 6
+        requestedAmount: "",
+        budgetItems: [],
+        otherFunding: "",
+        otherFundingDetails: "",
+        // Section 7
+        ipStatus: "",
+        ipStatusOther: "",
+        jointIPConsent: "",
+        jointIPExplanation: "",
+        equityConsent: "",
+        equityExplanation: "",
+        ownershipStructure: "",
+        // Section 8
+        fundingActivities: "",
+        successMetrics: "",
+        risks: "",
+        // Section 10
+        declarationAccepted: false,
+        applicantSignatureName: "",
+        declarationDate: "",
+        mentorSignatureName: "",
+        mentorSignatureDate: "",
+        // Section 11
+        cvFile: null,
+        mvpPhotosFile: null,
+        demoVideoFile: null,
+        researchPapersFile: null,
+        lettersOfIntentFile: null,
+        marketResearchFile: null,
+        ipDocumentsFile: null,
+        otherDocumentsFile: [],
       };
     })(),
 
@@ -135,8 +202,8 @@ const VCInnovationForm = ({ onBack }) => {
         const result = await submitVcInnovationApplication(payload);
         if (!result.success) {
           const msg = result.errors
-            ? result.errors.map((e) => e.message).join(', ')
-            : result.message ?? 'Submission failed. Please try again.';
+            ? result.errors.map((e) => e.message).join(", ")
+            : (result.message ?? "Submission failed. Please try again.");
           setSubmitError(msg);
         } else {
           localStorage.removeItem("vcInnovationFormData");
@@ -145,18 +212,18 @@ const VCInnovationForm = ({ onBack }) => {
         }
       } catch (error) {
         console.error("Submission error:", error);
-        let msg = 'Network error. Please check your connection and try again.';
-        
+        let msg = "Network error. Please check your connection and try again.";
+
         if (error instanceof ApiError) {
           if (error.errors && error.errors.length > 0) {
-            msg = error.errors.map((e) => e.message || e).join(', ');
+            msg = error.errors.map((e) => e.message || e).join(", ");
           } else {
             msg = error.message;
           }
         } else if (error instanceof Error) {
           msg = error.message;
         }
-        
+
         setSubmitError(msg);
       } finally {
         setIsSubmitting(false);
@@ -194,10 +261,12 @@ const VCInnovationForm = ({ onBack }) => {
           <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <ShieldCheck size={32} />
           </div>
-          <h2 className="text-2xl font-bold text-slate-900">Application Submitted!</h2>
+          <h2 className="text-2xl font-bold text-slate-900">
+            Application Submitted!
+          </h2>
           <p className="text-slate-500">
-            Your concept note for the VC Innovation Grant has been received. You will be
-            contacted if shortlisted for the pitching stage.
+            Your concept note for the VC Innovation Grant has been received. You
+            will be contacted if shortlisted for the pitching stage.
           </p>
           <button
             type="button"
@@ -216,7 +285,7 @@ const VCInnovationForm = ({ onBack }) => {
       <FormHeader
         title="VC'S RESEARCH, INNOVATION & COMMERCIALIZATION GRANT"
         subtitle="2025/2026 Concept Note Application"
-        deadline="10 May 2026 | 5:00 PM EAT"
+        deadline="20th May 2026 | 5:00 PM EAT"
       />
 
       {/* Enhanced Progress Bar */}
@@ -227,11 +296,13 @@ const VCInnovationForm = ({ onBack }) => {
           </span>
           <span className="text-sm font-bold text-daystar-blue flex flex-col items-end">
             <span>{Math.round((step / TOTAL_STEPS) * 100)}% Completed</span>
-            <span className="text-xs text-slate-400 font-normal">Up to 10 successful applicants supported</span>
+            <span className="text-xs text-slate-400 font-normal">
+              Up to 10 successful applicants supported
+            </span>
           </span>
         </div>
         <div className="w-full bg-slate-200 rounded-full h-2">
-          <div 
+          <div
             className="bg-daystar-blue h-2 rounded-full transition-all duration-500 ease-out"
             style={{ width: `${(step / TOTAL_STEPS) * 100}%` }}
           />
@@ -272,7 +343,7 @@ const VCInnovationForm = ({ onBack }) => {
               disabled={isSubmitting}
               className="text-slate-500 font-bold hover:text-daystar-blue hover:bg-blue-50 px-6 py-3 rounded-xl transition-all disabled:opacity-50"
             >
-              {step === 1 ? 'Exit Form' : 'Go Back'}
+              {step === 1 ? "Exit Form" : "Go Back"}
             </button>
 
             <button
@@ -281,7 +352,11 @@ const VCInnovationForm = ({ onBack }) => {
               disabled={isSubmitting}
               className="bg-daystar-blue text-white px-12 py-4 rounded-xl font-bold shadow-sm hover:scale-[1.02] hover:shadow-md transition-all disabled:opacity-50 flex items-center gap-2 border border-blue-600"
             >
-              {isSubmitting ? 'Submitting...' : isLastStep ? 'Submit Concept Note' : 'Next Section'}
+              {isSubmitting
+                ? "Submitting..."
+                : isLastStep
+                  ? "Submit Concept Note"
+                  : "Next Section"}
             </button>
           </div>
         </form>
