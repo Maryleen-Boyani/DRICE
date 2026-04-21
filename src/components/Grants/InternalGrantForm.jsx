@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ClipboardCheck } from "lucide-react";
-import { submitInternalGrantApplication } from "../../api/grants";
+import { submitInternalGrantApplication, sendInternalGrantConfirmation, ApiError } from "../../api/grants";
 import { uploadFile } from "../../api/storage";
 import TeamSection from "./Shared/TeamSection";
 import BudgetTable from "./Shared/BudgetTable";
@@ -223,21 +223,44 @@ const InternalGrantForm = ({ onBack }) => {
 
       const result = await submitInternalGrantApplication(formDataToSend);
 
-      if (!result.success) {
-        throw new Error(result.message || "Submission failed");
+      if (!result.success || !result.data?.id) {
+        throw new Error(result.message || "Failed to save application data.");
       }
 
-      console.log("Submission successful:", result);
+      const applicantId = result.data.id;
+      console.log("Step 1 Successful — Application ID:", applicantId);
+
+      // Step 4: Trigger confirmation emails (Step 2 in API)
+      const confirmResult = await sendInternalGrantConfirmation(applicantId, normalizedPayload);
+
+      if (!confirmResult.success) {
+        throw new Error(confirmResult.message || "Application saved, but failed to send confirmation emails.");
+      }
+
+      console.log("Step 2 Successful — Emails sent:", confirmResult);
 
       localStorage.removeItem("internalGrantFormData");
       localStorage.removeItem("internalGrantFormStep");
       setStatus({ submitting: false, success: true, error: null });
     } catch (err) {
       console.error("Submission error:", err);
+      
+      let errorMessage = "Submission failed. Please try again.";
+      
+      if (err instanceof ApiError) {
+        if (err.errors && err.errors.length > 0) {
+          errorMessage = err.errors.map(e => e.message || e).join(", ");
+        } else {
+          errorMessage = err.message;
+        }
+      } else if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      
       setStatus({
         submitting: false,
         success: false,
-        error: "Submission failed. Please try again.",
+        error: errorMessage,
       });
     }
   };

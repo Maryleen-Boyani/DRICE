@@ -13,7 +13,7 @@ import ImplementationSection from './VCInnovation/ImplementationSection';
 import EvaluationSection from './VCInnovation/EvaluationSection';
 import DeclarationSection from './VCInnovation/DeclarationSection';
 import AttachmentsSection from './VCInnovation/AttachmentsSection';
-import { submitVcInnovationApplication } from '../../api/grants';
+import { submitVcInnovationApplication, ApiError } from '../../api/grants';
 import { uploadFile } from '../../api/storage';
 
 const TOTAL_STEPS = 11;
@@ -144,7 +144,20 @@ const VCInnovationForm = ({ onBack }) => {
           setSubmitted(true);
         }
       } catch (error) {
-        setSubmitError(error?.message ?? 'Network error. Please check your connection and try again.');
+        console.error("Submission error:", error);
+        let msg = 'Network error. Please check your connection and try again.';
+        
+        if (error instanceof ApiError) {
+          if (error.errors && error.errors.length > 0) {
+            msg = error.errors.map((e) => e.message || e).join(', ');
+          } else {
+            msg = error.message;
+          }
+        } else if (error instanceof Error) {
+          msg = error.message;
+        }
+        
+        setSubmitError(msg);
       } finally {
         setIsSubmitting(false);
       }
