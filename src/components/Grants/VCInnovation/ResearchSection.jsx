@@ -32,7 +32,7 @@ export default function ResearchSection({ form }) {
           <div className="flex flex-col gap-2">
             <label className="text-sm font-semibold">If no, briefly explain the evidence / research basis</label>
             <textarea
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
               placeholder="Enter your answer"
               rows={3}
@@ -48,7 +48,7 @@ export default function ResearchSection({ form }) {
             <label className="text-sm font-semibold">Research paper details (if applicable)</label>
             <input
               type="text"
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
               placeholder="Title | Authors | Journal / Conference | Status | Expected submission date"
               className="p-3 border rounded-lg"
@@ -64,7 +64,7 @@ export default function ResearchSection({ form }) {
               Summary of key research findings that underpin this innovation
             </label>
             <textarea
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
               placeholder="Briefly describe how the research evidence supports the innovation and its commercialization potential."
               rows={4}

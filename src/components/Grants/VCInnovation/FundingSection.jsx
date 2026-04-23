@@ -12,7 +12,7 @@ export default function FundingSection({ form }) {
             <label className="text-sm font-semibold text-slate-700">Amount Requested (Ksh) *</label>
             <input
               type="number"
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => {
                 const val = e.target.value;
                 field.handleChange(val === '' ? '' : Number(val));

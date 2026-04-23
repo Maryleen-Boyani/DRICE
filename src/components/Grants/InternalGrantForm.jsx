@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ClipboardCheck } from "lucide-react";
-import { submitInternalGrantApplication } from "../../api/grants";
+import { submitInternalGrantApplication, sendInternalGrantConfirmation, ApiError } from "../../api/grants";
 import { uploadFile } from "../../api/storage";
 import TeamSection from "./Shared/TeamSection";
 import BudgetTable from "./Shared/BudgetTable";
@@ -63,72 +63,72 @@ const InternalGrantForm = ({ onBack }) => {
       } catch (e) {}
     }
     return {
-    // Section 1: Eligibility
-    isFullTime: "",
-    academicRank: "",
-    otherRank: "",
-    hasActiveGrant: "",
-    // Section 2: PI Details
-    firstName: "",
-    lastName: "",
-    staffId: "",
-    email: "",
-    phone: "",
-    orcid: "",
-    school: "",
-    department: "",
-    researchArea: "",
-    previousGrants: "",
-    // Section 3: Co-Investigators
-    team: [{ name: "", institution: "", role: "", email: "" }],
-    // Section 4: Project Overview
-    projectTitle: "",
-    primaryTheme: "",
-    otherTheme: "",
-    projectApproach: "",
-    // Section 5: Technical Proposal (Briefs)
-    abstract: "",
-    problemStatement: "",
-    objectives: "",
-    methodology: "",
-    significance: "",
-    // Section 6: Work Plan
-    durationMonths: "12",
-    ganttStatus: "",
-    milestones: "",
-    monitoringPlan: "",
-    // Section 7: Budget
-    budget: [{ item: "", category: "", amount: "", justification: "" }],
-    totalAmount: 0,
-    // Section 8: Ethical Considerations
-    requiresEthics: "",
-    ethicsStatus: "",
-    // Section 9: Declaration
-    piSignature: "",
-    date: "",
-    hodName: "",
-    hodEmail: "",
-    // Section 10: Checklist
-    checklist: {
-      form: true,
-      proposal: false,
-      piCv: false,
-      coIvCv: false,
-      ethics: false,
-      gantt: false,
-    },
-    // Section 11: Actual Files
-    attachments: {
-      proposal: null,
-      piCv: null,
-      coIvCv: null,
-      raCv: null,
-      ethics: null,
-      gantt: null,
-      support: null,
-      other: [],
-    },
-  };
+      // Section 1: Eligibility
+      isFullTime: "",
+      academicRank: "",
+      otherRank: "",
+      hasActiveGrant: "",
+      // Section 2: PI Details
+      firstName: "",
+      lastName: "",
+      staffId: "",
+      email: "",
+      phone: "",
+      orcid: "",
+      school: "",
+      department: "",
+      researchArea: "",
+      previousGrants: "",
+      // Section 3: Co-Investigators
+      team: [{ name: "", institution: "", role: "", email: "" }],
+      // Section 4: Project Overview
+      projectTitle: "",
+      primaryTheme: "",
+      otherTheme: "",
+      projectApproach: "",
+      // Section 5: Technical Proposal (Briefs)
+      abstract: "",
+      problemStatement: "",
+      objectives: "",
+      methodology: "",
+      significance: "",
+      // Section 6: Work Plan
+      durationMonths: "12",
+      ganttStatus: "",
+      milestones: "",
+      monitoringPlan: "",
+      // Section 7: Budget
+      budget: [{ item: "", category: "", amount: "", justification: "" }],
+      totalAmount: 0,
+      // Section 8: Ethical Considerations
+      requiresEthics: "",
+      ethicsStatus: "",
+      // Section 9: Declaration
+      piSignature: "",
+      date: "",
+      hodName: "",
+      hodEmail: "",
+      // Section 10: Checklist
+      checklist: {
+        form: true,
+        proposal: false,
+        piCv: false,
+        coIvCv: false,
+        ethics: false,
+        gantt: false,
+      },
+      // Section 11: Actual Files
+      attachments: {
+        proposal: null,
+        piCv: null,
+        coIvCv: null,
+        raCv: null,
+        ethics: null,
+        gantt: null,
+        support: null,
+        other: [],
+      },
+    };
   });
 
   const updateField = (field, value) => {
@@ -147,7 +147,7 @@ const InternalGrantForm = ({ onBack }) => {
   // Safety check to ensure attachments is never null in state
   useEffect(() => {
     if (formData && !formData.attachments) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         attachments: {
           proposal: null,
@@ -158,7 +158,7 @@ const InternalGrantForm = ({ onBack }) => {
           gantt: null,
           support: null,
           other: [],
-        }
+        },
       }));
     }
   }, [formData?.attachments]);
@@ -223,21 +223,44 @@ const InternalGrantForm = ({ onBack }) => {
 
       const result = await submitInternalGrantApplication(formDataToSend);
 
-      if (!result.success) {
-        throw new Error(result.message || "Submission failed");
+      if (!result.success || !result.data?.id) {
+        throw new Error(result.message || "Failed to save application data.");
       }
 
-      console.log("Submission successful:", result);
+      const applicantId = result.data.id;
+      console.log("Step 1 Successful — Application ID:", applicantId);
+
+      // Step 4: Trigger confirmation emails (Step 2 in API)
+      const confirmResult = await sendInternalGrantConfirmation(applicantId, normalizedPayload);
+
+      if (!confirmResult.success) {
+        throw new Error(confirmResult.message || "Application saved, but failed to send confirmation emails.");
+      }
+
+      console.log("Step 2 Successful — Emails sent:", confirmResult);
 
       localStorage.removeItem("internalGrantFormData");
       localStorage.removeItem("internalGrantFormStep");
       setStatus({ submitting: false, success: true, error: null });
     } catch (err) {
       console.error("Submission error:", err);
+      
+      let errorMessage = "Submission failed. Please try again.";
+      
+      if (err instanceof ApiError) {
+        if (err.errors && err.errors.length > 0) {
+          errorMessage = err.errors.map(e => e.message || e).join(", ");
+        } else {
+          errorMessage = err.message;
+        }
+      } else if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      
       setStatus({
         submitting: false,
         success: false,
-        error: "Submission failed. Please try again.",
+        error: errorMessage,
       });
     }
   };
@@ -261,7 +284,7 @@ const InternalGrantForm = ({ onBack }) => {
           </span>
         </div>
         <div className="w-full bg-slate-200 rounded-full h-2">
-          <div 
+          <div
             className="bg-daystar-blue h-2 rounded-full transition-all duration-500 ease-out"
             style={{ width: `${(step / 10) * 100}%` }}
           />
@@ -283,7 +306,7 @@ const InternalGrantForm = ({ onBack }) => {
                     1.1 Full-time staff member? *
                   </label>
                   <select
-                    value={formData.isFullTime}
+                    value={formData.isFullTime ?? ''}
                     onChange={(e) => updateField("isFullTime", e.target.value)}
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
@@ -298,7 +321,7 @@ const InternalGrantForm = ({ onBack }) => {
                     1.2 Current academic rank? *
                   </label>
                   <select
-                    value={formData.academicRank}
+                    value={formData.academicRank ?? ''}
                     onChange={(e) =>
                       updateField("academicRank", e.target.value)
                     }
@@ -320,7 +343,7 @@ const InternalGrantForm = ({ onBack }) => {
                     1.2 Active internal grant? *
                   </label>
                   <select
-                    value={formData.hasActiveGrant}
+                    value={formData.hasActiveGrant ?? ''}
                     onChange={(e) =>
                       updateField("hasActiveGrant", e.target.value)
                     }
@@ -346,7 +369,7 @@ const InternalGrantForm = ({ onBack }) => {
                   <label htmlFor="firstName">First Name</label>
                   <input
                     type="text"
-                    value={formData.firstName}
+                    value={formData.firstName ?? ''}
                     onChange={(e) => updateField("firstName", e.target.value)}
                     placeholder="First Name *"
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -357,7 +380,7 @@ const InternalGrantForm = ({ onBack }) => {
                   <label htmlFor="lastName">Last Name</label>
                   <input
                     type="text"
-                    value={formData.lastName}
+                    value={formData.lastName ?? ''}
                     onChange={(e) => updateField("lastName", e.target.value)}
                     placeholder="Last Name *"
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -370,7 +393,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.staffId}
+                    value={formData.staffId ?? ''}
                     onChange={(e) => updateField("staffId", e.target.value)}
                     placeholder="Staff ID (DU-XXXX) *"
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -382,7 +405,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <input
                     type="email"
-                    value={formData.email}
+                    value={formData.email ?? ''}
                     onChange={(e) => updateField("email", e.target.value)}
                     placeholder="name@daystar.ac.ke"
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -395,7 +418,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.phone}
+                    value={formData.phone ?? ''}
                     onChange={(e) => updateField("phone", e.target.value)}
                     placeholder="Phone (+254...) "
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -409,7 +432,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.orcid}
+                    value={formData.orcid ?? ''}
                     onChange={(e) => updateField("orcid", e.target.value)}
                     placeholder=""
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -422,7 +445,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.school}
+                    value={formData.school ?? ''}
                     onChange={(e) => updateField("school", e.target.value)}
                     placeholder=""
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -435,7 +458,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.department}
+                    value={formData.department ?? ''}
                     onChange={(e) => updateField("department", e.target.value)}
                     placeholder="Department *"
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -448,7 +471,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <textarea
                     type="text"
-                    value={formData.researchArea}
+                    value={formData.researchArea ?? ''}
                     onChange={(e) =>
                       updateField("researchArea", e.target.value)
                     }
@@ -463,7 +486,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <textarea
                     type="text"
-                    value={formData.previousGrants}
+                    value={formData.previousGrants ?? ''}
                     onChange={(e) =>
                       updateField("previousGrants", e.target.value)
                     }
@@ -531,7 +554,7 @@ const InternalGrantForm = ({ onBack }) => {
                 </label>
                 <textarea
                   type="text"
-                  value={formData.projectTitle}
+                  value={formData.projectTitle ?? ''}
                   onChange={(e) => updateField("projectTitle", e.target.value)}
                   placeholder="Clear and descriptive"
                   className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -543,7 +566,7 @@ const InternalGrantForm = ({ onBack }) => {
                   4.2 Primary Thematic Area
                 </label>
                 <select
-                  value={formData.primaryTheme}
+                  value={formData.primaryTheme ?? ''}
                   onChange={(e) => updateField("primaryTheme", e.target.value)}
                   className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                   required
@@ -703,7 +726,7 @@ const InternalGrantForm = ({ onBack }) => {
                     sensitive data?
                   </label>
                   <select
-                    value={formData.requiresEthics}
+                    value={formData.requiresEthics ?? ''}
                     onChange={(e) =>
                       updateField("requiresEthics", e.target.value)
                     }
@@ -723,7 +746,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <textarea
                     type="text"
-                    value={formData.abstract}
+                    value={formData.abstract ?? ''}
                     onChange={(e) => updateField("abstract", e.target.value)}
                     placeholder="Summarize the problem, research approach and expected contribution"
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -753,7 +776,9 @@ const InternalGrantForm = ({ onBack }) => {
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="block text-sm font-semibold mb-2 text-slate-700">5.2 Problem Statement</label>
+                <label className="block text-sm font-semibold mb-2 text-slate-700">
+                  5.2 Problem Statement
+                </label>
                 <textarea
                   value={formData.problemStatement || ""}
                   onChange={(e) =>
@@ -764,7 +789,9 @@ const InternalGrantForm = ({ onBack }) => {
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="block text-sm font-semibold mb-2 text-slate-700">5.3 Research Objectives</label>
+                <label className="block text-sm font-semibold mb-2 text-slate-700">
+                  5.3 Research Objectives
+                </label>
                 <textarea
                   value={formData.objectives || ""}
                   onChange={(e) => updateField("objectives", e.target.value)}
@@ -792,9 +819,11 @@ const InternalGrantForm = ({ onBack }) => {
                 6. Expected Outputs, Outcomes & Impact
               </h3>
               <div className="flex flex-col gap-2">
-                <label className="block text-sm font-semibold mb-2 text-slate-700">6.1 Primary Outputs</label>
+                <label className="block text-sm font-semibold mb-2 text-slate-700">
+                  6.1 Primary Outputs
+                </label>
                 <textarea
-                  value={formData.expectedOutputs}
+                  value={formData.expectedOutputs ?? ''}
                   onChange={(e) =>
                     updateField("expectedOutputs", e.target.value)
                   }
@@ -803,9 +832,11 @@ const InternalGrantForm = ({ onBack }) => {
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="block text-sm font-semibold mb-2 text-slate-700">6.2 Dissemination Plan </label>
+                <label className="block text-sm font-semibold mb-2 text-slate-700">
+                  6.2 Dissemination Plan{" "}
+                </label>
                 <textarea
-                  value={formData.disseminationPlan}
+                  value={formData.disseminationPlan ?? ''}
                   onChange={(e) =>
                     updateField("disseminationPlan", e.target.value)
                   }
@@ -819,7 +850,7 @@ const InternalGrantForm = ({ onBack }) => {
                   Commercialization
                 </label>
                 <textarea
-                  value={formData.anticipatedImpact}
+                  value={formData.anticipatedImpact ?? ''}
                   onChange={(e) =>
                     updateField("anticipatedImpact", e.target.value)
                   }
@@ -878,7 +909,7 @@ const InternalGrantForm = ({ onBack }) => {
                   8.1 Detailed Timeline (Question 34)
                 </label>
                 <textarea
-                  value={formData.workPlanTimeline}
+                  value={formData.workPlanTimeline ?? ''}
                   onChange={(e) =>
                     updateField("workPlanTimeline", e.target.value)
                   }
@@ -891,7 +922,7 @@ const InternalGrantForm = ({ onBack }) => {
                   8.2 Key Milestones and Deliverables
                 </label>
                 <textarea
-                  value={formData.monitoringPlan}
+                  value={formData.monitoringPlan ?? ''}
                   onChange={(e) =>
                     updateField("monitoringPlan", e.target.value)
                   }
@@ -904,7 +935,7 @@ const InternalGrantForm = ({ onBack }) => {
                   8.3 Potential Risks and Mitigation measures
                 </label>
                 <textarea
-                  value={formData.riskManagement}
+                  value={formData.riskManagement ?? ''}
                   onChange={(e) =>
                     updateField("riskManagement", e.target.value)
                   }
@@ -933,7 +964,7 @@ const InternalGrantForm = ({ onBack }) => {
                     onChange={(e) =>
                       updateField("declaration1", e.target.checked)
                     }
-                    className="w-6 h-6 rounded border-slate-300 accent-daystar-blue cursor-pointer"
+                    className="w-5 h-5 min-w-5 shrink-0 rounded border-slate-300 accent-daystar-blue cursor-pointer"
                     required
                   />
                   <span>
@@ -948,7 +979,7 @@ const InternalGrantForm = ({ onBack }) => {
                     onChange={(e) =>
                       updateField("declaration2", e.target.checked)
                     }
-                    className="w-6 h-6 rounded border-slate-300 accent-daystar-blue cursor-pointer"
+                    className="w-5 h-5 min-w-5 shrink-0 rounded border-slate-300 accent-daystar-blue cursor-pointer"
                     required
                   />
                   <span>
@@ -964,7 +995,7 @@ const InternalGrantForm = ({ onBack }) => {
                     onChange={(e) =>
                       updateField("declaration3", e.target.checked)
                     }
-                    className="w-6 h-6 rounded border-slate-300 accent-daystar-blue cursor-pointer"
+                    className="w-5 h-5 min-w-5 shrink-0 rounded border-slate-300 accent-daystar-blue cursor-pointer"
                     required
                   />
                   <span>
@@ -979,7 +1010,7 @@ const InternalGrantForm = ({ onBack }) => {
                     onChange={(e) =>
                       updateField("declaration4", e.target.checked)
                     }
-                    className="w-6 h-6 rounded border-slate-300 accent-daystar-blue cursor-pointer"
+                    className="w-5 h-5 min-w-5 shrink-0 rounded border-slate-300 accent-daystar-blue cursor-pointer"
                     required
                   />
                   <span>
@@ -996,7 +1027,7 @@ const InternalGrantForm = ({ onBack }) => {
                     onChange={(e) =>
                       updateField("declaration5", e.target.checked)
                     }
-                    className="w-6 h-6 rounded border-slate-300 accent-daystar-blue cursor-pointer"
+                    className="w-5 h-5 min-w-5 shrink-0 rounded border-slate-300 accent-daystar-blue cursor-pointer"
                     required
                   />
                   <span>
@@ -1012,7 +1043,7 @@ const InternalGrantForm = ({ onBack }) => {
                     onChange={(e) =>
                       updateField("declaration6", e.target.checked)
                     }
-                    className="w-6 h-6 rounded border-slate-300 accent-daystar-blue cursor-pointer"
+                    className="w-5 h-5 min-w-5 shrink-0 rounded border-slate-300 accent-daystar-blue cursor-pointer"
                     required
                   />
                   <span>
@@ -1028,7 +1059,7 @@ const InternalGrantForm = ({ onBack }) => {
                     onChange={(e) =>
                       updateField("declaration7", e.target.checked)
                     }
-                    className="w-6 h-6 rounded border-slate-300 accent-daystar-blue cursor-pointer"
+                    className="w-5 h-5 min-w-5 shrink-0 rounded border-slate-300 accent-daystar-blue cursor-pointer"
                     required
                   />
                   <span>
@@ -1043,7 +1074,7 @@ const InternalGrantForm = ({ onBack }) => {
                     onChange={(e) =>
                       updateField("declaration8", e.target.checked)
                     }
-                    className="w-6 h-6 rounded border-slate-300 accent-daystar-blue cursor-pointer"
+                    className="w-5 h-5 min-w-5 shrink-0 rounded border-slate-300 accent-daystar-blue cursor-pointer"
                     required
                   />
                   <span>
@@ -1059,7 +1090,7 @@ const InternalGrantForm = ({ onBack }) => {
                     </label>
                     <input
                       type="text"
-                      value={formData.piSignature}
+                      value={formData.piSignature ?? ''}
                       onChange={(e) =>
                         updateField("piSignature", e.target.value)
                       }
@@ -1072,7 +1103,7 @@ const InternalGrantForm = ({ onBack }) => {
                     <label htmlFor="date">Date</label>
                     <input
                       type="date"
-                      value={formData.date}
+                      value={formData.date ?? ''}
                       onChange={(e) => updateField("date", e.target.value)}
                       placeholder="Full Name "
                       className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -1083,7 +1114,7 @@ const InternalGrantForm = ({ onBack }) => {
                     <label htmlFor="hodName">Head of Department- Name</label>
                     <input
                       type="text"
-                      value={formData.hodName}
+                      value={formData.hodName ?? ''}
                       onChange={(e) => updateField("hodName", e.target.value)}
                       placeholder=" "
                       className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -1094,14 +1125,14 @@ const InternalGrantForm = ({ onBack }) => {
                     <label htmlFor="hodEmail">Head of Department- Email</label>
                     <input
                       type="text"
-                      value={formData.hodEmail}
+                      value={formData.hodEmail ?? ''}
                       onChange={(e) => updateField("hodEmail", e.target.value)}
                       placeholder=" "
                       className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                       required
                     />
                   </div>
-                  <div className="flex flex-col gap-2">
+                  {/* <div className="flex flex-col gap-2">
                     <label htmlFor="deanName">Dean- Name</label>
                     <input
                       type="text"
@@ -1111,8 +1142,8 @@ const InternalGrantForm = ({ onBack }) => {
                       className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                       required
                     />
-                  </div>
-                  <div className="flex flex-col gap-2">
+                  </div> */}
+                  {/* <div className="flex flex-col gap-2">
                     <label htmlFor="deanDate">Dean- Date</label>
                     <input
                       type="date"
@@ -1122,7 +1153,7 @@ const InternalGrantForm = ({ onBack }) => {
                       className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                       required
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -1145,7 +1176,10 @@ const InternalGrantForm = ({ onBack }) => {
                   onChange={(file) =>
                     setFormData((prev) => ({
                       ...prev,
-                      attachments: { ...(prev.attachments || {}), proposal: file },
+                      attachments: {
+                        ...(prev.attachments || {}),
+                        proposal: file,
+                      },
                     }))
                   }
                   required
@@ -1171,7 +1205,10 @@ const InternalGrantForm = ({ onBack }) => {
                   onChange={(file) =>
                     setFormData((prev) => ({
                       ...prev,
-                      attachments: { ...(prev.attachments || {}), coIvCv: file },
+                      attachments: {
+                        ...(prev.attachments || {}),
+                        coIvCv: file,
+                      },
                     }))
                   }
                 />
@@ -1195,7 +1232,10 @@ const InternalGrantForm = ({ onBack }) => {
                   onChange={(file) =>
                     setFormData((prev) => ({
                       ...prev,
-                      attachments: { ...(prev.attachments || {}), ethics: file },
+                      attachments: {
+                        ...(prev.attachments || {}),
+                        ethics: file,
+                      },
                     }))
                   }
                 />
@@ -1219,7 +1259,10 @@ const InternalGrantForm = ({ onBack }) => {
                   onChange={(file) =>
                     setFormData((prev) => ({
                       ...prev,
-                      attachments: { ...(prev.attachments || {}), support: file },
+                      attachments: {
+                        ...(prev.attachments || {}),
+                        support: file,
+                      },
                     }))
                   }
                 />

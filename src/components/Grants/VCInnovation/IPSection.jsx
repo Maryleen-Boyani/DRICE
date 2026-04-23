@@ -48,7 +48,7 @@ export default function IPSection({ form }) {
               />
               <input
                 type="text"
-                value={IP_STATUS_OPTIONS.includes(field.state.value) ? '' : field.state.value}
+                value={(IP_STATUS_OPTIONS.includes(field.state.value) ? '' : field.state.value) ?? ''}
                 onChange={(e) => field.handleChange(e.target.value)}
                 placeholder="Other..."
                 className="p-2 border rounded-lg flex-1"
@@ -87,7 +87,7 @@ export default function IPSection({ form }) {
             <label className="text-sm font-semibold">Explain if No</label>
             <input
               type="text"
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
               placeholder="Please explain..."
               className="w-full p-3 border rounded-lg"
@@ -125,7 +125,7 @@ export default function IPSection({ form }) {
             <label className="text-sm font-semibold">Explain if No</label>
             <input
               type="text"
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
               placeholder="Please explain..."
               className="w-full p-3 border rounded-lg"
@@ -141,7 +141,7 @@ export default function IPSection({ form }) {
               Describe the current ownership structure of this innovation
             </label>
             <textarea
-              value={field.state.value}
+              value={field.state.value ?? ''}
               onChange={(e) => field.handleChange(e.target.value)}
               placeholder="Who currently owns or co-owns this innovation? Are there any existing equity arrangements or investor agreements in place?"
               rows={3}

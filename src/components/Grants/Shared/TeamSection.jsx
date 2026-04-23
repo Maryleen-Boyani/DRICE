@@ -71,7 +71,7 @@ const TeamSection = ({ data, onChange, isInnovation = false }) => {
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        value={member.name}
+                                        value={member.name ?? ''}
                                         onChange={(e) => handleMemberChange(idx, 'name', e.target.value)}
                                         className="w-full p-4 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue outline-none transition-all"
                                         placeholder="e.g. Dr. Jane Doe"
@@ -88,7 +88,7 @@ const TeamSection = ({ data, onChange, isInnovation = false }) => {
                                     {isInnovation ? <GraduationCap size={16} className="absolute right-4 top-4 text-slate-400" /> : <Building size={16} className="absolute right-4 top-4 text-slate-400" />}
                                     <input
                                         type="text"
-                                        value={isInnovation ? member.id : member.institution}
+                                        value={(isInnovation ? member.id : member.institution) ?? ''}
                                         onChange={(e) => handleMemberChange(idx, isInnovation ? 'id' : 'institution', e.target.value)}
                                         className="w-full p-4 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue outline-none transition-all"
                                         placeholder={isInnovation ? "DU-XXXX" : "Daystar University"}
@@ -101,7 +101,7 @@ const TeamSection = ({ data, onChange, isInnovation = false }) => {
                                 <label className="text-xs uppercase font-bold text-slate-500 tracking-wider">Role in Project</label>
                                 <input
                                     type="text"
-                                    value={member.role}
+                                    value={member.role ?? ''}
                                     onChange={(e) => handleMemberChange(idx, 'role', e.target.value)}
                                     className="w-full p-4 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue outline-none transition-all"
                                     placeholder={isInnovation ? "Lead Developer / Designer" : "Co-Investigator / RA"}
@@ -113,7 +113,7 @@ const TeamSection = ({ data, onChange, isInnovation = false }) => {
                                 <label className="text-xs uppercase font-bold text-slate-500 tracking-wider">Institutional Email</label>
                                 <input
                                     type="email"
-                                    value={member.email}
+                                    value={member.email ?? ''}
                                     onChange={(e) => handleMemberChange(idx, 'email', e.target.value)}
                                     className="w-full p-4 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue outline-none transition-all"
                                     placeholder="name@daystar.ac.ke"
@@ -127,7 +127,7 @@ const TeamSection = ({ data, onChange, isInnovation = false }) => {
                                 </label>
                                 <input
                                     type="text"
-                                    value={isInnovation ? member.department : member.specialization}
+                                    value={(isInnovation ? member.department : member.specialization) ?? ''}
                                     onChange={(e) => handleMemberChange(idx, isInnovation ? 'department' : 'specialization', e.target.value)}
                                     className="w-full p-4 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue outline-none transition-all"
                                     placeholder="e.g. Computer Science"
