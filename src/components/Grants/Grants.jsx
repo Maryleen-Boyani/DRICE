@@ -1,14 +1,6 @@
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import {
-  ArrowRight,
-  Zap,
-  Target,
-  Sparkles,
-  ArrowLeft,
-  Lightbulb,
-  ClipboardCheck,
-} from "lucide-react";
+import { ArrowRight, FileText, Download } from "lucide-react";
 import VCInnovationForm from "./VCInnovationForm";
 import InternalGrantForm from "./InternalGrantForm";
 
@@ -29,6 +21,7 @@ const Grants = () => {
       deadline: "20th May 2026",
       cycle: "2025/2026",
       eligibility: "Staff & Students",
+      pdfUrl: "/VcInnovation.pdf", // Ensure file is in the 'public' folder
     },
     {
       id: "internal-research",
@@ -41,6 +34,7 @@ const Grants = () => {
       deadline: "20th May 2026",
       cycle: "2025/2026",
       eligibility: "Full-Time Staff",
+      pdfUrl: "/InternalResearch.pdf", // Ensure file is in the 'public' folder
     },
   ];
 
@@ -54,7 +48,7 @@ const Grants = () => {
       default:
         return (
           <div ref={ref} className="max-w-7xl mx-auto px-6 py-12">
-            {/* High-Attention Header */}
+            {/* Header Section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -70,7 +64,7 @@ const Grants = () => {
               </p>
             </motion.div>
 
-            {/* Equidistant 50/50 Grid */}
+            {/* Grants Grid */}
             <div className="grid md:grid-cols-2 gap-10 lg:gap-12">
               {grantTypes.map((grant, idx) => (
                 <motion.div
@@ -78,14 +72,13 @@ const Grants = () => {
                   initial={{ opacity: 0, x: idx === 0 ? -30 : 30 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.8, delay: idx * 0.2 }}
-                  className="bg-white rounded-[2rem] overflow-hidden shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-slate-100 flex flex-col group"
+                  className="bg-white rounded-[2.5rem] overflow-hidden shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-slate-100 flex flex-col group"
                 >
-                  {/* Header Section */}
+                  {/* Visual Header */}
                   <div
                     className={`${grant.colorClass} p-10 text-white relative overflow-hidden`}
                   >
                     <div className="absolute top-[-20px] right-[-20px] bg-white/10 w-40 h-40 rounded-full blur-3xl group-hover:bg-white/20 transition-colors" />
-
                     <p className="text-xs uppercase tracking-[0.2em] font-bold opacity-70 mb-2">
                       {grant.subtitle}
                     </p>
@@ -94,12 +87,13 @@ const Grants = () => {
                     </h3>
                   </div>
 
-                  {/* Content Section */}
+                  {/* Body Content */}
                   <div className="p-10 flex flex-col flex-grow">
-                    <p className="text-slate-600 text-lg mb-8 flex-grow leading-relaxed">
+                    <p className="text-slate-600 text-lg mb-8 leading-relaxed">
                       {grant.description}
                     </p>
 
+                    {/* Metadata Grid */}
                     <div className="pt-8 border-t border-slate-100 grid grid-cols-2 gap-6 mb-10">
                       <div>
                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">
@@ -127,16 +121,37 @@ const Grants = () => {
                       </div>
                     </div>
 
-                    <button
-                      onClick={() => setView(grant.id)}
-                      className="w-full py-5 bg-daystar-blue text-white rounded-2xl hover:bg-daystar-dark transition-all duration-300 font-bold flex items-center justify-center gap-3 group shadow-lg shadow-blue-100"
-                    >
-                      Apply Now{" "}
-                      <ArrowRight
-                        size={20}
-                        className="group-hover:translate-x-2 transition-transform"
-                      />
-                    </button>
+                    {/* Action Buttons - Pushed to bottom with mt-auto */}
+                    <div className="mt-auto space-y-4">
+                      <button
+                        onClick={() => setView(grant.id)}
+                        className="w-full py-5 bg-daystar-blue text-white rounded-2xl hover:bg-daystar-dark transition-all duration-300 font-bold flex items-center justify-center gap-3 group shadow-lg shadow-blue-100"
+                      >
+                        Apply Now
+                        <ArrowRight
+                          size={20}
+                          className="group-hover:translate-x-2 transition-transform"
+                        />
+                      </button>
+
+                      <a
+                        href={grant.pdfUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        download
+                        className="w-full py-4 border-2 border-slate-200 text-slate-500 rounded-2xl hover:border-daystar-blue hover:text-daystar-blue hover:bg-blue-50/30 transition-all duration-300 font-bold flex items-center justify-center gap-3 group"
+                      >
+                        <FileText
+                          size={20}
+                          className="text-slate-400 group-hover:text-daystar-blue transition-colors"
+                        />
+                        <span>View Grant Details</span>
+                        <Download
+                          size={18}
+                          className="opacity-0 group-hover:opacity-100 transition-all"
+                        />
+                      </a>
+                    </div>
                   </div>
                 </motion.div>
               ))}
@@ -147,7 +162,7 @@ const Grants = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans">
+    <div className="min-h-screen bg-slate-50/30 font-sans">
       <AnimatePresence mode="wait">
         <motion.div
           key={view}
