@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ClipboardCheck } from "lucide-react";
-import { submitInternalGrantApplication, sendInternalGrantConfirmation, ApiError } from "../../api/grants";
+import { submitInternalGrantApplication, ApiError } from "../../api/grants";
 import { uploadFile } from "../../api/storage";
 import TeamSection from "./Shared/TeamSection";
 import BudgetTable from "./Shared/BudgetTable";
@@ -212,51 +212,39 @@ const InternalGrantForm = ({ onBack }) => {
       delete normalizedPayload.monitoringPlan;
       delete normalizedPayload.attachments;
 
-      // Step 3: Create FormData and submit (no files this time, just reference IDs)
-      const formDataToSend = new FormData();
-      formDataToSend.append(
-        "applicantName",
-        `${formData.firstName} ${formData.lastName}`,
-      );
-      formDataToSend.append("formName", "Internal Research Grant");
-      formDataToSend.append("data", JSON.stringify(normalizedPayload));
+      // Step 3: Submit the fully normalized payload as JSON.
+      const payloadToSend = {
+        ...normalizedPayload,
+        applicantName: `${formData.firstName} ${formData.lastName}`,
+        formName: "Internal Research Grant",
+      };
 
-      const result = await submitInternalGrantApplication(formDataToSend);
+      const result = await submitInternalGrantApplication(payloadToSend);
 
       if (!result.success || !result.data?.id) {
         throw new Error(result.message || "Failed to save application data.");
       }
 
-      const applicantId = result.data.id;
-      console.log("Step 1 Successful — Application ID:", applicantId);
-
-      // Step 4: Trigger confirmation emails (Step 2 in API)
-      const confirmResult = await sendInternalGrantConfirmation(applicantId, normalizedPayload);
-
-      if (!confirmResult.success) {
-        throw new Error(confirmResult.message || "Application saved, but failed to send confirmation emails.");
-      }
-
-      console.log("Step 2 Successful — Emails sent:", confirmResult);
+      console.log("Submission Successful — Application ID:", result.data.id);
 
       localStorage.removeItem("internalGrantFormData");
       localStorage.removeItem("internalGrantFormStep");
       setStatus({ submitting: false, success: true, error: null });
     } catch (err) {
       console.error("Submission error:", err);
-      
+
       let errorMessage = "Submission failed. Please try again.";
-      
+
       if (err instanceof ApiError) {
         if (err.errors && err.errors.length > 0) {
-          errorMessage = err.errors.map(e => e.message || e).join(", ");
+          errorMessage = err.errors.map((e) => e.message || e).join(", ");
         } else {
           errorMessage = err.message;
         }
       } else if (err instanceof Error) {
         errorMessage = err.message;
       }
-      
+
       setStatus({
         submitting: false,
         success: false,
@@ -264,6 +252,36 @@ const InternalGrantForm = ({ onBack }) => {
       });
     }
   };
+
+  if (status.success) {
+    return (
+      <div className="max-w-5xl mx-auto py-20 px-4 min-h-screen bg-slate-50/50 flex flex-col items-center justify-center">
+        <div className="bg-white shadow-xl rounded-3xl overflow-hidden border border-slate-100 p-12 text-center space-y-8 w-full max-w-2xl animate-in zoom-in duration-500">
+          <div className="w-24 h-24 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
+            <ClipboardCheck size={48} />
+          </div>
+          <div className="space-y-4">
+            <h2 className="text-4xl font-extrabold text-slate-900 tracking-tight">
+              Application Received!
+            </h2>
+            <p className="text-slate-500 max-w-md mx-auto text-xl leading-relaxed">
+              Your Internal Research Grant application has been successfully
+              transmitted to DRICE for review.
+            </p>
+          </div>
+          <div className="pt-4">
+            <button
+              type="button"
+              onClick={onBack}
+              className="bg-daystar-blue hover:bg-daystar-blue/90 text-white px-12 py-5 rounded-2xl font-bold text-lg shadow-xl shadow-blue-200 transition-all hover:scale-105 active:scale-95"
+            >
+              Return to Portal
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-5xl mx-auto pb-20 px-4 min-h-screen bg-slate-50/50">
@@ -306,7 +324,7 @@ const InternalGrantForm = ({ onBack }) => {
                     1.1 Full-time staff member? *
                   </label>
                   <select
-                    value={formData.isFullTime ?? ''}
+                    value={formData.isFullTime ?? ""}
                     onChange={(e) => updateField("isFullTime", e.target.value)}
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                     required
@@ -321,7 +339,7 @@ const InternalGrantForm = ({ onBack }) => {
                     1.2 Current academic rank? *
                   </label>
                   <select
-                    value={formData.academicRank ?? ''}
+                    value={formData.academicRank ?? ""}
                     onChange={(e) =>
                       updateField("academicRank", e.target.value)
                     }
@@ -343,7 +361,7 @@ const InternalGrantForm = ({ onBack }) => {
                     1.2 Active internal grant? *
                   </label>
                   <select
-                    value={formData.hasActiveGrant ?? ''}
+                    value={formData.hasActiveGrant ?? ""}
                     onChange={(e) =>
                       updateField("hasActiveGrant", e.target.value)
                     }
@@ -369,7 +387,7 @@ const InternalGrantForm = ({ onBack }) => {
                   <label htmlFor="firstName">First Name</label>
                   <input
                     type="text"
-                    value={formData.firstName ?? ''}
+                    value={formData.firstName ?? ""}
                     onChange={(e) => updateField("firstName", e.target.value)}
                     placeholder="First Name *"
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -380,7 +398,7 @@ const InternalGrantForm = ({ onBack }) => {
                   <label htmlFor="lastName">Last Name</label>
                   <input
                     type="text"
-                    value={formData.lastName ?? ''}
+                    value={formData.lastName ?? ""}
                     onChange={(e) => updateField("lastName", e.target.value)}
                     placeholder="Last Name *"
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -393,7 +411,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.staffId ?? ''}
+                    value={formData.staffId ?? ""}
                     onChange={(e) => updateField("staffId", e.target.value)}
                     placeholder="Staff ID (DU-XXXX) *"
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -405,7 +423,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <input
                     type="email"
-                    value={formData.email ?? ''}
+                    value={formData.email ?? ""}
                     onChange={(e) => updateField("email", e.target.value)}
                     placeholder="name@daystar.ac.ke"
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -418,7 +436,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.phone ?? ''}
+                    value={formData.phone ?? ""}
                     onChange={(e) => updateField("phone", e.target.value)}
                     placeholder="Phone (+254...) "
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -432,7 +450,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.orcid ?? ''}
+                    value={formData.orcid ?? ""}
                     onChange={(e) => updateField("orcid", e.target.value)}
                     placeholder=""
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -445,7 +463,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.school ?? ''}
+                    value={formData.school ?? ""}
                     onChange={(e) => updateField("school", e.target.value)}
                     placeholder=""
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -458,7 +476,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.department ?? ''}
+                    value={formData.department ?? ""}
                     onChange={(e) => updateField("department", e.target.value)}
                     placeholder="Department *"
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -471,7 +489,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <textarea
                     type="text"
-                    value={formData.researchArea ?? ''}
+                    value={formData.researchArea ?? ""}
                     onChange={(e) =>
                       updateField("researchArea", e.target.value)
                     }
@@ -486,7 +504,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <textarea
                     type="text"
-                    value={formData.previousGrants ?? ''}
+                    value={formData.previousGrants ?? ""}
                     onChange={(e) =>
                       updateField("previousGrants", e.target.value)
                     }
@@ -554,7 +572,7 @@ const InternalGrantForm = ({ onBack }) => {
                 </label>
                 <textarea
                   type="text"
-                  value={formData.projectTitle ?? ''}
+                  value={formData.projectTitle ?? ""}
                   onChange={(e) => updateField("projectTitle", e.target.value)}
                   placeholder="Clear and descriptive"
                   className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -562,25 +580,35 @@ const InternalGrantForm = ({ onBack }) => {
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label htmlFor="staffId" required>
-                  4.2 Primary Thematic Area
-                </label>
+                <label htmlFor="primaryTheme">4.2 Primary Thematic Area</label>
                 <select
-                  value={formData.primaryTheme ?? ''}
+                  value={formData.primaryTheme ?? ""}
                   onChange={(e) => updateField("primaryTheme", e.target.value)}
                   className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
                   required
                 >
                   <option value="">Select...</option>
-                  <option value="Yes">Education & Leadership</option>
-                  <option value="No">Health & Wellbeing</option>
-                  <option value="No">Theology & Ethics</option>
-                  <option value="No">Media & Communication</option>
-                  <option value="No">Business & Entrepreneurship</option>
-                  <option value="No">Governance & Justice</option>
-                  <option value="No">Climate & Environment</option>
-                  <option value="No">Science & AI</option>
-                  <option value="No">Cross-cutting/ Interdisciplinary</option>
+                  <option value="Education & Leadership">
+                    Education & Leadership
+                  </option>
+                  <option value="Health & Wellbeing">Health & Wellbeing</option>
+                  <option value="Theology & Ethics">Theology & Ethics</option>
+                  <option value="Media & Communication">
+                    Media & Communication
+                  </option>
+                  <option value="Business & Entrepreneurship">
+                    Business & Entrepreneurship
+                  </option>
+                  <option value="Governance & Justice">
+                    Governance & Justice
+                  </option>
+                  <option value="Climate & Environment">
+                    Climate & Environment
+                  </option>
+                  <option value="Science & AI">Science & AI</option>
+                  <option value="Cross-cutting/ Interdisciplinary">
+                    Cross-cutting/ Interdisciplinary
+                  </option>
                 </select>
               </div>
               <div className="flex flex-col gap-2">
@@ -597,7 +625,7 @@ const InternalGrantForm = ({ onBack }) => {
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label htmlFor="staffId" required>
+                <label htmlFor="projectApproach" required>
                   4.4 Research Approach
                 </label>
                 <label htmlFor="" className="flex gap-2">
@@ -726,7 +754,7 @@ const InternalGrantForm = ({ onBack }) => {
                     sensitive data?
                   </label>
                   <select
-                    value={formData.requiresEthics ?? ''}
+                    value={formData.requiresEthics ?? ""}
                     onChange={(e) =>
                       updateField("requiresEthics", e.target.value)
                     }
@@ -746,7 +774,7 @@ const InternalGrantForm = ({ onBack }) => {
                   </label>
                   <textarea
                     type="text"
-                    value={formData.abstract ?? ''}
+                    value={formData.abstract ?? ""}
                     onChange={(e) => updateField("abstract", e.target.value)}
                     placeholder="Summarize the problem, research approach and expected contribution"
                     className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -823,7 +851,7 @@ const InternalGrantForm = ({ onBack }) => {
                   6.1 Primary Outputs
                 </label>
                 <textarea
-                  value={formData.expectedOutputs ?? ''}
+                  value={formData.expectedOutputs ?? ""}
                   onChange={(e) =>
                     updateField("expectedOutputs", e.target.value)
                   }
@@ -836,7 +864,7 @@ const InternalGrantForm = ({ onBack }) => {
                   6.2 Dissemination Plan{" "}
                 </label>
                 <textarea
-                  value={formData.disseminationPlan ?? ''}
+                  value={formData.disseminationPlan ?? ""}
                   onChange={(e) =>
                     updateField("disseminationPlan", e.target.value)
                   }
@@ -850,7 +878,7 @@ const InternalGrantForm = ({ onBack }) => {
                   Commercialization
                 </label>
                 <textarea
-                  value={formData.anticipatedImpact ?? ''}
+                  value={formData.anticipatedImpact ?? ""}
                   onChange={(e) =>
                     updateField("anticipatedImpact", e.target.value)
                   }
@@ -909,7 +937,7 @@ const InternalGrantForm = ({ onBack }) => {
                   8.1 Detailed Timeline (Question 34)
                 </label>
                 <textarea
-                  value={formData.workPlanTimeline ?? ''}
+                  value={formData.workPlanTimeline ?? ""}
                   onChange={(e) =>
                     updateField("workPlanTimeline", e.target.value)
                   }
@@ -922,7 +950,7 @@ const InternalGrantForm = ({ onBack }) => {
                   8.2 Key Milestones and Deliverables
                 </label>
                 <textarea
-                  value={formData.monitoringPlan ?? ''}
+                  value={formData.monitoringPlan ?? ""}
                   onChange={(e) =>
                     updateField("monitoringPlan", e.target.value)
                   }
@@ -935,7 +963,7 @@ const InternalGrantForm = ({ onBack }) => {
                   8.3 Potential Risks and Mitigation measures
                 </label>
                 <textarea
-                  value={formData.riskManagement ?? ''}
+                  value={formData.riskManagement ?? ""}
                   onChange={(e) =>
                     updateField("riskManagement", e.target.value)
                   }
@@ -1090,7 +1118,7 @@ const InternalGrantForm = ({ onBack }) => {
                     </label>
                     <input
                       type="text"
-                      value={formData.piSignature ?? ''}
+                      value={formData.piSignature ?? ""}
                       onChange={(e) =>
                         updateField("piSignature", e.target.value)
                       }
@@ -1103,7 +1131,7 @@ const InternalGrantForm = ({ onBack }) => {
                     <label htmlFor="date">Date</label>
                     <input
                       type="date"
-                      value={formData.date ?? ''}
+                      value={formData.date ?? ""}
                       onChange={(e) => updateField("date", e.target.value)}
                       placeholder="Full Name "
                       className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -1114,7 +1142,7 @@ const InternalGrantForm = ({ onBack }) => {
                     <label htmlFor="hodName">Head of Department- Name</label>
                     <input
                       type="text"
-                      value={formData.hodName ?? ''}
+                      value={formData.hodName ?? ""}
                       onChange={(e) => updateField("hodName", e.target.value)}
                       placeholder=" "
                       className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -1125,7 +1153,7 @@ const InternalGrantForm = ({ onBack }) => {
                     <label htmlFor="hodEmail">Head of Department- Email</label>
                     <input
                       type="text"
-                      value={formData.hodEmail ?? ''}
+                      value={formData.hodEmail ?? ""}
                       onChange={(e) => updateField("hodEmail", e.target.value)}
                       placeholder=" "
                       className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-offset-2 focus:ring-daystar-blue transition-all outline-none"
@@ -1298,54 +1326,28 @@ const InternalGrantForm = ({ onBack }) => {
             </div>
           )}
 
-          {status.success && (
-            <div className="p-12 text-center space-y-6">
-              <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
-                <ClipboardCheck size={40} />
-              </div>
-              <div>
-                <h2 className="text-3xl font-bold text-slate-900 mb-2">
-                  Application Received!
-                </h2>
-                <p className="text-slate-500 max-w-md mx-auto text-lg">
-                  Your Internal Research Grant application has been successfully
-                  transmitted to DRICE for review.
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={onBack}
-                className="bg-daystar-blue text-white px-10 py-4 rounded-2xl font-bold shadow-lg shadow-blue-200"
-              >
-                Return to Portal
-              </button>
-            </div>
-          )}
-
-          {!status.success && (
-            <div className="mt-10 flex justify-between border-t pt-6">
-              <button
-                type="button"
-                onClick={step === 1 ? onBack : prevStep}
-                disabled={status.submitting}
-                className="px-6 py-2 border rounded-xl font-semibold text-slate-600 hover:bg-gray-50 transition-colors disabled:opacity-50"
-              >
-                {step === 1 ? "Cancel" : "Previous Section"}
-              </button>
-              <button
-                type="button"
-                onClick={step === 10 ? handleSubmit : nextStep}
-                disabled={status.submitting}
-                className={`px-10 py-2 rounded-xl font-bold text-white transition-all disabled:opacity-50 ${step === 10 ? "bg-daystar-blue shadow-lg shadow-blue-100" : "bg-daystar-dark hover:bg-slate-800"}`}
-              >
-                {status.submitting
-                  ? "Submitting..."
-                  : step === 10
-                    ? "Submit Final Application"
-                    : "Save & Continue"}
-              </button>
-            </div>
-          )}
+          <div className="mt-10 flex justify-between border-t pt-6">
+            <button
+              type="button"
+              onClick={step === 1 ? onBack : prevStep}
+              disabled={status.submitting}
+              className="px-6 py-2 border rounded-xl font-semibold text-slate-600 hover:bg-gray-50 transition-colors disabled:opacity-50"
+            >
+              {step === 1 ? "Cancel" : "Previous Section"}
+            </button>
+            <button
+              type="button"
+              onClick={step === 10 ? handleSubmit : nextStep}
+              disabled={status.submitting}
+              className={`px-10 py-2 rounded-xl font-bold text-white transition-all disabled:opacity-50 ${step === 10 ? "bg-daystar-blue shadow-lg shadow-blue-100" : "bg-daystar-dark hover:bg-slate-800"}`}
+            >
+              {status.submitting
+                ? "Submitting..."
+                : step === 10
+                  ? "Submit Final Application"
+                  : "Save & Continue"}
+            </button>
+          </div>
         </form>
       </div>
     </div>

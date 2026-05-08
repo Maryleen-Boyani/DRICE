@@ -256,25 +256,29 @@ const VCInnovationForm = ({ onBack }) => {
 
   if (submitted) {
     return (
-      <div className="max-w-5xl mx-auto pb-20 px-4 min-h-screen bg-slate-50/50">
-        <div className="bg-white shadow-2xl rounded-3xl p-16 text-center space-y-4 border border-blue-100">
-          <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-            <ShieldCheck size={32} />
+      <div className="max-w-5xl mx-auto py-20 px-4 min-h-screen bg-slate-50/50 flex flex-col items-center justify-center">
+        <div className="bg-white shadow-xl rounded-3xl overflow-hidden border border-slate-100 p-12 text-center space-y-8 w-full max-w-2xl animate-in zoom-in duration-500">
+          <div className="w-24 h-24 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
+            <ShieldCheck size={48} />
           </div>
-          <h2 className="text-2xl font-bold text-slate-900">
-            Application Submitted!
-          </h2>
-          <p className="text-slate-500">
-            Your concept note for the VC Innovation Grant has been received. You
-            will be contacted if shortlisted for the pitching stage.
-          </p>
-          <button
-            type="button"
-            onClick={onBack}
-            className="bg-daystar-blue text-white px-8 py-3 rounded-xl font-bold"
-          >
-            Return to Portal
-          </button>
+          <div className="space-y-4">
+            <h2 className="text-4xl font-extrabold text-slate-900 tracking-tight">
+              Application Submitted!
+            </h2>
+            <p className="text-slate-500 max-w-md mx-auto text-xl leading-relaxed">
+              Your concept note for the VC Innovation Grant has been received. You
+              will be contacted if shortlisted for the pitching stage.
+            </p>
+          </div>
+          <div className="pt-4">
+            <button
+              type="button"
+              onClick={onBack}
+              className="bg-daystar-blue hover:bg-daystar-blue/90 text-white px-12 py-5 rounded-2xl font-bold text-lg shadow-xl shadow-blue-200 transition-all hover:scale-105 active:scale-95"
+            >
+              Return to Portal
+            </button>
+          </div>
         </div>
       </div>
     );

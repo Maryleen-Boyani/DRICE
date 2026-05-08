@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3001/api/grants";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api/grants";
 
 const DEFAULT_TIMEOUT_MS = 15_000;
 const RETRY_ATTEMPTS = 2;
@@ -9,7 +9,7 @@ const RETRY_DELAY_MS = 500;
 export class ApiError extends Error {
   /**
    * @param {string} message
-   * @param {number} status        - HTTP status code (0 = network failure)
+   * @param {number} status        - HTTP status code (0 = network failure or timeout)
    * @param {object[]} [errors]    - Field-level validation errors from the server
    */
   constructor(message, status, errors = []) {
@@ -24,6 +24,7 @@ export class ApiError extends Error {
   get isNetworkError() { return this.status === 0; }
 }
 
+//Constants and helper functions related to API calls, including error handling, response parsing, and retry logic.
 // ─── Internal helpers ────────────────────────────────────────────────────────
 
 /**
@@ -33,27 +34,38 @@ export class ApiError extends Error {
  */
 async function parseResponse(response) {
   const contentType = response.headers.get("content-type") ?? "";
-  const isJson = contentType.includes("application/json");
+  const bodyText = await response.text();
+  const trimmedBody = bodyText.trim();
+  const isJson =
+    contentType.includes("application/json") ||
+    trimmedBody.startsWith("{") ||
+    trimmedBody.startsWith("[");
 
-  if (!isJson) {
-    const preview = (await response.text()).slice(0, 120);
+  let data = null;
+  if (isJson && trimmedBody.length > 0) {
+    try {
+      data = JSON.parse(trimmedBody);
+    } catch {
+      data = null;
+    }
+  }
+
+  if (!response.ok) {
+    if (data) {
+      throw new ApiError(
+        data.message ?? `Request failed with status ${response.status}`,
+        response.status,
+        data.errors ?? []
+      );
+    }
+
     throw new ApiError(
-      `Unexpected response format (${response.status})`,
+      `Request failed with status ${response.status}`,
       response.status
     );
   }
 
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new ApiError(
-      data.message ?? `Request failed with status ${response.status}`,
-      response.status,
-      data.errors ?? []
-    );
-  }
-
-  return data;
+  return data ?? {};
 }
 
 /**
@@ -115,25 +127,26 @@ async function withRetry(fn, attempts = RETRY_ATTEMPTS) {
 // ─── Public API ──────────────────────────────────────────────────────────────
 
 /**
- * Step 1 — Saves the application to the DB.
- * Returns the created application including its generated `id`.
+ * Submits an Internal Research application.
+ * The backend now accepts JSON directly and handles save + notification.
  *
- * @param {FormData} formData
+ * @param {object} payload
  * @returns {Promise<{ success: boolean, data: object }>}
  * @throws {ApiError}
  */
-export async function submitInternalGrantApplication(formData) {
+export async function submitInternalGrantApplication(payload) {
   return withRetry(() =>
     fetchWithTimeout(`${API_BASE}/internal-research`, {
       method: "POST",
-      body: formData, // multipart — no Content-Type header; browser sets boundary
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     })
   );
 }
 
 /**
  * Step 2 — Triggers grant submission + applicant confirmation emails.
- * Call this after submitInternalGrantApplication resolves successfully.
+ * Kept for backwards compatibility but not used by the current form.
  *
  * @param {string} applicantId   - The `id` returned from Step 1
  * @param {object} formData      - The same plain form data sent in Step 1
@@ -141,13 +154,11 @@ export async function submitInternalGrantApplication(formData) {
  * @throws {ApiError}
  */
 export async function sendInternalGrantConfirmation(applicantId, formData) {
-  const body = new FormData();
-  body.append("data", JSON.stringify(formData));
-
   return withRetry(() =>
     fetchWithTimeout(`${API_BASE}/internal-research/${applicantId}/confirm`, {
       method: "POST",
-      body,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
     })
   );
 }
@@ -179,5 +190,41 @@ export async function submitVcInnovationApplication(data) {
 export async function getVcInnovationApplication(id) {
   return withRetry(() =>
     fetchWithTimeout(`${API_BASE}/vc-innovation/${id}`, { method: "GET" })
+  );
+}
+
+/**
+ * Sends a grant submission email.
+ *
+ * @param {string} applicantId   - The `id` returned from Step 1
+ * @param {object} formData      - The same plain form data sent in Step 1
+ * @returns {Promise<{ success: boolean, message: string }>}
+ * @throws {ApiError}
+ */
+export async function sendGrantSubmissionEmail(applicantId, formData) {
+  return withRetry(() =>
+    fetchWithTimeout(`${API_BASE}/internal-research/${applicantId}/submit`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    })
+  );
+}
+
+/**
+ * Sends an applicant confirmation email.
+ *
+ * @param {string} applicantId   - The `id` returned from Step 1
+ * @param {object} formData      - The same plain form data sent in Step 1
+ * @returns {Promise<{ success: boolean, message: string }>}
+ * @throws {ApiError}
+ */
+export async function sendApplicantConfirmationEmail(applicantId, formData) {
+  return withRetry(() =>
+    fetchWithTimeout(`${API_BASE}/internal-research/${applicantId}/confirm`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    })
   );
 }
