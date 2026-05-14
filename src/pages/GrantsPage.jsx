@@ -3,34 +3,34 @@ import { useNavigate } from "@tanstack/react-router";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight, FileText, ExternalLink } from "lucide-react";
 
-const GRANT_TYPES = [
-  {
-    id: "vc-innovation",
-    title: "Innovation & Commercialization Grant",
-    subtitle: "VC'S RESEARCH & INNOVATION",
-    description:
-      "Supporting high-potential innovations from proof-of-concept to market-ready products. Open to faculty, staff, students, and university-linked enterprises.",
-    colorClass: "bg-daystar-blue",
-    footerTag: "Up to 10 awardees",
-    deadline: "20th May 2026",
-    cycle: "2025/2026",
-    eligibility: "Staff & Students",
-    pdfUrl: "/VcInnovationForm.pdf",
-  },
-  {
-    id: "internal-research",
-    title: "Internal Research Grant",
-    subtitle: "STAFF RESEARCH FUND",
-    description:
-      "Strengthening Daystar's research culture by funding interdisciplinary, impact-oriented research aligned to the University's mission and national priorities.",
-    colorClass: "bg-daystar-dark",
-    footerTag: "KSh 800,000 max",
-    deadline: "20th May 2026",
-    cycle: "2025/2026",
-    eligibility: "Full-Time Staff",
-    pdfUrl: "/InternalGrantForm.pdf",
-  },
-];
+// const GRANT_TYPES = [
+//   {
+//     id: "vc-innovation",
+//     title: "Innovation & Commercialization Grant",
+//     subtitle: "VC'S RESEARCH & INNOVATION",
+//     description:
+//       "Supporting high-potential innovations from proof-of-concept to market-ready products. Open to faculty, staff, students, and university-linked enterprises.",
+//     colorClass: "bg-daystar-blue",
+//     footerTag: "Up to 10 awardees",
+//     deadline: "20th May 2026",
+//     cycle: "2025/2026",
+//     eligibility: "Staff & Students",
+//     pdfUrl: "/VcInnovationForm.pdf",
+//   },
+//   {
+//     id: "internal-research",
+//     title: "Internal Research Grant",
+//     subtitle: "STAFF RESEARCH FUND",
+//     description:
+//       "Strengthening Daystar's research culture by funding interdisciplinary, impact-oriented research aligned to the University's mission and national priorities.",
+//     colorClass: "bg-daystar-dark",
+//     footerTag: "KSh 800,000 max",
+//     deadline: "20th May 2026",
+//     cycle: "2025/2026",
+//     eligibility: "Full-Time Staff",
+//     pdfUrl: "/InternalGrantForm.pdf",
+//   },
+// ];
 
 export default function GrantsPage() {
   const navigate = useNavigate();
@@ -38,6 +38,7 @@ export default function GrantsPage() {
   const isInView = useInView(ref, { once: false, margin: "-100px" });
 
   return (
+    /* 
     <div ref={ref} className="max-w-7xl mx-auto px-6 py-12">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -63,7 +64,6 @@ export default function GrantsPage() {
             transition={{ duration: 0.8, delay: idx * 0.2 }}
             className="bg-white rounded-4xl overflow-hidden shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-slate-100 flex flex-col group"
           >
-            {/* Card Header */}
             <div className={`${grant.colorClass} p-10 text-white relative overflow-hidden`}>
               <div className="absolute top-[-20px] right-[-20px] bg-white/10 w-40 h-40 rounded-full blur-3xl group-hover:bg-white/20 transition-colors" />
               <p className="text-xs uppercase tracking-[0.2em] font-bold opacity-70 mb-2">
@@ -74,13 +74,11 @@ export default function GrantsPage() {
               </h3>
             </div>
 
-            {/* Card Body */}
             <div className="p-10 flex flex-col grow">
               <p className="text-slate-600 text-lg mb-8 leading-relaxed">
                 {grant.description}
               </p>
 
-              {/* Metadata Grid */}
               <div className="pt-8 border-t border-slate-100 grid grid-cols-2 gap-6 mb-8">
                 <div>
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">
@@ -102,7 +100,6 @@ export default function GrantsPage() {
                 </div>
               </div>
 
-              {/* PDF External Link Button */}
               <div className="mb-6">
                 <a
                   href={grant.pdfUrl}
@@ -122,7 +119,6 @@ export default function GrantsPage() {
                 </a>
               </div>
 
-              {/* Apply Button */}
               <div className="mt-auto">
                 <button
                   onClick={() => navigate({ to: `/grants/${grant.id}` })}
@@ -136,6 +132,21 @@ export default function GrantsPage() {
           </motion.div>
         ))}
       </div>
+    </div>
+    */
+    <div ref={ref} className="max-w-7xl flex items-center justify-center h-screen mx-auto px-6 py-12">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        className="text-center mb-16 space-y-4"
+      >
+        <h1 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tight">
+          Grants Portal
+        </h1>
+        <p className="text-slate-500 text-lg max-w-2xl mx-auto leading-relaxed">
+          Under maintenance. <strong>Grants Portal</strong> coming soon with updated application forms.
+        </p>
+      </motion.div>
     </div>
   );
 }
